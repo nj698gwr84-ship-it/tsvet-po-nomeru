@@ -1,97 +1,566 @@
-mage: "https://static.wixstatic.com/media/4468f4_6e5b2245ce094af092926e1bb448aa4e~mv2.jpg/v1/fill/w_2181%2Ch_2943%2Cal_c%2Cq_90%2Cenc_avif%2Cquality_auto/4468f4_6e5b2245ce094af092926e1bb448aa4e~mv2.jpg",
-    url: "https://www.hachetteheroes.com/produit/85504/9782017312512/coloriages-mysteres-disney-princesses-tome-2"
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#6656d9">
+<meta name="description" content="Каталог раскрасок Disney и Pixar по номерам. Поиск альбомов и палитр маркеров для раскрашивания дома.">
+<title>Цвет по номеру — Disney и Pixar</title>
+
+<style>
+:root {
+  --bg: #f7f7fc;
+  --card: #ffffff;
+  --text: #24233a;
+  --muted: #77778c;
+  --accent: #6656d9;
+  --accent-light: #eeeaff;
+  --border: #e8e7f0;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+header {
+  padding: 34px 16px 30px;
+  text-align: center;
+  color: white;
+  background: linear-gradient(135deg, #5547c7, #9b83ee);
+}
+header h1 {
+  font-size: clamp(27px, 5vw, 40px);
+  margin: 0 0 10px;
+}
+header p {
+  max-width: 600px;
+  margin: auto;
+  line-height: 1.5;
+  opacity: .95;
+}
+main {
+  width: min(1120px, 100%);
+  margin: auto;
+  padding: 26px 16px 40px;
+}
+h2 { margin: 0 0 8px; }
+.intro {
+  margin: 0 0 20px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.search-wrap { position: relative; }
+#search {
+  width: 100%;
+  min-height: 50px;
+  padding: 13px 15px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: white;
+  color: var(--text);
+  font-size: 16px;
+  outline: none;
+}
+#search:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px #6656d922;
+}
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 15px 0 22px;
+}
+.filters button {
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text);
+  padding: 10px 14px;
+  min-height: 40px;
+  border-radius: 22px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.filters button.active {
+  color: white;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.result-line {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 13px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 17px;
+}
+.card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  box-shadow: 0 3px 12px #24233a08;
+  transition: transform .15s, box-shadow .15s;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 22px #24233a12;
+}
+.cover-wrap {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(145deg, #f0edff, #f9f6ff);
+  position: relative;
+}
+.cover {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.cover-placeholder {
+  padding: 20px 12px;
+  text-align: center;
+  color: #5046a6;
+}
+.cover-placeholder .book-icon {
+  font-size: 38px;
+  margin-bottom: 12px;
+}
+.cover-placeholder strong {
+  display: block;
+  font-size: 15px;
+  line-height: 1.4;
+}
+.cover-placeholder small {
+  display: block;
+  margin-top: 10px;
+  color: #77708f;
+}
+.info {
+  padding: 13px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 9px;
+}
+.info h3 {
+  font-size: 15px;
+  line-height: 1.4;
+  margin: 0;
+}
+.category {
+  align-self: flex-start;
+  border-radius: 20px;
+  padding: 5px 9px;
+  background: var(--accent-light);
+  color: #5043b4;
+  font-size: 12px;
+}
+.book-note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.link {
+  display: block;
+  margin-top: auto;
+  padding: 11px 8px;
+  text-align: center;
+  text-decoration: none;
+  background: var(--accent);
+  color: white;
+  border-radius: 9px;
+  font-size: 13px;
+  line-height: 1.3;
+}
+.link:hover { background: #5141c0; }
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 15px;
+  background: white;
+  border-radius: 14px;
+  color: var(--muted);
+}
+.notice {
+  margin-top: 25px;
+  padding: 17px;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 13px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+footer {
+  text-align: center;
+  padding: 24px 15px;
+  color: var(--muted);
+  font-size: 12px;
+}
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  main { padding: 22px 12px 30px; }
+  header { padding: 28px 15px; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+  .info { padding: 10px; }
+  .info h3 { font-size: 13px; }
+  .link { font-size: 12px; }
+  .filters { gap: 6px; }
+  .filters button { padding: 9px 11px; font-size: 13px; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>🎨 Цвет по номеру</h1>
+  <p>Найди свой альбом Disney или Pixar и подбери номера маркеров для раскрашивания дома.</p>
+</header>
+
+<main>
+  <h2>Каталог альбомов</h2>
+  <p class="intro">
+    Выбери серию или найди альбом через поиск.
+  </p>
+
+  <div class="search-wrap">
+    <input
+      id="search"
+      type="search"
+      placeholder="Название альбома, серия, персонаж..."
+      aria-label="Поиск альбомов"
+      autocomplete="off"
+    >
+  </div>
+
+  <nav class="filters" aria-label="Категории альбомов">
+    <button class="active" data-filter="Все" type="button">Все</button>
+    <button data-filter="Принцессы" type="button">Принцессы</button>
+    <button data-filter="Злодеи" type="button">Злодеи</button>
+    <button data-filter="Pixar" type="button">Pixar</button>
+    <button data-filter="Классика" type="button">Классика</button>
+    <button data-filter="Микки и друзья" type="button">Микки и друзья</button>
+    <button data-filter="Животные и природа" type="button">Животные и природа</button>
+    <button data-filter="Другие" type="button">Другие</button>
+  </nav>
+
+  <div id="result-count" class="result-line" aria-live="polite"></div>
+  <section id="catalog" class="grid" aria-label="Каталог раскрасок"></section>
+
+  <div class="notice">
+    <strong>Как пользоваться сайтом</strong><br>
+    1. Найди название своего альбома.<br>
+    2. Открой страницу издателя, чтобы проверить точное издание.<br>
+    3. Найди палитру маркеров, соответствующую этому альбому.<br><br>
+    Каталог постепенно пополняется. Номера маркеров необходимо сверять
+    с палитрой именно своего издания.
+  </div>
+</main>
+
+<footer>
+  Цвет по номеру · Независимый справочный каталог
+</footer>
+
+<script>
+const PUBLISHER =
+  "https://www.hachetteheroes.com/theme/42/coloriages-mysteres-disney";
+
+const books = [
+  {
+    title: "Disney Princesses Tome 2",
+    category: "Принцессы",
+    characters: "Принцессы Disney",
+    url: "https://www.hachetteheroes.com/produit/85504/9782017312512/coloriages-mysteres-disney-princesses-tome-2",
+    image: "https://www.hachetteheroes.com/system/product_pictures/data/009/732/295/large/9782019457150-001-X.webp"
   },
   {
-    title: "Disney Best of Méchants — Злодеи",
+    title: "Disney Petites princesses",
+    category: "Принцессы",
+    characters: "Маленькие принцессы",
+    url: PUBLISHER
+  },
+  {
+    title: "Disney Princes et Héros",
+    category: "Принцессы",
+    characters: "Принцы и герои",
+    url: "https://www.hachetteheroes.com/produit/85312/9782017260165/coloriages-mysteres-disney-princes-et-heros"
+  },
+  {
+    title: "Disney Best of Méchants",
     category: "Злодеи",
-    characters: "Малефисента и злодеи Disney/Pixar",
-    image: "https://image.smythstoys.com/original/800/desktop/260906.jpg",
-    url: "https://www.hachette.fr/livre/coloriages-mysteres-disney-best-mechants-9782017356288/"
+    characters: "Злодеи Disney и Pixar",
+    url: "https://www.hachetteheroes.com/produit/85756/9782017356288/coloriages-mysteres-disney-best-of-mechants",
+    image: "https://www.hachetteheroes.com/system/product_pictures/data/010/008/041/large/9782017356288-001-X.webp"
   },
   {
-    title: "Disney Pixar — Best of Pixar",
+    title: "Disney Héros & Méchants — La Battle",
+    category: "Злодеи",
+    characters: "Герои против злодеев",
+    url: "https://www.hachetteheroes.com/produit/85503/9782017285991/"
+  },
+  {
+    title: "Disney Pixar",
     category: "Pixar",
-    characters: "Персонажи мультфильмов Pixar",
-    image: "https://www.scrapmalin.com/pub/Photos/Hachette/2025-06/.P_663628_P_1_l.jpg",
-    url: "https://www.hachetteheroes.com/theme/42/coloriages-mysteres-disney"
+    characters: "Мультфильмы Pixar",
+    url: PUBLISHER
   },
   {
-    title: "Disney Pixar — Tome 2",
+    title: "Disney Best of Pixar",
     category: "Pixar",
-    characters: "История игрушек, В поисках Немо, Тачки",
-    image: "https://www.hachette.fr/livre/coloriages-mysteres-disney-pixar-tome-2-9782019452438/",
-    url: "https://www.hachetteheroes.com/produit/93/9782019452438/coloriages-mysteres-disney-pixar-tome-2"
+    characters: "Лучшие раскраски Pixar",
+    url: "https://www.hachetteheroes.com/produit/85507/9782017312734/coloriages-mysteres-disney-best-of-pixar",
+    image: "https://www.hachetteheroes.com/system/product_pictures/data/010/005/129/large/9782017312734-001-X.webp"
   },
   {
-    title: "Disney Grands Classiques — Tome 2",
-    category: "Классика",
-    characters: "Классические мультфильмы Disney",
-    image: "https://scrapbooktendance.ca/media/catalog/product/cache/207e23213cf636ccdef205098cf3c8a3/6/0/60326b5a-612a-4ae7-996c-a2d7c455ea3d.png",
-    url: "https://www.hachetteheroes.com/produit/282/9782012407565/coloriages-mysteres-disney-les-grands-classiques-tome-2"
+    title: "Disney Pixar Tome 2",
+    category: "Pixar",
+    characters: "Персонажи Pixar",
+    url: PUBLISHER
   },
   {
-    title: "Disney Grands Classiques — Tome 13",
+    title: "Disney Grands classiques",
     category: "Классика",
-    characters: "Анна, Эльза и другие герои",
-    image: "https://www.lagriffenoire.com/cache/images/product/0367227-couverture1-xcgzbqmbjst5x9jxnwinu_cm9br-zrkad3odohw5i-daxxeskkplbq-cover-full.jpg",
+    characters: "Классические мультфильмы",
+    url: "https://www.hachetteheroes.com/produit/85497/9782017285670/coloriages-au-numero-disney-les-grands-classiques"
+  },
+  {
+    title: "Disney Grands classiques Tome 2",
+    category: "Классика",
+    characters: "Классические мультфильмы",
+    url: PUBLISHER
+  },
+  {
+    title: "Disney Grands classiques Tome 3",
+    category: "Классика",
+    characters: "Третий том классики",
+    url: PUBLISHER
+  },
+  {
+    title: "Disney Grands classiques Tome 4",
+    category: "Классика",
+    characters: "Четвёртый том классики",
+    url: PUBLISHER
+  },
+  {
+    title: "Disney Grands classiques Tome 5",
+    category: "Классика",
+    characters: "Пятый том классики",
+    url: PUBLISHER
+  },
+  {
+    title: "Disney Grands classiques Tome 6",
+    category: "Классика",
+    characters: "Шестой том классики",
+    url: PUBLISHER
+  },
+  {
+    title: "Disney Grands classiques Tome 7",
+    category: "Классика",
+    characters: "Седьмой том классики",
+    url: PUBLISHER
+  },
+  {
+    title: "Disney Grands classiques Tome 13",
+    category: "Классика",
+    characters: "100 иллюстраций Disney и Pixar",
     url: "https://www.hachetteheroes.com/produit/85646/9782017276302/coloriages-mysteres-disney-grands-classiques-tome-13"
   },
   {
-    title: "Disney Vitraux — Tome 2",
+    title: "Disney Très grands classiques",
+    category: "Классика",
+    characters: "Большой формат XXL",
+    url: "https://www.hachetteheroes.com/produit/85679/9782017312765/coloriages-mysteres-disney-tres-grands-classiques"
+  },
+  {
+    title: "Disney Grands classiques — Spécial débutants",
+    category: "Классика",
+    characters: "Для начинающих",
+    url: "https://www.hachetteheroes.com/produit/85487/9782017285649/coloriages-mysteres-disney-grands-classiques-special-debutants"
+  },
+  {
+    title: "Disney Grands classiques — Spécial débutants Tome 2",
+    category: "Классика",
+    characters: "Для начинающих",
+    url: PUBLISHER
+  },
+  {
+    title: "Disney Mickey and Friends",
+    category: "Микки и друзья",
+    characters: "Микки, Минни и друзья",
+    url: PUBLISHER
+  },
+  {
+    title: "Disney Stitch — Coloriages au numéro",
     category: "Другие",
-    characters: "Витражный стиль, герои Disney и Pixar",
-    image: "https://theneverland.be/img/p/3/4/6/2/6/34626-large_default.jpg",
-    url: "https://www.hachetteheroes.com/theme/42/coloriages-mysteres-disney"
+    characters: "Лило и Стич",
+    url: PUBLISHER
   },
   {
     title: "Disney Best of Nature",
-    category: "Другие",
-    characters: "Животные и природа",
-    image: "https://media.e.leclerc/9782017285694_1?fit=fit&fmt=pjpeg&hei=450&op_sharpen=1&qlt=85&resmode=bilin&trim=0.5&wid=450",
-    url: "https://www.hachetteheroes.com/theme/42/coloriages-mysteres-disney"
+    category: "Животные и природа",
+    characters: "Природа и животные",
+    url: PUBLISHER
   },
   {
-    title: "Disney Best of Héroïnes — Героини",
+    title: "Disney Best of Héroïnes",
     category: "Другие",
-    characters: "Героини Disney и Pixar",
-    image: "https://www.artetloisirs.fr/20404-large_default/coloriages-mysteres-disney-best-of-heroines-.jpg",
-    url: "https://www.hachetteheroes.com/theme/42/coloriages-mysteres-disney"
+    characters: "Героини Disney",
+    url: PUBLISHER
   },
   {
-    title: "Disney Très grands classiques — XXL",
-    category: "Классика",
-    characters: "Большой формат, Disney и Pixar",
-    image: "https://image.smythstoys.com/zoom/253298.webp",
-    url: "https://www.hachetteheroes.com/theme/42/coloriages-mysteres-disney"
+    title: "Disney Best of Bestiaire",
+    category: "Животные и природа",
+    characters: "Животные и сказочные существа",
+    url: PUBLISHER
+  },
+  {
+    title: "Disney Vitraux Tome 2",
+    category: "Другие",
+    characters: "Витражный стиль",
+    url: PUBLISHER
   }
 ];
 
 const catalog = document.getElementById("catalog");
 const search = document.getElementById("search");
+const resultCount = document.getElementById("result-count");
+
 let activeFilter = "Все";
 
+function makeCard(book) {
+  const card = document.createElement("article");
+  card.className = "card";
+
+  const coverWrap = document.createElement("div");
+  coverWrap.className = "cover-wrap";
+
+  function showPlaceholder() {
+    coverWrap.replaceChildren();
+
+    const placeholder = document.createElement("div");
+    placeholder.className = "cover-placeholder";
+
+    const icon = document.createElement("div");
+    icon.className = "book-icon";
+    icon.textContent = "📚";
+
+    const title = document.createElement("strong");
+    title.textContent = book.title;
+
+    const caption = document.createElement("small");
+    caption.textContent = "Альбом Disney";
+
+    placeholder.append(icon, title, caption);
+    coverWrap.append(placeholder);
+  }
+
+  if (book.image) {
+    const img = document.createElement("img");
+    img.className = "cover";
+    img.alt = "Обложка альбома " + book.title;
+    img.loading = "lazy";
+    img.src = book.image;
+    img.onerror = showPlaceholder;
+    coverWrap.append(img);
+  } else {
+    showPlaceholder();
+  }
+
+  const info = document.createElement("div");
+  info.className = "info";
+
+  const title = document.createElement("h3");
+  title.textContent = book.title;
+
+  const category = document.createElement("span");
+  category.className = "category";
+  category.textContent = book.category;
+
+  const note = document.createElement("div");
+  note.className = "book-note";
+  note.textContent = book.characters;
+
+  const link = document.createElement("a");
+  link.className = "link";
+  link.href = book.url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.textContent = "Открыть альбом ↗";
+
+  info.append(title, category, note, link);
+  card.append(coverWrap, info);
+
+  return card;
+}
+
 function render() {
-  const q = search.value.trim().toLocaleLowerCase("ru");
+  const query = search.value.trim().toLocaleLowerCase("ru");
+
   const filtered = books.filter(book => {
-    const matchesFilter =
+    const matchesCategory =
       activeFilter === "Все" || book.category === activeFilter;
-    const text = [
-      book.title, book.category, book.characters
+
+    const searchable = [
+      book.title,
+      book.category,
+      book.characters
     ].join(" ").toLocaleLowerCase("ru");
-    return matchesFilter && text.includes(q);
+
+    return matchesCategory && searchable.includes(query);
   });
 
-  catalog.innerHTML = "";
+  catalog.replaceChildren();
 
-  if (!filtered.length) {
-    catalog.innerHTML = "<p>Ничего не найдено. Попробуй другой запрос.</p>";
+  resultCount.textContent =
+    "Найдено альбомов: " + filtered.length + " из " + books.length;
+
+  if (filtered.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent =
+      "Ничего не найдено. Попробуй другое название или категорию.";
+    catalog.append(empty);
     return;
   }
 
-  filtered.forEach(book => {
-    const card = document.createElement("article");
-    card.className = "card";
+  const fragment = document.createDocumentFragment();
 
-    const img = document.createElement("img");
-    img.className = "cover";
-    img.
+  filtered.forEach(book => fragment.append(makeCard(book)));
+  catalog.append(fragment);
+}
+
+search.addEventListener("input", render);
+
+document.querySelectorAll("[data-filter]").forEach(button => {
+  button.addEventListener("click", () => {
+    activeFilter = button.dataset.filter;
+
+    document.querySelectorAll("[data-filter]").forEach(item => {
+      item.classList.toggle("active", item === button);
+    });
+
+    render();
+  });
+});
+
+render();
+</script>
+</body>
+</html>
+
