@@ -1,442 +1,178 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#05080d">
-<meta name="description" content="NickForge — бесплатный генератор игровых никнеймов. Создавай уникальные ники с настройкой длины, стиля, символов и запрещённых слов.">
-<meta property="og:title" content="NickForge — генератор игровых никнеймов">
-<meta property="og:description" content="Твой стиль. Твой ник. Создай уникальный игровой никнейм.">
-<meta property="og:type" content="website">
+<meta name="description" content="NickForge — генератор игровых никнеймов с музыкой, звуками, визуальными эффектами и настройкой стилей.">
 <title>NickForge — генератор игровых никнеймов</title>
-
 <style>
-:root {
+:root{
   --bg:#05080d;
   --panel:#0b111b;
-  --line:#1b344b;
+  --line:#20374d;
   --text:#f4f8ff;
   --muted:#8ca3b9;
   --accent:#00b9ff;
   --accent2:#087dff;
-  --red:#ff303e;
+  --glow:rgba(0,185,255,.18);
   --good:#58f2b0;
   --bad:#ff6474;
 }
-* { box-sizing:border-box }
-html { scroll-behavior:smooth }
-body {
-  margin:0;
-  min-height:100vh;
-  color:var(--text);
-  background:
-    radial-gradient(ellipse at 15% 0%,rgba(0,114,255,.13),transparent 34%),
-    radial-gradient(ellipse at 100% 30%,rgba(255,30,50,.07),transparent 30%),
-    var(--bg);
-  font:15px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;color:var(--text);
+  background:radial-gradient(ellipse at 15% 0%,var(--glow),transparent 38%),var(--bg);
+  font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;
+  overflow-x:hidden;
 }
-body::before {
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-  opacity:.15;
-  background-image:
-    linear-gradient(rgba(48,125,175,.12) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(48,125,175,.12) 1px,transparent 1px);
-  background-size:38px 38px;
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background-image:linear-gradient(#397da70c 1px,transparent 1px),
+  linear-gradient(90deg,#397da70c 1px,transparent 1px);
+  background-size:36px 36px;
 }
-button,input,select,textarea { font:inherit }
-button {
-  cursor:pointer;
-  font-weight:800;
-  border-radius:8px;
-  transition:transform .18s,border-color .18s,filter .18s;
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;font-weight:800;transition:transform .16s,border-color .2s,filter .2s}
+button:hover{filter:brightness(1.15)}
+button:active{transform:scale(.97)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--accent);outline-offset:3px
 }
-button:focus-visible,input:focus-visible,
-select:focus-visible,textarea:focus-visible {
-  outline:2px solid var(--accent);
-  outline-offset:3px;
-}
-button:hover { filter:brightness(1.14) }
-button:active { transform:scale(.985) }
-button:disabled { opacity:.5;cursor:not-allowed }
-
-.wrap { max-width:1240px;margin:auto;padding:24px 20px 45px }
-
-header {
-  display:flex;
-  align-items:center;
-  gap:13px;
-  margin-bottom:25px;
-  padding-bottom:18px;
-  border-bottom:1px solid rgba(57,115,155,.23);
-}
-.logo {
-  display:grid;
-  place-items:center;
-  width:48px;
-  height:48px;
-  flex-shrink:0;
-  color:white;
-  font-size:25px;
-  font-weight:1000;
-  font-style:italic;
-  background:linear-gradient(135deg,#00c8ff,#0755ff);
+button:disabled{opacity:.5;cursor:not-allowed}
+.wrap{max-width:1240px;margin:auto;padding:22px 18px 40px}
+header{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.logo{
+  display:grid;place-items:center;width:47px;height:47px;flex-shrink:0;
+  font-size:25px;font-weight:1000;font-style:italic;
+  background:linear-gradient(135deg,#00d5ff,#0755ff);
   clip-path:polygon(0 0,100% 0,100% 76%,76% 100%,0 100%);
-  box-shadow:0 0 25px rgba(0,185,255,.3);
+  box-shadow:0 0 24px var(--glow)
 }
-.brand {
-  font-size:25px;
-  line-height:1.1;
-  font-weight:1000;
-  letter-spacing:-1px;
-  font-style:italic;
-  text-transform:uppercase;
+.brand{font-size:25px;line-height:1.1;font-weight:1000;font-style:italic;letter-spacing:-1px}
+.brand span{color:var(--accent)}
+.muted{color:var(--muted);font-size:12px}
+.hero{
+  position:relative;overflow:hidden;display:grid;
+  grid-template-columns:1.2fr .8fr;align-items:center;gap:20px;
+  padding:32px;margin-bottom:20px;border:1px solid var(--line);
+  border-radius:16px;background:linear-gradient(110deg,#0b1726,#07101b);
+  box-shadow:0 0 32px var(--glow)
 }
-.brand span { color:var(--accent) }
-.muted { color:var(--muted);font-size:12px }
-
-.hero {
-  position:relative;
-  overflow:hidden;
-  display:grid;
-  grid-template-columns:minmax(0,1.1fr) minmax(230px,.9fr);
-  align-items:center;
-  gap:20px;
-  min-height:310px;
-  margin-bottom:24px;
-  padding:34px;
-  border:1px solid #163c59;
-  border-radius:16px;
-  background:
-    linear-gradient(90deg,#08111e 0%,rgba(5,13,24,.97) 43%,rgba(4,13,24,.55) 100%),
-    radial-gradient(ellipse at 83% 50%,rgba(0,156,255,.26),transparent 55%),
-    #08111e;
-  box-shadow:0 0 28px rgba(0,185,255,.09);
+.hero::after{
+  content:"NF";position:absolute;right:5%;top:0;
+  font-size:clamp(150px,25vw,280px);font-weight:1000;
+  color:var(--glow);font-style:italic;pointer-events:none
 }
-.hero::before {
-  content:"";
-  position:absolute;
-  top:-100px;
-  right:-60px;
-  width:420px;
-  height:420px;
-  border:1px solid rgba(0,185,255,.23);
-  border-radius:50%;
-  box-shadow:0 0 0 35px rgba(0,185,255,.025),
-             0 0 0 75px rgba(0,185,255,.025);
-  pointer-events:none;
+.hero-copy,.hero-art{position:relative;z-index:1}
+.eyebrow{font-size:11px;color:var(--accent);font-weight:900;letter-spacing:2px;text-transform:uppercase}
+h1{font-size:clamp(37px,6vw,64px);line-height:1;margin:15px 0;letter-spacing:-2px;font-style:italic}
+.gradient{color:var(--accent);text-shadow:0 0 25px var(--glow)}
+.hero p{max-width:500px;color:#aabdd0}
+.hero-art{display:grid;place-items:center;min-height:160px}
+.emblem{
+  display:grid;place-items:center;width:135px;height:135px;border-radius:50%;
+  border:1px solid var(--accent);color:var(--accent);font-size:58px;font-weight:1000;
+  background:radial-gradient(circle,var(--glow),#06101b 70%);
+  box-shadow:0 0 35px var(--glow),inset 0 0 25px var(--glow);
+  animation:float 4s ease-in-out infinite
 }
-.hero::after {
-  content:"NF";
-  position:absolute;
-  right:7%;
-  top:50%;
-  transform:translateY(-50%) skew(-10deg);
-  color:rgba(0,185,255,.07);
-  font-size:clamp(140px,23vw,290px);
-  font-weight:1000;
-  line-height:1;
-  letter-spacing:-18px;
-  pointer-events:none;
+@keyframes float{50%{transform:translateY(-8px)}}
+@keyframes appear{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@keyframes flash{0%{box-shadow:0 0 0 transparent}40%{box-shadow:0 0 35px var(--glow)}100%{box-shadow:0 0 0 transparent}}
+.primary{
+  border:0;border-radius:8px;padding:13px 17px;width:100%;
+  color:#00101a;background:linear-gradient(110deg,#00d5ff,#0788ff);
+  box-shadow:0 0 22px var(--glow);text-transform:uppercase
 }
-.hero-copy { position:relative;z-index:1;max-width:650px }
-.eyebrow {
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  color:var(--accent);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:2px;
-  text-transform:uppercase;
+.hero .primary{width:auto;min-width:220px}
+.layout{display:grid;grid-template-columns:minmax(270px,350px) minmax(0,1fr);gap:18px;align-items:start}
+.panel{
+  min-width:0;padding:21px;border:1px solid var(--line);border-radius:13px;
+  background:linear-gradient(145deg,#0e1826fa,#070d16fa);
+  box-shadow:0 10px 35px #0002
 }
-.eyebrow::before {
-  content:"";
-  width:24px;
-  height:2px;
-  background:var(--accent);
-  box-shadow:0 0 12px var(--accent);
+.panel h2{
+  display:flex;align-items:center;gap:10px;margin:0 0 20px;
+  font-size:17px;font-weight:900;text-transform:uppercase
 }
-.hero h1 {
-  margin:15px 0;
-  font-size:clamp(36px,6vw,65px);
-  font-weight:1000;
-  letter-spacing:-2.5px;
-  line-height:.99;
-  text-transform:uppercase;
-  font-style:italic;
+.panel h2::before{content:"";width:4px;height:21px;background:var(--accent);box-shadow:0 0 12px var(--glow)}
+.field{margin-bottom:15px}
+label{display:block;margin-bottom:6px;color:#d9e9f7;font-size:12px;font-weight:800}
+input,select,textarea{
+  width:100%;min-width:0;padding:10px 11px;color:#edf7ff;
+  background:#070d16;border:1px solid #263d52;border-radius:7px
 }
-.gradient {
-  color:var(--accent);
-  text-shadow:0 0 28px rgba(0,185,255,.27);
+input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none}
+input[type=checkbox]{width:17px;height:17px;accent-color:var(--accent)}
+input[type=range]{padding:0;accent-color:var(--accent);border:0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.check{display:flex;align-items:center;gap:9px;margin:12px 0;color:#cbd9e8}
+.check label{margin:0;font-weight:600}
+.hint{margin-top:5px;color:#728ba2;font-size:11px}
+.secondary,.copy{
+  padding:9px 12px;color:#cfeaff;background:#101e2d;
+  border:1px solid #29445b;border-radius:7px
 }
-.hero p {
-  max-width:500px;
-  margin:17px 0 22px;
-  color:#aabdd0;
-  font-size:15px;
-}
-.hero-art {
-  position:relative;
-  z-index:1;
-  min-height:190px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-}
-.hero-emblem {
-  display:grid;
-  place-items:center;
-  width:150px;
-  height:150px;
-  border:1px solid rgba(0,185,255,.4);
-  border-radius:50%;
-  color:#dff8ff;
-  font-size:75px;
-  font-weight:1000;
-  font-style:italic;
-  text-shadow:0 0 24px var(--accent);
-  background:radial-gradient(circle,rgba(0,185,255,.22),rgba(0,15,30,.8) 65%);
-  box-shadow:0 0 35px rgba(0,185,255,.13),inset 0 0 35px rgba(0,185,255,.1);
-}
-.hero-art span {
-  margin-top:12px;
-  color:#7fa9c6;
-  font-size:10px;
-  letter-spacing:3px;
-  font-weight:900;
-}
-.primary {
-  width:100%;
-  padding:14px 18px;
-  color:#00101a;
-  border:0;
-  border-radius:8px;
-  background:linear-gradient(110deg,#00d5ff,#0788ff);
-  box-shadow:0 0 24px rgba(0,185,255,.2);
-  text-transform:uppercase;
-  letter-spacing:.3px;
-}
-.hero .primary { width:auto;min-width:230px }
-
-.layout {
-  display:grid;
-  grid-template-columns:minmax(280px,350px) minmax(0,1fr);
-  gap:20px;
-  align-items:start;
-}
-.panel {
-  position:relative;
-  min-width:0;
-  padding:23px;
-  border:1px solid var(--line);
-  border-radius:13px;
-  background:linear-gradient(145deg,rgba(14,24,38,.98),rgba(7,13,22,.98));
-  box-shadow:0 10px 35px rgba(0,0,0,.15);
-}
-.panel h2 {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin:0 0 22px;
-  font-size:17px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:.2px;
-}
-.panel h2::before {
-  content:"";
-  width:4px;
-  height:21px;
-  flex-shrink:0;
-  background:var(--accent);
-  box-shadow:0 0 12px rgba(0,185,255,.45);
-}
-.field { margin-bottom:17px }
-label {
-  display:block;
-  margin-bottom:7px;
-  color:#d9e9f7;
-  font-size:12px;
-  font-weight:800;
-}
-input,select,textarea {
-  width:100%;
-  min-width:0;
-  padding:11px 12px;
-  color:#edf7ff;
-  background:#070d16;
-  border:1px solid #263d52;
-  border-radius:7px;
-  transition:border-color .18s,box-shadow .18s;
-}
-input:hover,select:hover,textarea:hover { border-color:#386080 }
-input:focus,select:focus,textarea:focus {
-  border-color:var(--accent);
-  box-shadow:0 0 0 3px rgba(0,185,255,.08);
-  outline:none;
-}
-input[type=checkbox] {
-  width:17px;
-  height:17px;
-  padding:0;
-  accent-color:var(--accent);
-  flex-shrink:0;
-}
-.row { display:grid;grid-template-columns:1fr 1fr;gap:10px }
-.check {
-  display:flex;
-  gap:10px;
-  align-items:center;
-  margin:13px 0;
-  color:#cbd9e8;
-}
-.check label { margin:0;font-weight:600 }
-.hint { margin-top:5px;color:#728ba2;font-size:11px }
-
-.secondary,.copy {
-  padding:9px 12px;
-  color:#cfeaff;
-  background:#101e2d;
-  border:1px solid #29445b;
-  border-radius:7px;
-}
-.secondary:hover,.copy:hover {
-  border-color:var(--accent);
-  color:white;
-}
-.actions { display:flex;gap:9px;flex-wrap:wrap;margin-top:15px }
-.actions button { flex:1 }
-
-.results { display:grid;gap:10px }
-.nick {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  min-width:0;
-  padding:15px;
-  border:1px solid #1b3448;
-  border-radius:9px;
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.actions button{flex:1}
+.results{display:grid;gap:9px}
+.nick{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  min-width:0;padding:13px;border:1px solid #1b3448;border-radius:9px;
   background:linear-gradient(100deg,#0b1522,#0a111c);
-  transition:border-color .18s,transform .18s,background .18s;
+  animation:appear .3s ease both;transition:border-color .2s,background .2s
 }
-.nick:hover {
-  border-color:#078dc7;
-  background:linear-gradient(100deg,#0c1e30,#0a1421);
-  transform:translateX(2px);
+.nick:hover{border-color:var(--accent);background:#0d1d2c}
+.nick-name{overflow-wrap:anywhere;font-size:19px;font-weight:900;letter-spacing:.3px}
+.nick-info{font-size:11px;color:var(--muted)}
+.copy{flex-shrink:0;font-size:11px}
+.empty{padding:30px 16px;text-align:center;color:var(--muted);border:1px dashed #29445b;border-radius:9px}
+.status{margin-top:14px;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.good{color:var(--good)}.bad{color:var(--bad)}
+.subhead{margin:22px 0 10px;font-size:13px;font-weight:900;text-transform:uppercase}
+.pill{display:inline-block;margin:0 4px 5px 0;padding:5px 9px;font-size:10px;color:#a9dfff;border:1px solid #21435d;border-radius:4px;background:#0a1a29}
+.note{margin-top:18px;padding:12px;border-left:2px solid #31536d;background:#0c1a2866;color:#849db3;font-size:11px}
+.sound-panel{margin:0 0 20px;padding:16px;border:1px solid var(--line);border-radius:12px;background:#0b121df2}
+.sound-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.sound-title{font-weight:900}
+.sound-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.sound-controls label{display:flex;align-items:center;gap:8px;margin:0 0 7px}
+.sound-controls .field{margin:0}
+.sound-controls .check{margin:0}
+.switches{display:flex;gap:15px;flex-wrap:wrap;margin-top:12px}
+.switches .check{margin:0}
+.visual-toggle{display:flex;align-items:center;gap:8px}
+footer{margin-top:25px;padding-top:18px;color:#627b91;font-size:11px;text-align:center;border-top:1px solid #172c3d}
+.particle{
+  position:fixed;z-index:100;pointer-events:none;width:5px;height:5px;
+  border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);
+  animation:particle .8s ease-out forwards
 }
-.nick-name {
-  overflow-wrap:anywhere;
-  color:#f5fbff;
-  font-size:19px;
-  font-weight:900;
-  letter-spacing:.3px;
+@keyframes particle{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+body.no-motion *,body.no-motion *::before,body.no-motion *::after{
+  animation:none!important;transition:none!important;scroll-behavior:auto!important
 }
-.nick-info { color:#7793aa;font-size:11px }
-.copy { flex-shrink:0;font-size:11px;font-weight:800 }
-.empty {
-  padding:35px 18px;
-  text-align:center;
-  color:#8da4b9;
-  border:1px dashed #29445b;
-  border-radius:9px;
-  background:rgba(5,12,21,.5);
+@media(max-width:760px){
+  .wrap{padding:14px 11px 28px}
+  .hero{grid-template-columns:1fr;padding:22px 17px;gap:8px}
+  .hero-art{min-height:100px;display:flex;justify-content:flex-start;gap:14px}
+  .emblem{width:75px;height:75px;font-size:34px}
+  .hero h1{font-size:clamp(36px,10vw,52px)}
+  .hero .primary{width:100%}
+  .layout{grid-template-columns:1fr;gap:13px}
+  .panel{padding:16px}
+  .sound-controls{grid-template-columns:1fr 1fr}
+  .nick-name{font-size:16px}
+  .copy{padding:8px}
 }
-.status {
-  margin-top:15px;
-  color:var(--muted);
-  font-size:12px;
-  overflow-wrap:anywhere;
-}
-.good { color:var(--good) }
-.bad { color:var(--bad) }
-.note {
-  margin-top:20px;
-  padding:12px;
-  color:#849db3;
-  font-size:11px;
-  border-left:2px solid #31536d;
-  background:rgba(12,26,40,.6);
-}
-.subhead {
-  margin:23px 0 12px;
-  color:#e6f5ff;
-  font-size:13px;
-  font-weight:900;
-  text-transform:uppercase;
-}
-.pill {
-  display:inline-block;
-  margin:0 4px 5px 0;
-  padding:5px 9px;
-  color:#a9dfff;
-  font-size:10px;
-  font-weight:700;
-  border:1px solid #21435d;
-  border-radius:4px;
-  background:#0a1a29;
-}
-footer {
-  margin-top:28px;
-  padding-top:18px;
-  color:#627b91;
-  font-size:11px;
-  text-align:center;
-  border-top:1px solid #172c3d;
-}
-@media(max-width:760px) {
-  .wrap { padding:15px 12px 30px }
-  header { margin-bottom:18px;padding-bottom:14px }
-  .brand { font-size:22px }
-  .hero {
-    grid-template-columns:1fr;
-    gap:8px;
-    min-height:0;
-    padding:24px 19px;
-    margin-bottom:15px;
-  }
-  .hero h1 { font-size:clamp(36px,10vw,52px) }
-  .hero p { font-size:13px }
-  .hero-art {
-    min-height:110px;
-    flex-direction:row;
-    gap:14px;
-  }
-  .hero-emblem { width:75px;height:75px;font-size:36px }
-  .hero-art span {
-    max-width:130px;
-    text-align:left;
-    line-height:1.6;
-  }
-  .hero::after { right:-5%;top:25%;font-size:155px }
-  .hero::before { width:220px;height:220px;top:auto;bottom:-110px }
-  .layout { grid-template-columns:1fr;gap:14px }
-  .panel { padding:17px }
-  .panel h2 { margin-bottom:18px }
-  .nick { padding:12px;gap:8px }
-  .nick-name { font-size:16px }
-  .copy { padding:8px;font-size:10px }
-  .actions button { min-width:0 }
-}
-@media(prefers-reduced-motion:reduce) {
-  *,*::before,*::after {
-    scroll-behavior:auto!important;
-    transition:none!important;
-  }
-}
+@media(max-width:400px){.sound-controls{grid-template-columns:1fr}.row{gap:7px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
-
 <body>
 <div class="wrap">
-
 <header>
   <div class="logo">N</div>
   <div>
@@ -444,784 +180,622 @@ footer {
     <div class="muted">Твой ник. Твои правила. Твоя игра.</div>
   </div>
 </header>
-
 <section class="hero">
   <div class="hero-copy">
     <div class="eyebrow">Генератор игровых никнеймов</div>
     <h1>Твой стиль.<br><span class="gradient">Твой ник.</span></h1>
-    <p>
-      Создай никнейм, который выделит тебя в игре.
-      Настрой символы, длину и стиль — найди свою комбинацию.
-    </p>
-    <button class="primary" id="heroGenerate" type="button">
-      ⚡ Создать свой ник
-    </button>
+    <p>Создавай игровые имена, настраивай звучание интерфейса и выбирай собственный визуальный стиль.</p>
+    <button class="primary" id="heroGenerate">⚡ Создать свой ник</button>
   </div>
-  <div class="hero-art" aria-hidden="true">
-    <div class="hero-emblem">NF</div>
-    <span>CREATE YOUR ID<br>STAND OUT. PLAY HARD.</span>
-  </div>
+  <div class="hero-art" aria-hidden="true"><div class="emblem">NF</div></div>
 </section>
-
+<section class="sound-panel">
+  <div class="sound-head">
+    <div class="sound-title">♫ Звук и эффекты</div>
+    <button class="secondary" id="muteAll">Звук: выкл.</button>
+  </div>
+  <div class="sound-controls">
+    <div class="field">
+      <label for="masterVolume">Общая громкость <span id="masterLabel">45%</span></label>
+      <input id="masterVolume" type="range" min="0" max="100" value="45">
+    </div>
+    <div class="field">
+      <label for="musicVolume">Музыка <span id="musicLabel">18%</span></label>
+      <input id="musicVolume" type="range" min="0" max="100" value="18">
+    </div>
+    <div class="field">
+      <label for="fxVolume">Звуковые эффекты <span id="fxLabel">55%</span></label>
+      <input id="fxVolume" type="range" min="0" max="100" value="55">
+    </div>
+  </div>
+  <div class="switches">
+    <div class="check"><input type="checkbox" id="musicOn"><label for="musicOn">Фоновая музыка</label></div>
+    <div class="check"><input type="checkbox" id="fxOn" checked><label for="fxOn">Звуки действий</label></div>
+    <div class="check"><input type="checkbox" id="visualOn" checked><label for="visualOn">Визуальные эффекты</label></div>
+  </div>
+  <div class="hint">Музыка запускается после нажатия на сайт. Звук создаётся браузером, без загрузки аудиофайлов.</div>
+</section>
 <main class="layout">
-
 <section class="panel">
 <h2>Критерии генерации</h2>
-
 <div class="field">
-  <label for="platform">Платформа</label>
-  <select id="platform">
-    <option value="custom">Свои настройки</option>
-    <option value="steam">Steam — имя профиля</option>
-    <option value="roblox">Roblox — username</option>
-    <option value="minecraft">Minecraft Java</option>
-  </select>
-  <div class="muted" id="platformHint">Задай собственные ограничения.</div>
+<label for="platform">Платформа</label>
+<select id="platform">
+<option value="custom">Свои настройки</option>
+<option value="steam">Steam — имя профиля</option>
+<option value="roblox">Roblox — username</option>
+<option value="minecraft">Minecraft Java</option>
+</select>
+<div class="hint" id="platformHint">Задай собственные ограничения.</div>
 </div>
-
 <div class="field">
-  <label for="style">Стиль ника</label>
-  <select id="style">
-    <option value="game">Игровой</option>
-    <option value="immoral">Провокационный</option>
-    <option value="ordinary">Обычный</option>
-    <option value="letters">Абстрактный набор</option>
-    <option value="light">Светлый</option>
-    <option value="dark">Мрачный</option>
-    <option value="warrior">Воин</option>
-    <option value="minimal">Минималистичный</option>
-    <option value="fantasy">Фэнтези</option>
-    <option value="cyber">Киберпанк</option>
-    <option value="fun">Забавный</option>
-    <option value="nature">Природа</option>
-    <option value="space">Космос</option>
-    <option value="myth">Мифология</option>
-    <option value="stealth">Скрытность</option>
-    <option value="royal">Королевский</option>
-  </select>
+<label for="style">Стиль ника</label>
+<select id="style">
+<option value="all">🔥 Все подряд — смешение всех стилей</option>
+<option value="game">Игровой</option>
+<option value="immoral">Провокационный</option>
+<option value="ordinary">Обычный</option>
+<option value="letters">Абстрактный набор</option>
+<option value="light">Светлый</option>
+<option value="dark">Мрачный</option>
+<option value="warrior">Воин</option>
+<option value="minimal">Минималистичный</option>
+<option value="fantasy">Фэнтези</option>
+<option value="cyber">Киберпанк</option>
+<option value="fun">Забавный</option>
+<option value="nature">Природа</option>
+<option value="space">Космос</option>
+<option value="myth">Мифология</option>
+<option value="stealth">Скрытность</option>
+<option value="royal">Королевский</option>
+</select>
+<div class="hint" id="styleHint">Выбирай стиль: оформление и словари меняются вместе с ним.</div>
 </div>
-
 <div class="row field">
-  <div>
-    <label for="min">Мин. длина</label>
-    <input id="min" type="number" min="3" max="20" value="5">
-  </div>
-  <div>
-    <label for="max">Макс. длина</label>
-    <input id="max" type="number" min="3" max="20" value="12">
-  </div>
+<div><label for="min">Мин. длина</label><input id="min" type="number" min="3" max="20" value="5"></div>
+<div><label for="max">Макс. длина</label><input id="max" type="number" min="3" max="20" value="12"></div>
 </div>
-
 <div class="field">
-  <label for="alphabet">Алфавит</label>
-  <select id="alphabet">
-    <option value="latin">Только латиница</option>
-    <option value="cyrillic">Только кириллица</option>
-    <option value="mixed">Смешанный (латиница + кириллица)</option>
-  </select>
-  <div class="hint">Некоторые игры не поддерживают кириллицу или смешение алфавитов.</div>
+<label for="alphabet">Алфавит</label>
+<select id="alphabet">
+<option value="latin">Только латиница</option>
+<option value="cyrillic">Только кириллица</option>
+<option value="mixed">Смешанный алфавит</option>
+</select>
+<div class="hint">Поддержка символов зависит от игры.</div>
 </div>
-
 <div class="field">
-  <label for="digits">Цифры</label>
-  <select id="digits">
-    <option value="no">Запрещены</option>
-    <option value="optional" selected>Разрешены</option>
-    <option value="yes">Обязательны</option>
-  </select>
+<label for="digits">Цифры</label>
+<select id="digits">
+<option value="no">Запрещены</option>
+<option value="optional" selected>Разрешены</option>
+<option value="yes">Обязательны</option>
+</select>
 </div>
-
 <div class="field">
-  <label for="symbols">Символы _ и -</label>
-  <select id="symbols">
-    <option value="no">Запрещены</option>
-    <option value="optional" selected>Разрешены</option>
-    <option value="yes">Обязателен хотя бы один</option>
-  </select>
+<label for="symbols">Символы _ и -</label>
+<select id="symbols">
+<option value="no">Запрещены</option>
+<option value="optional" selected>Разрешены</option>
+<option value="yes">Обязателен хотя бы один</option>
+</select>
 </div>
-
 <div class="field">
-  <label for="case">Первая буква</label>
-  <select id="case">
-    <option value="upper">Заглавная</option>
-    <option value="lower">Строчная</option>
-    <option value="any">Без разницы</option>
-  </select>
+<label for="case">Первая буква</label>
+<select id="case">
+<option value="upper">Заглавная</option>
+<option value="lower">Строчная</option>
+<option value="any">Без разницы</option>
+</select>
 </div>
-
-<div class="check">
-  <input id="noRepeat" type="checkbox" checked>
-  <label for="noRepeat">Без одинаковых символов подряд</label>
-</div>
-
-<div class="check">
-  <input id="unique" type="checkbox" checked>
-  <label for="unique">Не повторять ники в подборках и истории</label>
-</div>
-
-<div class="check">
-  <input id="smart" type="checkbox" checked>
-  <label for="smart">Предпочитать осмысленные сочетания</label>
-</div>
-
+<div class="check"><input id="noRepeat" type="checkbox" checked><label for="noRepeat">Без одинаковых символов подряд</label></div>
+<div class="check"><input id="unique" type="checkbox" checked><label for="unique">Не повторять ники из истории</label></div>
+<div class="check"><input id="smart" type="checkbox" checked><label for="smart">Предпочитать осмысленные сочетания</label></div>
 <div class="field">
-  <label for="ownMode">Как использовать своё слово</label>
-  <select id="ownMode">
-    <option value="include">Обязательно включить</option>
-    <option value="prefix">Поставить в начало</option>
-    <option value="suffix">Поставить в конец</option>
-  </select>
+<label for="ownMode">Как использовать своё слово</label>
+<select id="ownMode">
+<option value="include">Включить в ник</option>
+<option value="prefix">Поставить в начало</option>
+<option value="suffix">Поставить в конец</option>
+</select>
 </div>
-
 <div class="field">
-  <label for="own">Своё слово или часть ника</label>
-  <input id="own" maxlength="20" placeholder="Например, Artem">
-  <div class="muted">Слово включается в результат и учитывается при проверке длины.</div>
+<label for="own">Своё слово или часть ника</label>
+<input id="own" maxlength="20" placeholder="Например, Artem">
 </div>
-
 <div class="field">
-  <label for="blocked">Запрещённые слова</label>
-  <textarea id="blocked" rows="2" placeholder="noob, bot, bad"></textarea>
-  <div class="muted">Разделяй слова запятыми или переносами строк.</div>
+<label for="blocked">Запрещённые слова</label>
+<textarea id="blocked" rows="2" placeholder="noob, bot, bad"></textarea>
+<div class="hint">Разделяй запятыми или переносами строк.</div>
 </div>
-
 <div class="field">
-  <label for="quantity">Количество вариантов</label>
-  <select id="quantity">
-    <option value="5">5</option>
-    <option value="10" selected>10</option>
-    <option value="20">20</option>
-    <option value="30">30</option>
-  </select>
+<label for="quantity">Количество вариантов</label>
+<select id="quantity">
+<option value="5">5</option><option value="10" selected>10</option>
+<option value="20">20</option><option value="30">30</option>
+</select>
 </div>
-
-<button class="primary" id="generate" type="button">⚡ Сгенерировать ники</button>
-
+<button class="primary" id="generate">⚡ Сгенерировать ники</button>
+<div class="actions"><button class="secondary" id="clearHistory">Очистить историю</button></div>
+</section>
+<section class="panel" id="resultPanel">
+<h2>Твоя подборка <span class="muted" id="count"></span></h2>
+<div class="results" id="results"><div class="empty">Настрой критерии и нажми генерацию.</div></div>
 <div class="actions">
-  <button class="secondary" id="clearHistory" type="button">Очистить историю</button>
+<button class="secondary" id="copyAll">Копировать все</button>
+<button class="secondary" id="again">↻ Ещё варианты</button>
 </div>
+<div class="status" id="status" aria-live="polite">Готов к работе. Регистрация не нужна.</div>
+<div class="note"><b>Важно:</b> доступность ника на игровых серверах не проверяется. Формат имени зависит от правил конкретной игры.</div>
+<div class="subhead">Возможности NickForge</div>
+<span class="pill">17 стилей</span><span class="pill">До 30 вариантов</span>
+<span class="pill">Музыка</span><span class="pill">Звуковые эффекты</span>
+<span class="pill">Настройка громкости</span><span class="pill">Локальная история</span>
+<span class="pill">Без внешних библиотек</span>
 </section>
-
-<section class="panel">
-  <h2>Твоя подборка <span class="muted" id="count"></span></h2>
-
-  <div class="results" id="results">
-    <div class="empty">Настрой критерии и нажми кнопку генерации.</div>
-  </div>
-
-  <div class="actions">
-    <button class="secondary" id="copyAll" type="button">Копировать все</button>
-    <button class="secondary" id="again" type="button">↻ Ещё варианты</button>
-  </div>
-
-  <div class="status" id="status" aria-live="polite">
-    Работает в браузере. Регистрация не нужна.
-  </div>
-
-  <div class="note">
-    <b>Важно:</b> доступность ника на серверах игр не проверяется.
-    Правила платформ могут меняться. Генератор проверяет формат локально,
-    но не гарантирует, что имя свободно.
-  </div>
-
-  <div class="subhead">Возможности NickForge</div>
-  <span class="pill">До 30 вариантов</span>
-  <span class="pill">Локальная история</span>
-  <span class="pill">Без аккаунта</span>
-  <span class="pill">Работает офлайн</span>
-  <span class="pill">16 стилей</span>
-</section>
-
 </main>
-
 <footer>NickForge · Бесплатный генератор игровых никнеймов</footer>
 </div>
-
 <script>
 (() => {
 "use strict";
-
 const $ = id => document.getElementById(id);
-const STORAGE_KEY = "nickforge_history_v4";
-const MAX_HISTORY = 1000;
-
+const HISTORY_KEY = "nickforge_history_v5";
+const settingsKey = "nickforge_audio_v1";
+const themes = {
+all:       ["#00d5ff","Все стили смешаны"],
+game:      ["#00b9ff","Игровой"],
+immoral:   ["#ff5577","Провокационный"],
+ordinary:  ["#8da9c4","Обычный"],
+letters:   ["#a6a0ff","Абстрактный"],
+light:     ["#ffe28a","Светлый"],
+dark:      ["#9d85ff","Мрачный"],
+warrior:   ["#ff604d","Воин"],
+minimal:   ["#6fffd1","Минимализм"],
+fantasy:   ["#ce8cff","Фэнтези"],
+cyber:     ["#00ffd0","Киберпанк"],
+fun:       ["#ffbd59","Забавный"],
+nature:    ["#8de47b","Природа"],
+space:     ["#8f9cff","Космос"],
+myth:      ["#ffbd70","Мифология"],
+stealth:   ["#80a6d8","Скрытность"],
+royal:     ["#e6bdff","Королевский"]
+};
 const dictionaries = {
-en: {
-game: {
-a:["Nova","Raven","Frost","Blaze","Echo","Storm","Shadow","Ghost","Iron","Swift","Astra","Drift","Onyx","Rune","Royal","Eagle","Wolf","Silver","Crimson","Silent"],
-b:["Walker","Strike","Hunter","Blade","Spark","Rider","Forge","Knight","Hawk","Orbit","King","Claw","Keeper","Flame","Sentinel","Vanguard"]
-},
-immoral: {
-a:["Dirty","Nasty","Shameless","Lewd","Filthy","Rude","Freaky","Sleazy","Crude","Trashy"],
-b:["Goblin","Gremlin","Pervert","Punk","Clown","Rascal","Weirdo","Menace","Stinker","Bandit"]
-},
-ordinary: {
-a:["Quiet","Happy","Sleepy","Stubborn","Kind","Clever","Funny","Swift","Lucky","Local","Random","Serious","Lazy","Humble","Mellow"],
-b:["Player","Buddy","Raven","Fox","Walker","Rookie","Nomad","Otter","Marten","Badger","Comet"]
-},
-light: {
-a:["Sunny","Golden","Heavenly","Radiant","Rainbow","Lunar","Stellar","Bright","Pure","Peaceful","Morning","Gentle"],
-b:["Light","Angel","Phoenix","Eagle","Wanderer","Keeper","Knight","Falcon","Breeze","Dreamer","Wing","Beacon"]
-},
-dark: {
-a:["Dread","Noct","Grim","Raven","Umbra","Abyss","Wraith","Gloom","Night","Shade","Crypt","Vanta","Black","Doom","Blood","Void"],
-b:["Veil","Reaper","Whisper","Specter","Cinder","Phantom","Fang","Omen","Shroud","Howl","Cloak","Rook"]
-},
-warrior: {
-a:["Rage","Titan","Valor","Feral","Savage","Steel","Fury","Rogue","Saber","Dire","Valk","Iron","Battle","Brave"],
-b:["Breaker","Fang","Crusher","Slayer","Vanguard","Guard","Storm","Raptor","Striker","Blade","Sentinel","Spear"]
-},
-minimal: {
-a:["Zyn","Kai","Ryn","Vex","Nyx","Ari","Lux","Zen","Kiro","Nox","Rai","Eon","Axo","Neo","Qir","Vyn","Zeo"],
-b:["ix","on","ar","en","yx","or","ai","ex","um","is","ox","ra","yn","eth","ion","une"]
-},
-fantasy: {
-a:["Ael","Eld","Thal","Syl","Vael","Aer","Myth","Drae","Elun","Kael","Orin","Auri","Elar","Luna","Thorn"],
-b:["drin","thas","wyn","driel","mora","thiel","vorn","lith","rion","dara","mir","riel","dor","ion"]
-},
-cyber: {
-a:["Neon","Glitch","Proxy","Zero","Nex","Chrome","Synth","Byte","Hex","Static","Cryo","Flux","Cyber","Quantum"],
-b:["Ghost","Pulse","Link","Trace","Shift","Drive","Wave","Core","Cipher","Grid","Signal","Sync","Runner"]
-},
-fun: {
-a:["Mochi","Bumble","Pickle","Waffle","Noodle","Mango","Bongo","Tofu","Doodle","Kiwi","Panda","Sleepy","Lazy","Mega"],
-b:["Wizard","Bandit","Ninja","Goblin","Rocket","Muffin","Duck","Captain","Gremlin","Bunny","Toast","Pickle"]
-},
-nature: {
-a:["Wild","Mossy","River","Cedar","Silver","Autumn","Misty","Amber","Thorn","Willow"],
-b:["Fox","Pine","Brook","Wolf","Fern","Hawk","Otter","Grove","Finch","Stone"]
-},
-space: {
-a:["Cosmic","Lunar","Solar","Stellar","Nebula","Orbit","Nova","Astro","Quasar","Void"],
-b:["Pilot","Comet","Ranger","Drift","Pulse","Rover","Eclipse","Spark","Voyager","Star"]
-},
-myth: {
-a:["Odin","Aether","Atlas","Rune","Titan","Mythic","Orion","Ares","Nyx","Elder"],
-b:["Bearer","Warden","Sage","Rider","Oracle","Keeper","Fang","Crown","Flame","Oath"]
-},
-stealth: {
-a:["Silent","Hidden","Ghost","Cloak","Veiled","Shade","Phantom","Quiet","Dark","Swift"],
-b:["Step","Trace","Raven","Whisper","Fox","Drift","Cipher","Veil","Prowler","Signal"]
-},
-royal: {
-a:["Royal","Noble","Crown","Golden","Regal","Imperial","Sovereign","Velvet","Grand","Majestic"],
-b:["Knight","Heir","Duke","Rook","Crest","Guard","Prince","Warden","Throne","Lion"]
-}
-},
-
-ru: {
-game: {
-a:["Теневой","Грозовой","Стальной","Ледяной","Багровый","Северный","Дикий","Бесшумный","Быстрый","Звёздный","Пепельный","Ночной","Орлиный","Волчий","Огненный","Морозный","Штормовой"],
-b:["Ворон","Орёл","Волк","Сокол","Дракон","Рыцарь","Страж","Охотник","Клинок","Феникс","Титан","Следопыт","Хранитель","Ястреб","Призрак","Лис","Барс","Клык","Гром","Вихрь"]
-},
-immoral: {
-a:["Грязный","Пошлый","Бесстыжий","Развратный","Срамной","Похабный","Матёрый","Охреневший","Ебанутый","Блядский","Сраный","Трахнутый"],
-b:["Член","Хер","Пенис","Хуй","Пизда","Сперма","Говно","Дерьмо","Задница","Пердун","Ёбарь","Дрочер","Сракун","Трахарь"]
-},
-ordinary: {
-a:["Тихий","Весёлый","Сонный","Упрямый","Добрый","Хитрый","Смешной","Ловкий","Бодрый","Местный","Случайный","Серьёзный","Ленивый","Скромный","Удачливый"],
-b:["Парень","Игрок","Сосед","Тип","Кот","Пёс","Енот","Ворон","Бродяга","Мастер","Путник","Боец","Бублик"]
-},
-light: {
-a:["Светлый","Солнечный","Золотой","Небесный","Лучезарный","Радужный","Лунный","Звёздный","Добрый","Чистый","Ясный","Сияющий","Мирный"],
-b:["Луч","Ангел","Феникс","Орёл","Странник","Хранитель","Рыцарь","Сокол","Рассвет","Лис","Ветер","Маяк","Крыло"]
-},
-dark: {
-a:["Мрачный","Теневой","Могильный","Чёрный","Ночной","Багровый","Проклятый","Безликий","Забытый","Холодный","Пепельный","Кровавый","Зловещий"],
-b:["Ворон","Жнец","Призрак","Морок","Палач","Клык","Прах","Сумрак","Демон","Мрак","Каратель","Фантом","Некромант"]
-},
-warrior: {
-a:["Стальной","Яростный","Беспощадный","Несломленный","Боевой","Дикий","Железный","Грозный","Лютый","Неукротимый","Могучий","Закалённый","Бесстрашный"],
-b:["Воин","Берсерк","Крушитель","Рубака","Каратель","Боец","Гладиатор","Титан","Рыцарь","Завоеватель","Мечник","Дозорный"]
-},
-minimal: {
-a:["Зен","Нокс","Рин","Векс","Кай","Люкс","Най","Ари","Рэй","Вин","Зор","Эон","Нео","Зир","Кир"],
-b:["Икс","Он","Ар","Эн","Ор","Ай","Эк","Ум","Ис","Ра","Ин","Эр","Ир"]
-},
-fantasy: {
-a:["Древний","Эльфийский","Лунный","Рунный","Зачарованный","Золотой","Сумеречный","Мифический","Лесной","Королевский","Драконий","Туманный","Волшебный"],
-b:["Эльф","Дракон","Маг","Чародей","Паладин","Друид","Феникс","Грифон","Архонт","Вестник","Хранитель","Странник","Рыцарь"]
-},
-cyber: {
-a:["Неоновый","Цифровой","Квантовый","Синтетический","Виртуальный","Плазменный","Стальной","Скрытый","Бесшумный","Нулевой","Глючный"],
-b:["Призрак","Пульс","Пиксель","Код","Сигнал","Импульс","Аватар","Терминал","Драйвер","Протокол"]
-},
-fun: {
-a:["Сонный","Легендарный","Мега","Супер","Лютый","Крошечный","Деловой","Бешеный","Голодный","Уставший","Великий","Случайный"],
-b:["Пельмень","Енот","Кабачок","Батон","Бобёр","Пузырь","Котлета","Гусь","Носок","Бублик","Кекс","Пончик","Хомяк","Тапок","Капибара"]
-},
-nature: {
-a:["Лесной","Мшистый","Речной","Кедровый","Серебряный","Осенний","Туманный","Янтарный","Дикий","Ивовый"],
-b:["Лис","Сосна","Ручей","Волк","Папоротник","Ястреб","Выдра","Роща","Зяблик","Камень"]
-},
-space: {
-a:["Космический","Лунный","Солнечный","Звёздный","Туманный","Орбитальный","Новый","Астральный","Дальний","Пустотный"],
-b:["Пилот","Комета","Следопыт","Дрейф","Пульс","Странник","Затмение","Искра","Вояджер","Звездочёт"]
-},
-myth: {
-a:["Вещий","Древний","Титановый","Рунный","Мифический","Орлиный","Божественный","Северный","Грозовой","Мудрый"],
-b:["Хранитель","Страж","Мудрец","Всадник","Оракул","Кузнец","Клык","Корона","Пламя","Обет"]
-},
-stealth: {
-a:["Тихий","Скрытый","Призрачный","Незримый","Теневой","Бесшумный","Ночной","Ловкий","Тёмный","Быстрый"],
-b:["Шаг","След","Ворон","Шёпот","Лис","Дрейф","Шифр","Покров","Лазутчик","Сигнал"]
-},
-royal: {
-a:["Королевский","Знатный","Золотой","Царственный","Имперский","Величавый","Бархатный","Высокий","Великий","Благородный"],
-b:["Рыцарь","Наследник","Герцог","Ладья","Герб","Страж","Принц","Хранитель","Трон","Лев"]
-}
-}
+game:["Nova","Raven","Frost","Blaze","Echo","Storm","Shadow","Ghost","Iron","Swift","Astra","Drift","Onyx","Rune","Wolf","Silver","Hunter","Strike","Blade","Spark","Knight","Hawk","Orbit","Claw","Vanguard","Теневой","Грозовой","Стальной","Ледяной","Ворон","Волк","Дракон","Охотник","Клинок"],
+immoral:["Dirty","Nasty","Shameless","Crude","Trashy","Goblin","Gremlin","Punk","Clown","Menace","Грязный","Бесстыжий","Пошлый","Хулиган","Проказник","Беспредельщик"],
+ordinary:["Quiet","Happy","Sleepy","Kind","Clever","Funny","Lucky","Random","Lazy","Player","Buddy","Rookie","Nomad","Otter","Тихий","Весёлый","Сонный","Добрый","Хитрый","Игрок","Сосед","Енот","Бублик"],
+letters:["Zyn","Vex","Nyx","Ari","Lux","Zen","Kiro","Nox","Rai","Eon","Axo","Neo","Qir","Vyn","Зен","Нокс","Рин","Кай","Люкс","Най","Рэй","Вин","Эон","Зир"],
+light:["Sunny","Golden","Radiant","Lunar","Stellar","Bright","Pure","Angel","Phoenix","Dreamer","Beacon","Солнечный","Золотой","Небесный","Лучезарный","Лунный","Сияющий","Ангел","Рассвет","Маяк"],
+dark:["Dread","Noct","Grim","Umbra","Abyss","Wraith","Gloom","Shade","Crypt","Vanta","Reaper","Specter","Phantom","Мрачный","Ночной","Проклятый","Безликий","Кровавый","Жнец","Призрак","Мрак","Фантом"],
+warrior:["Rage","Titan","Valor","Feral","Savage","Steel","Fury","Saber","Iron","Breaker","Crusher","Slayer","Vanguard","Striker","Стальной","Яростный","Беспощадный","Берсерк","Каратель","Гладиатор","Завоеватель","Рубака"],
+minimal:["Zyn","Kai","Ryn","Vex","Nyx","Ari","Lux","Zen","Nox","Rai","Eon","Neo","Зен","Нокс","Рин","Векс","Кай","Люкс","Рэй","Нео"],
+fantasy:["Ael","Eld","Thal","Syl","Vael","Aer","Myth","Drae","Kael","Orin","Drin","Thas","Wyn","Driel","Эльф","Дракон","Маг","Чародей","Паладин","Друид","Грифон","Архонт","Волшебный","Рунный"],
+cyber:["Neon","Glitch","Proxy","Zero","Nex","Chrome","Synth","Byte","Hex","Static","Flux","Cipher","Grid","Signal","Неоновый","Цифровой","Квантовый","Пиксель","Протокол","Терминал","Импульс","Глюк"],
+fun:["Mochi","Bumble","Pickle","Waffle","Noodle","Mango","Bongo","Tofu","Doodle","Kiwi","Panda","Wizard","Bandit","Muffin","Duck","Mochi","Пельмень","Енот","Кабачок","Батон","Бобёр","Котлета","Гусь","Бублик","Кекс","Пончик","Хомяк","Тапок"],
+nature:["Wild","Mossy","River","Cedar","Autumn","Misty","Amber","Willow","Fox","Pine","Brook","Wolf","Fern","Hawk","Лесной","Речной","Кедровый","Туманный","Янтарный","Лис","Волк","Роща","Камень","Папоротник"],
+space:["Cosmic","Lunar","Solar","Stellar","Nebula","Orbit","Nova","Astro","Quasar","Void","Pilot","Comet","Ranger","Drift","Voyager","Космический","Звёздный","Орбитальный","Комета","Странник","Затмение","Звездочёт"],
+myth:["Odin","Aether","Atlas","Rune","Titan","Orion","Ares","Nyx","Elder","Oracle","Keeper","Oath","Вещий","Древний","Титановый","Божественный","Оракул","Хранитель","Мудрец","Корона","Обет"],
+stealth:["Silent","Hidden","Ghost","Cloak","Veiled","Shade","Phantom","Quiet","Swift","Whisper","Trace","Cipher","Prowler","Тихий","Скрытый","Призрачный","Незримый","Бесшумный","Шёпот","Шифр","Лазутчик"],
+royal:["Royal","Noble","Crown","Golden","Regal","Imperial","Sovereign","Velvet","Majestic","Knight","Heir","Duke","Crest","Prince","Throne","Королевский","Знатный","Золотой","Царственный","Имперский","Рыцарь","Наследник","Герцог","Принц","Трон"]
 };
-
 const profiles = {
-  custom:{min:5,max:12,hint:"Задай собственные ограничения."},
-  steam:{min:3,max:20,hint:"Настройки для отображаемого имени профиля Steam. Это не логин."},
-  roblox:{min:3,max:20,hint:"Для Roblox обычно используются латинские буквы, цифры и подчёркивание. Проверяй актуальные правила платформы."},
-  minecraft:{min:3,max:16,hint:"Minecraft Java: обычно 3–16 символов, латиница, цифры и подчёркивание."}
+custom:{min:5,max:12,hint:"Задай собственные ограничения."},
+steam:{min:3,max:20,hint:"Имя профиля Steam. Это не логин."},
+roblox:{min:3,max:20,hint:"Латиница, цифры и подчёркивание; проверь актуальные правила Roblox."},
+minecraft:{min:3,max:16,hint:"Minecraft Java: латиница, цифры и подчёркивание, максимум 16 символов."}
 };
-
-const pick = arr => arr[Math.floor(Math.random()*arr.length)];
-const randInt = (min,max) => Math.floor(Math.random()*(max-min+1))+min;
-
-const translit = {
-"а":"a","б":"b","в":"v","г":"g","д":"d","е":"e","ё":"yo",
-"ж":"zh","з":"z","и":"i","й":"y","к":"k","л":"l","м":"m",
-"н":"n","о":"o","п":"p","р":"r","с":"s","т":"t","у":"u",
-"ф":"f","х":"kh","ц":"ts","ч":"ch","ш":"sh","щ":"shch",
-"ъ":"","ы":"y","ь":"","э":"e","ю":"yu","я":"ya"
-};
-
-function toLatin(str) {
-  return Array.from(str).map(ch => {
-    const v=translit[ch.toLowerCase()];
-    if(v===undefined)return ch;
-    return ch===ch.toUpperCase()
-      ?v.charAt(0).toUpperCase()+v.slice(1)
-      :v;
-  }).join("");
-}
-
-function toCyrillic(str) {
-  const pairs=[
-    ["shch","щ"],["sch","щ"],["yo","ё"],["zh","ж"],
-    ["kh","х"],["ts","ц"],["ch","ч"],["sh","ш"],
-    ["yu","ю"],["ya","я"],["a","а"],["b","б"],
-    ["v","в"],["g","г"],["d","д"],["e","е"],
-    ["z","з"],["i","и"],["y","й"],["k","к"],
-    ["l","л"],["m","м"],["n","н"],["o","о"],
-    ["p","п"],["r","р"],["s","с"],["t","т"],
-    ["u","у"],["f","ф"],["h","х"],["c","к"],
-    ["w","в"],["x","кс"],["j","дж"],["q","к"]
-  ];
-
-  let out=str.toLowerCase();
-  for(const [from,to] of pairs) {
-    out=out.replace(new RegExp(from,"g"),to);
-  }
-  return out;
-}
-
-function cleanOwn(value,alphabet) {
-  let word=value.trim().replace(/[^a-zA-Zа-яА-ЯёЁ0-9]/g,"");
-  if(alphabet==="latin")word=toLatin(word);
-  if(alphabet==="cyrillic")word=toCyrillic(word);
-  return word;
-}
-
-function readHistory() {
-  try {
-    const data=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
-    return Array.isArray(data)
-      ?data.filter(x=>typeof x==="string").map(x=>x.toLowerCase()).slice(-MAX_HISTORY)
-      :[];
-  } catch {
-    return [];
-  }
-}
-
-let history=readHistory();
+let history = [];
+try {
+ const stored = JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]");
+ if(Array.isArray(stored)) history=stored.filter(x=>typeof x==="string").slice(-1000);
+} catch {}
 let latest=[];
-
-function saveHistory() {
-  history=[...new Set(history)].slice(-MAX_HISTORY);
-  try {
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(history));
-  } catch {}
+let audioCtx=null;
+let masterGain=null;
+let musicGain=null;
+let fxGain=null;
+let musicTimer=null;
+let musicStep=0;
+let muted=false;
+let audioReady=false;
+function randomInt(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function shuffle(a){return a.map(v=>({v,r:Math.random()})).sort((x,y)=>x.r-y.r).map(x=>x.v)}
+function setStatus(msg,kind=""){
+ $("status").textContent=msg;
+ $("status").className="status "+kind;
 }
-
-function setStatus(message,kind="") {
-  $("status").textContent=message;
-  $("status").className="status "+kind;
+function applyTheme(){
+ const t=themes[$("style").value]||themes.all;
+ document.documentElement.style.setProperty("--accent",t[0]);
+ document.documentElement.style.setProperty("--accent2",t[0]);
+ document.documentElement.style.setProperty("--glow",t[0]+"24");
+ $("styleHint").textContent="Акцент: "+t[1]+". Цвет интерфейса меняется вместе со стилем.";
 }
-
-function getSettings() {
-  let min=Number.parseInt($("min").value,10);
-  let max=Number.parseInt($("max").value,10);
-
-  if(!Number.isFinite(min))min=5;
-  if(!Number.isFinite(max))max=12;
-
-  min=Math.max(3,Math.min(20,min));
-  max=Math.max(3,Math.min(20,max));
-
-  const platform=$("platform").value;
-
-  if(platform==="minecraft")max=Math.min(max,16);
-  if(min>max)min=max;
-
-  let alphabet=$("alphabet").value;
-  const digits=$("digits").value;
-  const symbols=$("symbols").value;
-
-  if(platform==="roblox"||platform==="minecraft")alphabet="latin";
-
-  $("min").value=min;
-  $("max").value=max;
-
-  return {
-    min,max,platform,
-    style:$("style").value,
-    alphabet,digits,symbols,
-    letterCase:$("case").value,
-    noRepeat:$("noRepeat").checked,
-    unique:$("unique").checked,
-    smart:$("smart").checked,
-    own:cleanOwn($("own").value,alphabet),
-    ownMode:$("ownMode").value,
-    blocked:$("blocked").value.toLowerCase()
-      .split(/[,;\n]+/).map(x=>x.trim()).filter(Boolean),
-    quantity:Number($("quantity").value)
-  };
+function saveAudioSettings(){
+ try{
+  localStorage.setItem(settingsKey,JSON.stringify({
+   master:$("masterVolume").value,
+   music:$("musicVolume").value,
+   fx:$("fxVolume").value,
+   musicOn:$("musicOn").checked,
+   fxOn:$("fxOn").checked,
+   visualOn:$("visualOn").checked
+  }));
+ }catch{}
 }
-
-function chooseAlphabet(s) {
-  if(s.alphabet==="mixed")return Math.random()<0.5?"latin":"cyrillic";
-  return s.alphabet;
+function loadAudioSettings(){
+ try{
+  const s=JSON.parse(localStorage.getItem(settingsKey)||"null");
+  if(!s)return;
+  if(s.master!==undefined)$("masterVolume").value=s.master;
+  if(s.music!==undefined)$("musicVolume").value=s.music;
+  if(s.fx!==undefined)$("fxVolume").value=s.fx;
+  $("musicOn").checked=!!s.musicOn;
+  $("fxOn").checked=s.fxOn!==false;
+  $("visualOn").checked=s.visualOn!==false;
+ }catch{}
+ updateVolumeLabels();
+ updateVisuals();
 }
-
-function buildBase(s) {
-  if(s.style==="letters") {
-    const selected=chooseAlphabet(s);
-    const chars=selected==="cyrillic"
-      ?"абвгдежзийклмнопрстуфхцчшщэюя"
-      :"abcdefghijklmnopqrstuvwxyz";
-    let out="";
-    for(let i=0;i<randInt(s.min,s.max);i++)out+=pick(Array.from(chars));
-    return out;
-  }
-
-  const lang=chooseAlphabet(s)==="cyrillic"?"ru":"en";
-  const words=dictionaries[lang][s.style]||dictionaries[lang].game;
-  const a=pick(words.a);
-  const b=pick(words.b);
-
-  const forms=s.smart
-    ?[a+b,a+b,b+a,a.slice(0,Math.min(4,a.length))+b,
-      a+b.slice(0,Math.min(4,b.length)),
-      b+a.slice(0,Math.min(3,a.length))]
-    :[a+b,b+a,a.slice(0,4)+b.slice(0,4),a,b];
-
-  return pick(forms);
+function updateVolumeLabels(){
+ $("masterLabel").textContent=$("masterVolume").value+"%";
+ $("musicLabel").textContent=$("musicVolume").value+"%";
+ $("fxLabel").textContent=$("fxVolume").value+"%";
+ if(masterGain)masterGain.gain.value=muted?0:Number($("masterVolume").value)/100;
+ if(musicGain)musicGain.gain.value=$("musicOn").checked?Number($("musicVolume").value)/100:0;
+ if(fxGain)fxGain.gain.value=$("fxOn").checked?Number($("fxVolume").value)/100:0;
+ $("muteAll").textContent=muted?"Звук: выкл.":"Звук: вкл.";
 }
-
-function makeCandidate(s) {
-  const requiredDigits=s.digits==="yes"?1:0;
-  const requiredSymbol=s.symbols==="yes"?1:0;
-  const contentMax=s.max-requiredDigits-requiredSymbol;
-
-  let name=buildBase(s);
-  const own=s.own;
-
-  if(own) {
-    if(s.ownMode==="prefix")name=own+name;
-    else if(s.ownMode==="suffix")name=name+own;
-    else name=Math.random()<0.5?own+name:name+own;
-  }
-
-  if(name.length>contentMax) {
-    if(own && s.ownMode==="suffix") {
-      name=name.slice(0,Math.max(0,contentMax-own.length))+own;
-    } else if(own && s.ownMode==="prefix") {
-      name=own+name.slice(own.length,Math.max(own.length,contentMax));
-    } else if(own) {
-      name=name.startsWith(own)
-        ?own+name.slice(own.length,Math.max(own.length,contentMax))
-        :name.slice(0,Math.max(0,contentMax-own.length))+own;
-    } else {
-      name=name.slice(0,contentMax);
-    }
-  }
-
-  if(own && !name.toLowerCase().includes(own.toLowerCase()))return "";
-
-  const selected=chooseAlphabet(s);
-  const filler=selected==="cyrillic"
-    ?"абвгдежзийклмнопрстуфхцчшщэюя"
-    :"abcdefghijklmnopqrstuvwxyz";
-
-  while(name.length<Math.min(s.min,contentMax)) {
-    name+=s.style==="letters"?pick(Array.from(filler)):pick(["x","n","r","v","z"]);
-  }
-
-  if(s.digits==="yes" || (s.digits==="optional"&&Math.random()<0.3)) {
-    if(name.length<s.max)name+=String(randInt(0,9));
-  }
-
-  if(s.symbols==="yes" || (s.symbols==="optional"&&Math.random()<0.18)) {
-    const symbol=(s.platform==="roblox"||s.platform==="minecraft")
-      ?"_":pick(["_","-"]);
-
-    if(name.length<s.max && name.length>1) {
-      const pos=randInt(1,name.length-1);
-      name=name.slice(0,pos)+symbol+name.slice(pos);
-    }
-  }
-
-  if(s.letterCase==="upper") {
-    name=name.charAt(0).toLocaleUpperCase("ru-RU")+name.slice(1);
-  }
-
-  if(s.letterCase==="lower") {
-    name=name.charAt(0).toLocaleLowerCase("ru-RU")+name.slice(1);
-  }
-
-  return name;
+function updateVisuals(){
+ document.body.classList.toggle("no-motion",!$("visualOn").checked);
+ saveAudioSettings();
 }
-
-function valid(name,s) {
-  if(!name || name.length<s.min || name.length>s.max)return false;
-
-  if(!/^[A-Za-zА-Яа-яЁё0-9_-]+$/.test(name))return false;
-
-  if(s.alphabet==="latin"&&!/^[A-Za-z0-9_-]+$/.test(name))return false;
-  if(s.alphabet==="cyrillic"&&!/^[А-Яа-яЁё0-9_-]+$/.test(name))return false;
-
-  if(s.digits==="no"&&/\d/.test(name))return false;
-  if(s.digits==="yes"&&!/\d/.test(name))return false;
-
-  if(s.symbols==="no"&&/[_-]/.test(name))return false;
-  if(s.symbols==="yes"&&!/[_-]/.test(name))return false;
-
-  if(s.noRepeat&&/(.)\1/iu.test(name))return false;
-
-  if(s.blocked.some(word=>name.toLocaleLowerCase().includes(word)))return false;
-
-  if(s.own&&!name.toLocaleLowerCase().includes(s.own.toLocaleLowerCase()))return false;
-
-  if(s.letterCase==="upper"&&!/^[A-ZА-ЯЁ]/.test(name))return false;
-  if(s.letterCase==="lower"&&!/^[a-zа-яё]/.test(name))return false;
-
-  if(s.platform==="roblox") {
-    if(!/^[A-Za-z0-9_]+$/.test(name))return false;
-    if(name.startsWith("_")||name.endsWith("_"))return false;
-    if((name.match(/_/g)||[]).length>1)return false;
+async function initAudio(){
+ const AC=window.AudioContext||window.webkitAudioContext;
+ if(!AC){setStatus("Этот браузер не поддерживает Web Audio API.");return false}
+ try{
+  if(!audioCtx){
+   audioCtx=new AC();
+   masterGain=audioCtx.createGain();
+   musicGain=audioCtx.createGain();
+   fxGain=audioCtx.createGain();
+   musicGain.connect(masterGain);
+   fxGain.connect(masterGain);
+   masterGain.connect(audioCtx.destination);
+   audioReady=true;
+   updateVolumeLabels();
   }
-
-  if(s.platform==="minecraft") {
-    if(!/^[A-Za-z0-9_]+$/.test(name)||name.length>16)return false;
-  }
-
+  if(audioCtx.state==="suspended")await audioCtx.resume();
   return true;
+ }catch(e){return false}
 }
-
-function validateSettings(s) {
-  const reserved=(s.digits==="yes"?1:0)+(s.symbols==="yes"?1:0);
-
-  if(s.own && s.own.length>s.max) {
-    return "Своё слово длиннее максимальной длины ника. Сократи его или увеличь максимум.";
-  }
-
-  if(s.min>s.max) {
-    return "Минимальная длина не может быть больше максимальной.";
-  }
-
-  if(s.max-reserved<s.min && s.digits==="yes" && s.symbols==="yes") {
-    return "Для обязательных цифр и символов не хватает места. Увеличь максимальную длину.";
-  }
-
-  if(s.own && s.own.length+reserved>s.max) {
-    return "Своё слово вместе с обязательными цифрами и символами не помещается в ник.";
-  }
-
-  if(s.platform==="roblox" && s.symbols==="yes" && s.max<4) {
-    return "Для Roblox не хватает длины, чтобы добавить обязательное подчёркивание.";
-  }
-
-  $("platformHint").textContent=profiles[s.platform].hint+
-    ((s.platform==="roblox"||s.platform==="minecraft")
-      ?" Алфавит ограничен латиницей.":"");
-
-  return "";
+function tone(freq,duration,type="sine",volume=.3,when=0){
+ if(!audioCtx||!fxGain||!$("fxOn").checked||muted)return;
+ const osc=audioCtx.createOscillator();
+ const gain=audioCtx.createGain();
+ const t=audioCtx.currentTime+when;
+ osc.type=type;
+ osc.frequency.setValueAtTime(freq,t);
+ gain.gain.setValueAtTime(0.0001,t);
+ gain.gain.exponentialRampToValueAtTime(Math.max(.001,volume),t+.015);
+ gain.gain.exponentialRampToValueAtTime(.0001,t+duration);
+ osc.connect(gain);gain.connect(fxGain);
+ osc.start(t);osc.stop(t+duration+.03);
 }
-
-function render() {
-  $("count").textContent=`· ${latest.length} из ${$("quantity").value}`;
-  const root=$("results");
-  root.replaceChildren();
-
-  if(!latest.length) {
-    const empty=document.createElement("div");
-    empty.className="empty";
-    empty.textContent="Подходящие ники не найдены. Ослабь ограничения и попробуй снова.";
-    root.append(empty);
-    return;
-  }
-
-  latest.forEach(name=>{
-    const card=document.createElement("div");
-    card.className="nick";
-
-    const info=document.createElement("div");
-    info.style.minWidth="0";
-
-    const label=document.createElement("div");
-    label.className="nick-name";
-    label.textContent=name;
-
-    const meta=document.createElement("div");
-    meta.className="nick-info";
-    meta.textContent=`${Array.from(name).length} символов`;
-
-    info.append(label,meta);
-
-    const button=document.createElement("button");
-    button.className="copy";
-    button.type="button";
-    button.textContent="Копировать";
-    button.addEventListener("click",()=>copyText(name));
-
-    card.append(info,button);
-    root.append(card);
-  });
+function playEffect(type){
+ if(!audioCtx||!audioReady)return;
+ if(type==="generate"){
+  tone(440,.11,"triangle",.22);
+  tone(660,.14,"triangle",.18,.09);
+  tone(880,.18,"sine",.14,.18);
+ }else if(type==="copy"){
+  tone(760,.07,"sine",.17);
+  tone(1050,.09,"sine",.13,.07);
+ }else{
+  tone(500,.045,"sine",.07);
+ }
 }
-
-async function copyText(value) {
-  try {
-    if(navigator.clipboard&&window.isSecureContext) {
-      await navigator.clipboard.writeText(value);
-      setStatus("Скопировано в буфер обмена.","good");
-      return;
-    }
-  } catch {}
-
-  try {
-    const area=document.createElement("textarea");
-    area.value=value;
-    area.setAttribute("readonly","");
-    area.style.position="fixed";
-    area.style.opacity="0";
-    document.body.append(area);
-    area.select();
-
-    const ok=document.execCommand("copy");
-    area.remove();
-
-    setStatus(
-      ok
-        ?"Скопировано в буфер обмена."
-        :"Не удалось скопировать. Выдели текст и скопируй вручную.",
-      ok?"good":"bad"
-    );
-  } catch {
-    setStatus("Не удалось скопировать. Выдели текст и скопируй вручную.","bad");
-  }
+function musicNote(){
+ if(!audioCtx||!musicGain||!$("musicOn").checked||muted)return;
+ const scale=[0,3,7,10,12,10,7,3];
+ const base=110;
+ const note=base*Math.pow(2,scale[musicStep%scale.length]/12);
+ const t=audioCtx.currentTime;
+ const osc=audioCtx.createOscillator();
+ const g=audioCtx.createGain();
+ osc.type="triangle";
+ osc.frequency.setValueAtTime(note,t);
+ g.gain.setValueAtTime(.0001,t);
+ g.gain.exponentialRampToValueAtTime(.055,t+.04);
+ g.gain.exponentialRampToValueAtTime(.0001,t+.48);
+ osc.connect(g);g.connect(musicGain);
+ osc.start(t);osc.stop(t+.5);
+ if(musicStep%4===0){
+  const pad=audioCtx.createOscillator();
+  const pg=audioCtx.createGain();
+  pad.type="sine";pad.frequency.value=note*2;
+  pg.gain.setValueAtTime(.0001,t);
+  pg.gain.exponentialRampToValueAtTime(.018,t+.1);
+  pg.gain.exponentialRampToValueAtTime(.0001,t+.8);
+  pad.connect(pg);pg.connect(musicGain);
+  pad.start(t);pad.stop(t+.82);
+ }
+ musicStep++;
 }
-
-function generate() {
-  const s=getSettings();
-  const problem=validateSettings(s);
-
-  if(problem) {
-    latest=[];
-    render();
-    setStatus(problem,"bad");
-    return;
-  }
-
-  const found=[];
-  const local=new Set();
-  const seen=new Set(s.unique?history:[]);
-  const maxAttempts=40000;
-  let attempts=0;
-
-  while(found.length<s.quantity && attempts<maxAttempts) {
-    attempts++;
-
-    const name=makeCandidate(s);
-    const key=name.toLocaleLowerCase();
-
-    if(!valid(name,s))continue;
-    if(local.has(key))continue;
-    if(seen.has(key))continue;
-
-    local.add(key);
-    found.push(name);
-  }
-
-  latest=found;
-
-  if(s.unique) {
-    history.push(...found.map(x=>x.toLocaleLowerCase()));
-    history=[...new Set(history)].slice(-MAX_HISTORY);
-    saveHistory();
-  }
-
-  render();
-
-  if(found.length===s.quantity) {
-    setStatus(
-      `Готово: ${found.length} вариантов. Результаты проверены по заданным ограничениям.`,
-      "good"
-    );
-  } else {
-    setStatus(
-      `Получилось ${found.length} из ${s.quantity}. Возможно, ограничения слишком строгие или подходящие варианты закончились в истории. Ослабь ограничения или очисти историю.`,
-      "bad"
-    );
-  }
+function startMusic(){
+ if(musicTimer)clearInterval(musicTimer);
+ musicTimer=null;
+ if(!$("musicOn").checked||muted)return;
+ initAudio().then(ok=>{
+  if(!ok)return;
+  musicNote();
+  musicTimer=setInterval(musicNote,480);
+ });
 }
-
+function stopMusic(){
+ if(musicTimer)clearInterval(musicTimer);
+ musicTimer=null;
+}
+async function audioInteraction(type){
+ await initAudio();
+ updateVolumeLabels();
+ if($("musicOn").checked&&!muted)startMusic();
+ if(type)playEffect(type);
+}
+function particles(){
+ if(!$("visualOn").checked)return;
+ const color=themes[$("style").value][0];
+ for(let i=0;i<22;i++){
+  const p=document.createElement("span");
+  p.className="particle";
+  p.style.background=color;
+  p.style.boxShadow="0 0 10px "+color;
+  p.style.left=(20+Math.random()*60)+"vw";
+  p.style.top=(25+Math.random()*40)+"vh";
+  p.style.setProperty("--dx",(Math.random()*240-120)+"px");
+  p.style.setProperty("--dy",(Math.random()*-230-20)+"px");
+  document.body.append(p);
+  setTimeout(()=>p.remove(),900);
+ }
+ $("resultPanel").style.animation="flash .55s ease";
+ setTimeout(()=>$("resultPanel").style.animation="",600);
+}
+function normalizeAlphabet(word,alphabet){
+ let s=word;
+ if(alphabet==="latin"){
+  const map={"а":"a","б":"b","в":"v","г":"g","д":"d","е":"e","ё":"yo","ж":"zh","з":"z","и":"i","й":"y","к":"k","л":"l","м":"m","н":"n","о":"o","п":"p","р":"r","с":"s","т":"t","у":"u","ф":"f","х":"h","ц":"ts","ч":"ch","ш":"sh","щ":"shch","ъ":"","ы":"y","ь":"","э":"e","ю":"yu","я":"ya"};
+  s=Array.from(s.toLowerCase()).map(c=>map[c]??c).join("");
+ }else if(alphabet==="cyrillic"){
+  const map={a:"а",b:"б",c:"к",d:"д",e:"е",f:"ф",g:"г",h:"х",i:"и",j:"дж",k:"к",l:"л",m:"м",n:"н",o:"о",p:"п",q:"к",r:"р",s:"с",t:"т",u:"у",v:"в",w:"в",x:"кс",y:"й",z:"з"};
+  s=Array.from(s.toLowerCase()).map(c=>map[c]??c).join("");
+ }
+ return s.replace(/[^a-zA-Zа-яА-ЯёЁ0-9]/g,"");
+}
+function settings(){
+ let min=Math.max(3,Math.min(20,parseInt($("min").value,10)||5));
+ let max=Math.max(3,Math.min(20,parseInt($("max").value,10)||12));
+ const platform=$("platform").value;
+ if(platform==="minecraft")max=Math.min(max,16);
+ if(min>max)min=max;
+ $("min").value=min;$("max").value=max;
+ let alphabet=$("alphabet").value;
+ if(platform==="roblox"||platform==="minecraft")alphabet="latin";
+ const own=normalizeAlphabet($("own").value,alphabet);
+ return {
+  min,max,platform,alphabet,style:$("style").value,
+  digits:$("digits").value,symbols:$("symbols").value,
+  letterCase:$("case").value,
+  noRepeat:$("noRepeat").checked,unique:$("unique").checked,
+  smart:$("smart").checked,own,ownMode:$("ownMode").value,
+  blocked:$("blocked").value.toLowerCase().split(/[,;\n]+/).map(x=>normalizeAlphabet(x.trim(),alphabet).toLowerCase()).filter(Boolean),
+  quantity:Number($("quantity").value)
+ };
+}
+function randomAlphabet(s){
+ if(s.alphabet==="mixed")return Math.random()<.5?"latin":"cyrillic";
+ return s.alphabet;
+}
+function buildBase(s){
+ const style=s.style==="all"?pick(Object.keys(dictionaries)):s.style;
+ if(style==="letters"){
+  const a=randomAlphabet(s)==="cyrillic"?"абвгдежзийклмнопрстуфхцчшщэюя":"abcdefghijklmnopqrstuvwxyz";
+  return Array.from({length:randomInt(s.min,s.max)},()=>pick(Array.from(a))).join("");
+ }
+ let words=dictionaries[style]||dictionaries.game;
+ let first=pick(words);
+ let second=pick(dictionaries[style]||dictionaries.game);
+ if(s.style==="all"&&Math.random()<.7)second=pick(dictionaries[pick(Object.keys(dictionaries))]);
+ let name;
+ if(s.smart){
+  name=pick([first+second,first+second,second+first,first.slice(0,Math.min(4,first.length))+second,first+second.slice(0,Math.min(4,second.length))]);
+ }else name=pick([first+second,second+first,first,second,first.slice(0,4)+second.slice(0,4)]);
+ if(s.alphabet==="latin")name=normalizeAlphabet(name,"latin");
+ if(s.alphabet==="cyrillic")name=normalizeAlphabet(name,"cyrillic");
+ if(s.alphabet==="mixed"&&Math.random()<.35){
+  name=normalizeAlphabet(name,"latin");
+ }
+ return name;
+}
+function candidate(s){
+ const mandatory=(s.digits==="yes"?1:0)+(s.symbols==="yes"?1:0);
+ const cap=s.max-mandatory;
+ if(cap<1)return "";
+ let name=buildBase(s);
+ const own=s.own;
+ if(own){
+  if(s.ownMode==="prefix")name=own+name;
+  else if(s.ownMode==="suffix")name=name+own;
+  else name=Math.random()<.5?own+name:name+own;
+ }
+ if(name.length>cap){
+  if(own&&s.ownMode==="prefix")name=own+name.slice(own.length,cap);
+  else if(own&&s.ownMode==="suffix")name=name.slice(0,cap-own.length)+own;
+  else if(own){
+   name=name.startsWith(own)?own+name.slice(own.length,cap):name.slice(0,cap-own.length)+own;
+  }else name=name.slice(0,cap);
+ }
+ if(own&&!name.toLowerCase().includes(own.toLowerCase()))return "";
+ const alphabet=randomAlphabet(s);
+ const filler=alphabet==="cyrillic"?"абвгдежзийклмнопрстуфхцчшщэюя":"abcdefghijklmnopqrstuvwxyz";
+ while(name.length<Math.min(s.min,cap))name+=pick(Array.from(filler));
+ if(s.digits==="yes"||(s.digits==="optional"&&Math.random()<.25)){
+  if(name.length<s.max)name+=randomInt(0,9);
+ }
+ if(s.symbols==="yes"||(s.symbols==="optional"&&Math.random()<.15)){
+  if(name.length<s.max&&name.length>1){
+   const symbol=(s.platform==="roblox"||s.platform==="minecraft")?"_":pick(["_","-"]);
+   const pos=randomInt(1,name.length-1);
+   name=name.slice(0,pos)+symbol+name.slice(pos);
+  }
+ }
+ if(s.letterCase==="upper")name=name.charAt(0).toUpperCase()+name.slice(1);
+ if(s.letterCase==="lower")name=name.charAt(0).toLowerCase()+name.slice(1);
+ return name;
+}
+function valid(name,s){
+ if(!name||name.length<s.min||name.length>s.max)return false;
+ if(!/^[A-Za-zА-Яа-яЁё0-9_-]+$/.test(name))return false;
+ if(s.platform==="roblox"||s.platform==="minecraft"){
+  if(!/^[A-Za-z0-9_]+$/.test(name))return false;
+ }
+ if(s.platform==="roblox"&&(name.startsWith("_")||name.endsWith("_")||(name.match(/_/g)||[]).length>1))return false;
+ if(s.alphabet==="latin"&&!/^[A-Za-z0-9_-]+$/.test(name))return false;
+ if(s.alphabet==="cyrillic"&&!/^[А-Яа-яЁё0-9_-]+$/.test(name))return false;
+ if(s.digits==="no"&&/\d/.test(name))return false;
+ if(s.digits==="yes"&&!/\d/.test(name))return false;
+ if(s.symbols==="no"&&/[_-]/.test(name))return false;
+ if(s.symbols==="yes"&&!/[_-]/.test(name))return false;
+ if(s.noRepeat&&/(.)\1/iu.test(name))return false;
+ if(s.blocked.some(w=>w&&name.toLowerCase().includes(w)))return false;
+ if(s.own&&!name.toLowerCase().includes(s.own.toLowerCase()))return false;
+ if(s.letterCase==="upper"&&!/^[A-ZА-ЯЁ]/.test(name))return false;
+ if(s.letterCase==="lower"&&!/^[a-zа-яё]/.test(name))return false;
+ return true;
+}
+function validate(s){
+ const mandatory=(s.digits==="yes"?1:0)+(s.symbols==="yes"?1:0);
+ if(s.own&&s.own.length>s.max)return "Своё слово длиннее максимальной длины.";
+ if(s.max-mandatory<s.min)return "Не хватает места для обязательных цифр и символов.";
+ if(s.own&&s.own.length+mandatory>s.max)return "Своё слово и обязательные элементы не помещаются в ник.";
+ if(s.platform==="roblox"&&s.symbols==="yes")return "Для Roblox обязательный символ может конфликтовать с правилами имени. Выбери «Разрешены» или «Запрещены».";
+ $("platformHint").textContent=profiles[s.platform].hint;
+ return "";
+}
+function render(){
+ $("count").textContent="· "+latest.length+" из "+$("quantity").value;
+ const root=$("results");
+ root.replaceChildren();
+ if(!latest.length){
+  const empty=document.createElement("div");
+  empty.className="empty";
+  empty.textContent="Подходящие ники не найдены. Ослабь ограничения или очисти историю.";
+  root.append(empty);return;
+ }
+ latest.forEach((name,i)=>{
+  const card=document.createElement("div");card.className="nick";
+  card.style.animationDelay=Math.min(i*.035,.4)+"s";
+  const info=document.createElement("div");info.style.minWidth="0";
+  const title=document.createElement("div");title.className="nick-name";title.textContent=name;
+  const meta=document.createElement("div");meta.className="nick-info";meta.textContent=Array.from(name).length+" символов · "+(themes[$("style").value]||themes.all)[1];
+  info.append(title,meta);
+  const btn=document.createElement("button");btn.className="copy";btn.textContent="Копировать";btn.type="button";
+  btn.addEventListener("click",()=>copyText(name));
+  card.append(info,btn);root.append(card);
+ });
+}
+async function copyText(value){
+ try{
+  if(navigator.clipboard&&window.isSecureContext){
+   await navigator.clipboard.writeText(value);
+  }else{
+   const area=document.createElement("textarea");
+   area.value=value;area.style.position="fixed";area.style.opacity="0";
+   document.body.append(area);area.select();
+   const ok=document.execCommand("copy");area.remove();
+   if(!ok)throw new Error("copy failed");
+  }
+  setStatus("Скопировано: "+value,"good");
+  audioInteraction("copy");
+ }catch{
+  setStatus("Не удалось скопировать автоматически. Выдели ник и скопируй вручную.","bad");
+ }
+}
+async function generate(){
+ await audioInteraction("generate");
+ const s=settings();
+ const problem=validate(s);
+ if(problem){latest=[];render();setStatus(problem,"bad");return}
+ const found=[];
+ const local=new Set();
+ const seen=new Set(s.unique?history.map(x=>x.toLowerCase()):[]);
+ let attempts=0;
+ while(found.length<s.quantity&&attempts<25000){
+  attempts++;
+  const name=candidate(s);
+  const key=name.toLowerCase();
+  if(!valid(name,s)||local.has(key)||seen.has(key))continue;
+  local.add(key);found.push(name);
+ }
+ latest=found;
+ if(s.unique){
+  history.push(...found.map(x=>x.toLowerCase()));
+  history=[...new Set(history)].slice(-1000);
+  try{localStorage.setItem(HISTORY_KEY,JSON.stringify(history))}catch{}
+ }
+ render();particles();
+ if(found.length===s.quantity)setStatus("Готово! Создано "+found.length+" уникальных вариантов.","good");
+ else setStatus("Создано "+found.length+" из "+s.quantity+". Измени ограничения или очисти историю.","bad");
+}
 $("platform").addEventListener("change",()=>{
-  const p=$("platform").value;
-  const profile=profiles[p];
-
-  $("min").value=profile.min;
-  $("max").value=profile.max;
-  $("platformHint").textContent=profile.hint;
-
-  if(p==="roblox"||p==="minecraft") {
-    $("alphabet").value="latin";
-    if($("symbols").value==="yes")$("symbols").value="optional";
-  }
+ const p=$("platform").value,profile=profiles[p];
+ $("min").value=profile.min;$("max").value=profile.max;
+ $("platformHint").textContent=profile.hint;
+ if(p==="roblox"||p==="minecraft"){
+  $("alphabet").value="latin";
+  if($("symbols").value==="yes")$("symbols").value="optional";
+ }
 });
-
+$("style").addEventListener("change",()=>{applyTheme();audioInteraction("click")});
 $("generate").addEventListener("click",generate);
 $("again").addEventListener("click",generate);
-
 $("heroGenerate").addEventListener("click",()=>{
-  generate();
-  document.getElementById("results").scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
+ generate();
+ $("resultPanel").scrollIntoView({behavior:$("visualOn").checked?"smooth":"auto",block:"start"});
 });
-
 $("copyAll").addEventListener("click",()=>{
-  if(latest.length)copyText(latest.join("\n"));
-  else setStatus("Сначала сгенерируй ники.");
+ if(latest.length)copyText(latest.join("\n"));
+ else setStatus("Сначала сгенерируй ники.");
 });
-
 $("clearHistory").addEventListener("click",()=>{
-  history=[];
-  try {
-    localStorage.removeItem(STORAGE_KEY);
-  } catch {}
-  setStatus("История очищена. Прежние ники снова могут появляться.","good");
+ history=[];
+ try{localStorage.removeItem(HISTORY_KEY)}catch{}
+ setStatus("История очищена. Прежние ники снова могут появляться.","good");
+ audioInteraction("click");
 });
-
-$("platformHint").textContent=profiles.custom.hint;
+["masterVolume","musicVolume","fxVolume"].forEach(id=>{
+ $(id).addEventListener("input",()=>{updateVolumeLabels();saveAudioSettings()});
+});
+$("musicOn").addEventListener("change",()=>{
+ saveAudioSettings();
+ if($("musicOn").checked&&!muted)startMusic();else stopMusic();
+ if($("musicOn").checked)audioInteraction("click");
+});
+$("fxOn").addEventListener("change",()=>{updateVolumeLabels();saveAudioSettings();if($("fxOn").checked)audioInteraction("click")});
+$("visualOn").addEventListener("change",updateVisuals);
+$("muteAll").addEventListener("click",async()=>{
+ muted=!muted;
+ updateVolumeLabels();
+ if(muted)stopMusic();
+ else if($("musicOn").checked)startMusic();
+ else await audioInteraction("click");
+ saveAudioSettings();
+});
+loadAudioSettings();
+applyTheme();
+updateVolumeLabels();
 render();
-
 })();
 </script>
 </body>
