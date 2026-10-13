@@ -4,949 +4,624 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#05080d">
-<meta name="description" content="NickForge — бесплатный генератор игровых никнеймов с уникальными стилями, эффектами и настройкой критериев.">
+<meta name="description" content="NickForge — бесплатный генератор игровых никнеймов с 17 стилями, настройками и осмысленными сочетаниями.">
 <title>NickForge — генератор игровых никнеймов</title>
 <style>
 :root{
-  --bg:#05080d;
-  --panel:#0b111b;
-  --line:#20374d;
-  --text:#f4f8ff;
-  --muted:#8ca3b9;
-  --accent:#00d5ff;
-  --accent2:#087dff;
-  --glow:rgba(0,185,255,.22);
-  --good:#58f2b0;
-  --bad:#ff6474;
-  --radius:10px;
+ --bg:#05080d;--panel:#0b1420;--line:#20374d;
+ --text:#f4f8ff;--muted:#8ca3b9;--accent:#00d5ff;
+ --accent2:#087dff;--glow:rgba(0,213,255,.2);
+ --good:#58f2b0;--bad:#ff6474;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  margin:0;min-height:100vh;color:var(--text);
-  background:
-    radial-gradient(ellipse at 12% 0%,var(--glow),transparent 38%),
-    radial-gradient(ellipse at 95% 40%,#10264a38,transparent 35%),
-    var(--bg);
-  font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;
-  overflow-x:hidden;
-  transition:background .45s,color .3s;
+ margin:0;min-height:100vh;color:var(--text);
+ background:radial-gradient(ellipse at 12% 0%,var(--glow),transparent 38%),var(--bg);
+ font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;
+ overflow-x:hidden;transition:background .3s;
 }
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
-  background-image:
-    linear-gradient(#397da70d 1px,transparent 1px),
-    linear-gradient(90deg,#397da70d 1px,transparent 1px);
-  background-size:36px 36px;
-  animation:gridMove 28s linear infinite;
-}
-body::after{
-  content:"";position:fixed;inset:-50%;pointer-events:none;z-index:-1;
-  background:conic-gradient(from 0deg,transparent,var(--glow),transparent 25%);
-  opacity:.28;animation:ambientSpin 36s linear infinite;
+body:before{
+ content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+ background-image:linear-gradient(#397da70d 1px,transparent 1px),linear-gradient(90deg,#397da70d 1px,transparent 1px);
+ background-size:36px 36px;animation:grid 28s linear infinite;
 }
 button,input,select,textarea{font:inherit}
 button{
-  position:relative;overflow:hidden;isolation:isolate;
-  cursor:pointer;font-weight:800;
-  transition:transform .18s,border-color .25s,filter .25s,
-    box-shadow .25s,background .3s,color .25s,border-radius .3s;
-  -webkit-tap-highlight-color:transparent;
+ cursor:pointer;font-weight:800;position:relative;overflow:hidden;
+ -webkit-tap-highlight-color:transparent;
+ transition:transform .16s,filter .2s,border-color .2s,box-shadow .2s;
 }
 button:hover{filter:brightness(1.15);transform:translateY(-2px)}
-button:active{transform:scale(.94);filter:brightness(1.3)}
+button:active{transform:scale(.96)}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
-  outline:2px solid var(--accent);outline-offset:3px
+ outline:2px solid var(--accent);outline-offset:3px
 }
-button:disabled{opacity:.5;cursor:not-allowed;transform:none}
-button::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(110deg,transparent 20%,#ffffff25 48%,transparent 75%);
-  transform:translateX(-130%);transition:transform .55s;
-}
-button:hover::after{transform:translateX(130%)}
+button:disabled{opacity:.55;cursor:wait;transform:none}
 .wrap{max-width:1240px;margin:auto;padding:22px 18px 40px}
 header{display:flex;align-items:center;gap:12px;margin-bottom:22px}
 .logo{
-  display:grid;place-items:center;width:47px;height:47px;flex-shrink:0;
-  font-size:25px;font-weight:1000;font-style:italic;
-  color:#00101a;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  clip-path:polygon(0 0,100% 0,100% 76%,76% 100%,0 100%);
-  box-shadow:0 0 24px var(--glow);
-  animation:logoPulse 3s ease-in-out infinite;
-  transition:background .35s,filter .35s;
+ display:grid;place-items:center;width:47px;height:47px;flex-shrink:0;
+ font-size:25px;font-weight:1000;color:#00101a;
+ background:linear-gradient(135deg,var(--accent),var(--accent2));
+ clip-path:polygon(0 0,100% 0,100% 76%,76% 100%,0 100%);
+ box-shadow:0 0 24px var(--glow)
 }
 .brand{font-size:25px;line-height:1.1;font-weight:1000;font-style:italic;letter-spacing:-1px}
-.brand span{color:var(--accent);transition:color .35s}
+.brand span{color:var(--accent)}
 .muted{color:var(--muted);font-size:12px}
 .hero{
-  position:relative;overflow:hidden;display:grid;
-  grid-template-columns:1.2fr .8fr;align-items:center;gap:20px;
-  padding:32px;margin-bottom:20px;border:1px solid var(--line);
-  border-radius:var(--radius);
-  background:linear-gradient(110deg,#0b1726,#07101b);
-  box-shadow:0 0 32px var(--glow),inset 0 0 35px #ffffff03;
-  transition:border-color .4s,box-shadow .4s,border-radius .4s;
-  animation:panelEnter .65s ease both;
+ display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:20px;
+ padding:30px;margin-bottom:20px;border:1px solid var(--line);
+ border-radius:14px;background:linear-gradient(110deg,#0d1b2b,#07101b);
+ box-shadow:0 0 32px var(--glow);position:relative;overflow:hidden
 }
-.hero::before{
-  content:"";position:absolute;top:-120%;left:-30%;width:45%;height:340%;
-  transform:rotate(25deg);
-  background:linear-gradient(90deg,transparent,#ffffff06,transparent);
-  animation:heroSweep 9s ease-in-out infinite;
-}
-.hero::after{
-  content:"NF";position:absolute;right:5%;top:0;
-  font-size:clamp(150px,25vw,280px);font-weight:1000;
-  color:var(--glow);font-style:italic;pointer-events:none;
-  animation:watermark 5s ease-in-out infinite;
-}
-.hero-copy,.hero-art{position:relative;z-index:1}
-.eyebrow{
-  font-size:11px;color:var(--accent);font-weight:900;
-  letter-spacing:2px;text-transform:uppercase;
-  transition:color .35s;
-}
+.eyebrow{font-size:11px;color:var(--accent);font-weight:900;letter-spacing:2px;text-transform:uppercase}
 h1{font-size:clamp(37px,6vw,64px);line-height:1;margin:15px 0;letter-spacing:-2px;font-style:italic}
-.gradient{color:var(--accent);text-shadow:0 0 25px var(--glow);transition:color .35s,text-shadow .35s}
+.gradient{color:var(--accent);text-shadow:0 0 25px var(--glow)}
 .hero p{max-width:500px;color:#aabdd0}
-.hero-art{display:grid;place-items:center;min-height:160px}
-.emblem{
-  display:grid;place-items:center;width:135px;height:135px;border-radius:50%;
-  border:1px solid var(--accent);color:var(--accent);font-size:58px;font-weight:1000;
-  background:radial-gradient(circle,var(--glow),#06101b 70%);
-  box-shadow:0 0 35px var(--glow),inset 0 0 25px var(--glow);
-  animation:float 4s ease-in-out infinite,emblemGlow 3s ease-in-out infinite;
-  transition:color .35s,border-color .35s,box-shadow .35s;
-}
 .primary{
-  border:1px solid transparent;border-radius:8px;padding:13px 17px;width:100%;
-  color:#00101a;
-  background:linear-gradient(110deg,var(--accent),var(--accent2));
-  box-shadow:0 0 22px var(--glow),inset 0 1px #ffffff55;
-  text-transform:uppercase;
-  transition:all .3s;
+ border:1px solid transparent;border-radius:8px;padding:13px 17px;width:100%;
+ color:#00101a;background:linear-gradient(110deg,var(--accent),var(--accent2));
+ box-shadow:0 0 22px var(--glow);text-transform:uppercase
 }
 .hero .primary{width:auto;min-width:220px}
-.layout{
-  display:grid;grid-template-columns:minmax(270px,350px) minmax(0,1fr);
-  gap:18px;align-items:start
+.hero-art{min-width:0;display:grid;place-items:center;position:relative;min-height:260px}
+.mascot{
+ width:min(100%,350px);height:280px;overflow:visible;
+ filter:drop-shadow(0 0 20px var(--glow));animation:float 4s ease-in-out infinite
 }
+.mascot .energy{animation:energy 2.4s ease-in-out infinite;transform-origin:center}
+.mascot .eyes{filter:drop-shadow(0 0 5px var(--accent))}
+.mascot-label{font-size:11px;color:var(--accent);font-weight:900;letter-spacing:2px;text-align:center;margin-top:-12px}
+.layout{display:grid;grid-template-columns:minmax(270px,350px) minmax(0,1fr);gap:18px;align-items:start}
 .panel{
-  min-width:0;padding:21px;border:1px solid var(--line);border-radius:var(--radius);
-  background:linear-gradient(145deg,#0e1826fa,#070d16fa);
-  box-shadow:0 10px 35px #0002,0 0 0 1px #ffffff03;
-  transition:border-color .4s,box-shadow .4s,border-radius .4s;
-  animation:panelEnter .6s ease both;
+ min-width:0;padding:21px;border:1px solid var(--line);border-radius:12px;
+ background:linear-gradient(145deg,#0e1826fa,#070d16fa);
+ box-shadow:0 10px 35px #0002
 }
-.panel:hover{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
-.panel h2{
-  display:flex;align-items:center;gap:10px;margin:0 0 20px;
-  font-size:17px;font-weight:900;text-transform:uppercase
-}
-.panel h2::before{
-  content:"";width:4px;height:21px;background:var(--accent);
-  box-shadow:0 0 12px var(--glow);border-radius:4px;
-  transition:background .35s,box-shadow .35s;
-}
+.panel h2{display:flex;align-items:center;gap:10px;margin:0 0 20px;font-size:17px;font-weight:900;text-transform:uppercase}
+.panel h2:before{content:"";width:4px;height:21px;background:var(--accent);box-shadow:0 0 12px var(--glow);border-radius:4px}
 .field{margin-bottom:15px}
 label{display:block;margin-bottom:6px;color:#d9e9f7;font-size:12px;font-weight:800}
 input,select,textarea{
-  width:100%;min-width:0;padding:10px 11px;color:#edf7ff;
-  background:#070d16;border:1px solid #263d52;border-radius:7px;
-  transition:border-color .25s,box-shadow .25s,background .25s;
+ width:100%;min-width:0;padding:10px 11px;color:#edf7ff;
+ background:#070d16;border:1px solid #263d52;border-radius:7px
 }
-input:hover,select:hover,textarea:hover{border-color:color-mix(in srgb,var(--accent) 55%,#263d52)}
-input:focus,select:focus,textarea:focus{
-  border-color:var(--accent);outline:none;
-  box-shadow:0 0 0 3px var(--glow),0 0 16px var(--glow);
-}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--glow)}
 input[type=checkbox]{width:17px;height:17px;accent-color:var(--accent);cursor:pointer}
-input[type=range]{padding:0;accent-color:var(--accent);border:0}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .check{display:flex;align-items:center;gap:9px;margin:12px 0;color:#cbd9e8}
 .check label{margin:0;font-weight:600;cursor:pointer}
 .hint{margin-top:5px;color:#728ba2;font-size:11px}
 .secondary,.copy{
-  padding:9px 12px;color:#cfeaff;background:#101e2d;
-  border:1px solid #29445b;border-radius:7px;
+ padding:9px 12px;color:#cfeaff;background:#101e2d;border:1px solid #29445b;border-radius:7px
 }
-.secondary:hover,.copy:hover{
-  color:var(--text);border-color:var(--accent);
-  box-shadow:0 0 16px var(--glow),inset 0 0 12px var(--glow);
-}
+.secondary:hover,.copy:hover{color:white;border-color:var(--accent);box-shadow:0 0 16px var(--glow)}
 .actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
 .actions button{flex:1}
 .results{display:grid;gap:9px}
 .nick{
-  position:relative;overflow:hidden;
-  display:flex;justify-content:space-between;align-items:center;gap:10px;
-  min-width:0;padding:13px;border:1px solid #1b3448;border-radius:9px;
-  background:linear-gradient(100deg,#0b1522,#0a111c);
-  animation:nickEnter .42s cubic-bezier(.2,.8,.2,1) both;
-  transition:border-color .25s,background .25s,transform .25s,box-shadow .25s,border-radius .3s;
+ display:flex;justify-content:space-between;align-items:center;gap:10px;
+ min-width:0;padding:13px;border:1px solid #1b3448;border-radius:9px;
+ background:linear-gradient(100deg,#0b1522,#0a111c);
+ animation:enter .3s ease both;transition:border-color .2s,transform .2s
 }
-.nick::before{
-  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
-  background:var(--accent);transform:scaleY(0);transition:transform .25s;
-}
-.nick:hover{
-  border-color:var(--accent);background:linear-gradient(100deg,#0d2030,#0a111c);
-  transform:translateX(3px);box-shadow:0 0 18px var(--glow);
-}
-.nick:hover::before{transform:scaleY(1)}
-.nick-name{overflow-wrap:anywhere;font-size:19px;font-weight:900;letter-spacing:.3px}
+.nick:hover{border-color:var(--accent);transform:translateX(3px)}
 .nick-info{font-size:11px;color:var(--muted)}
+.nick-name{overflow-wrap:anywhere;font-size:19px;font-weight:900;letter-spacing:.3px}
 .copy{flex-shrink:0;font-size:11px}
-.empty{
-  padding:30px 16px;text-align:center;color:var(--muted);
-  border:1px dashed #29445b;border-radius:9px;
-  background:radial-gradient(ellipse,var(--glow),transparent 75%);
-}
+.empty{padding:30px 16px;text-align:center;color:var(--muted);border:1px dashed #29445b;border-radius:9px;background:radial-gradient(ellipse,var(--glow),transparent 75%)}
 .status{margin-top:14px;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
 .good{color:var(--good)}.bad{color:var(--bad)}
 .subhead{margin:22px 0 10px;font-size:13px;font-weight:900;text-transform:uppercase}
-.pill{
-  display:inline-block;margin:0 4px 5px 0;padding:5px 9px;font-size:10px;
-  color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 35%,#21435d);
-  border-radius:5px;background:color-mix(in srgb,var(--accent) 8%,#0a1a29);
-  transition:color .35s,border-color .35s,background .35s;
-}
-.note{margin-top:18px;padding:12px;border-left:2px solid var(--accent);background:#0c1a2866;color:#849db3;font-size:11px;transition:border-color .35s}
+.pill{display:inline-block;margin:0 4px 5px 0;padding:5px 9px;font-size:10px;color:var(--accent);border:1px solid #21435d;border-radius:5px;background:#0a1a29}
+.note{margin-top:18px;padding:12px;border-left:2px solid var(--accent);background:#0c1a2866;color:#849db3;font-size:11px}
 footer{margin-top:25px;padding-top:18px;color:#627b91;font-size:11px;text-align:center;border-top:1px solid #172c3d}
-.particle{
-  position:fixed;z-index:100;pointer-events:none;width:5px;height:5px;
-  border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);
-  animation:particle .85s cubic-bezier(.15,.7,.25,1) forwards;
-}
-.ring{
-  position:fixed;z-index:99;pointer-events:none;width:12px;height:12px;
-  border:2px solid var(--accent);border-radius:50%;
-  transform:translate(-50%,-50%);
-  animation:ring .55s ease-out forwards;
-}
-.spark{
-  position:fixed;z-index:101;pointer-events:none;width:3px;height:14px;
-  background:var(--accent);border-radius:4px;
-  box-shadow:0 0 10px var(--accent);
-  animation:spark .65s ease-out forwards;
-}
-.click-wave{
-  position:absolute;z-index:-1;pointer-events:none;width:12px;height:12px;
-  border-radius:50%;background:#ffffff55;
-  transform:translate(-50%,-50%) scale(0);
-  animation:wave .55s ease-out forwards;
-}
-body.generating .hero{animation:generatePulse .7s ease}
-body.generating .emblem{animation:float .5s ease-in-out 2,emblemGlow .5s ease-in-out 2}
-body.theme-cyber .primary,body.theme-cyber .secondary,body.theme-cyber .copy{border-radius:2px;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px))}
+.particle{position:fixed;z-index:100;pointer-events:none;width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);animation:particle .7s ease-out forwards}
+.ring{position:fixed;z-index:99;pointer-events:none;width:12px;height:12px;border:2px solid var(--accent);border-radius:50%;transform:translate(-50%,-50%);animation:ring .45s ease-out forwards}
+.click-wave{position:absolute;pointer-events:none;width:12px;height:12px;border-radius:50%;background:#ffffff50;transform:translate(-50%,-50%) scale(0);animation:wave .45s ease-out forwards}
+body.theme-cyber .primary,body.theme-cyber .secondary,body.theme-cyber .copy{border-radius:2px}
 body.theme-minimal .primary,body.theme-minimal .secondary,body.theme-minimal .copy{border-radius:3px;box-shadow:none}
-body.theme-minimal .panel,body.theme-minimal .hero{box-shadow:0 4px 18px #0003}
 body.theme-royal .primary,body.theme-royal .secondary,body.theme-royal .copy{border-radius:18px}
 body.theme-fun .primary,body.theme-fun .secondary,body.theme-fun .copy{border-radius:22px}
-body.theme-fun .primary:hover,body.theme-fun .secondary:hover,body.theme-fun .copy:hover{transform:translateY(-3px) rotate(-1deg)}
 body.theme-dark .primary,body.theme-dark .secondary,body.theme-dark .copy{border-radius:0 9px 0 9px}
-body.theme-warrior .primary,body.theme-warrior .secondary,body.theme-warrior .copy{border-radius:3px 12px 3px 12px}
-body.theme-light .panel,body.theme-light .hero{box-shadow:0 0 25px var(--glow),inset 0 0 25px var(--glow)}
-body.theme-stealth .primary,body.theme-stealth .secondary,body.theme-stealth .copy{letter-spacing:.5px;border-radius:2px}
-body.theme-space .emblem{border-style:dashed}
-body.theme-fantasy .emblem{border-radius:35% 65% 58% 42%}
-body.theme-nature .panel,body.theme-nature .hero{border-radius:20px}
-@keyframes float{50%{transform:translateY(-9px) rotate(2deg)}}
-@keyframes logoPulse{50%{filter:brightness(1.18);box-shadow:0 0 34px var(--glow)}}
-@keyframes emblemGlow{50%{box-shadow:0 0 48px var(--glow),inset 0 0 32px var(--glow)}}
-@keyframes panelEnter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes nickEnter{from{opacity:0;transform:translateY(10px) scale(.98);filter:blur(3px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
-@keyframes particle{to{transform:translate(var(--dx),var(--dy)) rotate(180deg) scale(0);opacity:0}}
-@keyframes spark{to{transform:translate(var(--dx),var(--dy)) rotate(var(--rot));opacity:0}}
-@keyframes ring{to{width:80px;height:80px;opacity:0}}
-@keyframes wave{to{transform:translate(-50%,-50%) scale(18);opacity:0}}
-@keyframes gridMove{to{background-position:36px 36px}}
-@keyframes ambientSpin{to{transform:rotate(360deg)}}
-@keyframes heroSweep{0%,65%{left:-60%}100%{left:140%}}
-@keyframes watermark{50%{transform:translateY(-7px);opacity:.8}}
-@keyframes generatePulse{50%{box-shadow:0 0 45px var(--glow),inset 0 0 25px var(--glow)}}
+body.theme-fantasy .mascot{filter:drop-shadow(0 0 25px var(--glow))}
+@keyframes float{50%{transform:translateY(-8px) rotate(1deg)}}
+@keyframes energy{50%{opacity:.5;transform:scale(1.08)}}
+@keyframes enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes particle{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+@keyframes ring{to{width:65px;height:65px;opacity:0}}
+@keyframes wave{to{transform:translate(-50%,-50%) scale(17);opacity:0}}
+@keyframes grid{to{background-position:36px 36px}}
 @media(max-width:760px){
-  .wrap{padding:14px 11px 28px}
-  .hero{grid-template-columns:1fr;padding:22px 17px;gap:8px}
-  .hero-art{min-height:100px;display:flex;justify-content:flex-start;gap:14px}
-  .emblem{width:75px;height:75px;font-size:34px}
-  .hero h1{font-size:clamp(36px,10vw,52px)}
-  .hero .primary{width:100%}
-  .layout{grid-template-columns:1fr;gap:13px}
-  .panel{padding:16px}
-  .nick-name{font-size:16px}
-  .copy{padding:8px}
+ .wrap{padding:14px 11px 28px}
+ .hero{grid-template-columns:1fr;padding:22px 17px;gap:8px}
+ .hero-art{min-height:180px}
+ .mascot{height:200px;width:min(100%,280px)}
+ .hero .primary{width:100%}
+ .layout{grid-template-columns:1fr;gap:13px}
+ .panel{padding:16px}
+ .nick-name{font-size:16px}
+ .copy{padding:8px}
 }
-@media(max-width:400px){.row{gap:7px}.actions{gap:7px}}
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}
-}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-  <div class="logo">N</div>
-  <div>
-    <div class="brand">Nick<span>Forge</span></div>
-    <div class="muted">Твой ник. Твои правила. Твоя игра.</div>
-  </div>
+ <div class="logo">N</div>
+ <div><div class="brand">Nick<span>Forge</span></div><div class="muted">Твой ник. Твои правила. Твоя игра.</div></div>
 </header>
-
 <section class="hero">
-  <div class="hero-copy">
-    <div class="eyebrow">Генератор игровых никнеймов</div>
-    <h1>Твой стиль.<br><span class="gradient">Твой ник.</span></h1>
-    <p>Создавай игровые имена, меняй оформление и находи сочетания под свой характер.</p>
-    <button class="primary" id="heroGenerate">⚡ Создать свой ник</button>
-  </div>
-  <div class="hero-art" aria-hidden="true"><div class="emblem">NF</div></div>
+ <div class="hero-copy">
+  <div class="eyebrow">Генератор игровых никнеймов</div>
+  <h1>Твой стиль.<br><span class="gradient">Твой ник.</span></h1>
+  <p>Создавай запоминающиеся игровые имена. Выбирай характер, настраивай правила и забирай свой ник.</p>
+  <button class="primary" id="heroGenerate">⚡ Создать свой ник</button>
+ </div>
+ <div>
+  <div class="hero-art" id="heroArt" aria-hidden="true"></div>
+  <div class="mascot-label" id="mascotLabel">CYBER GUARDIAN</div>
+ </div>
 </section>
-
 <main class="layout">
 <section class="panel">
 <h2>Критерии генерации</h2>
-
 <div class="field">
 <label for="style">Стиль ника</label>
 <select id="style">
-<option value="all">🔥 Все подряд — смешение всех стилей</option>
-<option value="game">Игровой</option>
-<option value="immoral">Провокационный</option>
-<option value="ordinary">Обычный</option>
-<option value="letters">Абстрактный набор</option>
-<option value="light">Светлый</option>
-<option value="dark">Мрачный</option>
-<option value="warrior">Воин</option>
-<option value="minimal">Минималистичный</option>
-<option value="fantasy">Фэнтези</option>
-<option value="cyber">Киберпанк</option>
-<option value="fun">Забавный</option>
-<option value="nature">Природа</option>
-<option value="space">Космос</option>
-<option value="myth">Мифология</option>
-<option value="stealth">Скрытность</option>
-<option value="royal">Королевский</option>
-</select>
-<div class="hint" id="styleHint">Оформление интерфейса меняется вместе со стилем.</div>
+<option value="all">🔥 Все стили</option>
+<option value="game">Игровой</option><option value="immoral">Провокационный</option>
+<option value="ordinary">Обычный</option><option value="letters">Абстрактный</option>
+<option value="light">Светлый</option><option value="dark">Мрачный</option>
+<option value="warrior">Воин</option><option value="minimal">Минималистичный</option>
+<option value="fantasy">Фэнтези</option><option value="cyber">Киберпанк</option>
+<option value="fun">Забавный</option><option value="nature">Природа</option>
+<option value="space">Космос</option><option value="myth">Мифология</option>
+<option value="stealth">Скрытность</option><option value="royal">Королевский</option>
+</select><div class="hint" id="styleHint">Персонаж и оформление меняются вместе со стилем.</div>
 </div>
-
 <div class="row field">
 <div><label for="min">Мин. длина</label><input id="min" type="number" min="3" max="20" value="5"></div>
 <div><label for="max">Макс. длина</label><input id="max" type="number" min="3" max="20" value="12"></div>
 </div>
-
-<div class="field">
-<label for="alphabet">Алфавит</label>
-<select id="alphabet">
-<option value="latin">Только латиница</option>
-<option value="cyrillic">Только кириллица</option>
-<option value="mixed">Смешанный алфавит</option>
-</select>
-<div class="hint">Подбирай алфавит под нужную игру.</div>
-</div>
-
-<div class="field">
-<label for="digits">Цифры</label>
-<select id="digits">
-<option value="no">Запрещены</option>
-<option value="optional" selected>Разрешены</option>
-<option value="yes">Обязательны</option>
-</select>
-</div>
-
-<div class="field">
-<label for="symbols">Символы _ и -</label>
-<select id="symbols">
-<option value="no">Запрещены</option>
-<option value="optional" selected>Разрешены</option>
-<option value="yes">Обязателен хотя бы один</option>
-</select>
-</div>
-
-<div class="field">
-<label for="case">Первая буква</label>
-<select id="case">
-<option value="upper">Заглавная</option>
-<option value="lower">Строчная</option>
-<option value="any">Без разницы</option>
-</select>
-</div>
-
+<div class="field"><label for="alphabet">Алфавит</label><select id="alphabet"><option value="latin">Только латиница</option><option value="cyrillic">Только кириллица</option><option value="mixed">Смешанный алфавит</option></select></div>
+<div class="field"><label for="digits">Цифры</label><select id="digits"><option value="no">Запрещены</option><option value="optional" selected>Разрешены</option><option value="yes">Обязательны</option></select></div>
+<div class="field"><label for="symbols">Символы _ и -</label><select id="symbols"><option value="no">Запрещены</option><option value="optional" selected>Разрешены</option><option value="yes">Обязателен хотя бы один</option></select></div>
+<div class="field"><label for="case">Первая буква</label><select id="case"><option value="upper">Заглавная</option><option value="lower">Строчная</option><option value="any">Без разницы</option></select></div>
 <div class="check"><input id="noRepeat" type="checkbox" checked><label for="noRepeat">Без одинаковых символов подряд</label></div>
 <div class="check"><input id="unique" type="checkbox" checked><label for="unique">Не повторять ники из истории</label></div>
 <div class="check"><input id="smart" type="checkbox" checked><label for="smart">Предпочитать осмысленные сочетания</label></div>
-
-<div class="field">
-<label for="ownMode">Как использовать своё слово</label>
-<select id="ownMode">
-<option value="include">Включить в ник</option>
-<option value="prefix">Поставить в начало</option>
-<option value="suffix">Поставить в конец</option>
-</select>
-</div>
-
-<div class="field">
-<label for="own">Своё слово или часть ника</label>
-<input id="own" maxlength="20" placeholder="Например, Artem">
-</div>
-
-<div class="field">
-<label for="blocked">Запрещённые слова</label>
-<textarea id="blocked" rows="2" placeholder="noob, bot, bad"></textarea>
-<div class="hint">Разделяй слова запятыми или переносами строк.</div>
-</div>
-
-<div class="field">
-<label for="quantity">Количество вариантов</label>
-<select id="quantity">
-<option value="5">5</option>
-<option value="10" selected>10</option>
-<option value="20">20</option>
-<option value="30">30</option>
-</select>
-</div>
-
+<div class="field"><label for="ownMode">Как использовать своё слово</label><select id="ownMode"><option value="include">В начале или в конце</option><option value="prefix">Поставить в начало</option><option value="suffix">Поставить в конец</option></select></div>
+<div class="field"><label for="own">Своё слово или часть ника</label><input id="own" maxlength="20" placeholder="Например, Artem"></div>
+<div class="field"><label for="blocked">Запрещённые слова</label><textarea id="blocked" rows="2" placeholder="noob, bot, bad"></textarea><div class="hint">Разделяй слова запятыми или переносами строк.</div></div>
+<div class="field"><label for="quantity">Количество вариантов</label><select id="quantity"><option value="5">5</option><option value="10" selected>10</option><option value="20">20</option><option value="30">30</option></select></div>
 <button class="primary" id="generate">⚡ Сгенерировать ники</button>
 <div class="actions"><button class="secondary" id="clearHistory">Очистить историю</button></div>
 </section>
-
 <section class="panel" id="resultPanel">
 <h2>Твоя подборка <span class="muted" id="count"></span></h2>
 <div class="results" id="results"><div class="empty">Настрой критерии и нажми генерацию.</div></div>
-<div class="actions">
-<button class="secondary" id="copyAll">Копировать все</button>
-<button class="secondary" id="again">↻ Ещё варианты</button>
-</div>
+<div class="actions"><button class="secondary" id="copyAll">Копировать все</button><button class="secondary" id="again">↻ Ещё варианты</button></div>
 <div class="status" id="status" aria-live="polite">Готов к работе. Регистрация не нужна.</div>
 <div class="note"><b>Важно:</b> доступность ника на игровых серверах не проверяется. Правила имени зависят от конкретной игры.</div>
 <div class="subhead">Возможности NickForge</div>
-<span class="pill">17 стилей</span>
-<span class="pill">До 30 вариантов</span>
-<span class="pill">Эффекты нажатий</span>
-<span class="pill">Смена оформления</span>
-<span class="pill">Локальная история</span>
-<span class="pill">Без внешних библиотек</span>
+<span class="pill">17 стилей</span><span class="pill">До 30 вариантов</span><span class="pill">Звуковые эффекты</span><span class="pill">SVG-персонажи</span><span class="pill">История генераций</span><span class="pill">Без библиотек</span>
 </section>
 </main>
 <footer>NickForge · Бесплатный генератор игровых никнеймов</footer>
 </div>
-
 <script>
-(() => {
+(()=>{
 "use strict";
-
-const $ = id => document.getElementById(id);
-const HISTORY_KEY = "nickforge_history_v6";
-
-const themes = {
-  all:       ["#00d5ff","#087dff","Все стили смешаны"],
-  game:      ["#00b9ff","#087dff","Игровой"],
-  immoral:   ["#ff5577","#b31252","Провокационный"],
-  ordinary:  ["#8da9c4","#536e8c","Обычный"],
-  letters:   ["#a6a0ff","#6254db","Абстрактный"],
-  light:     ["#ffe28a","#ffad42","Светлый"],
-  dark:      ["#9d85ff","#4e32a8","Мрачный"],
-  warrior:   ["#ff604d","#b82032","Воин"],
-  minimal:   ["#6fffd1","#27b99a","Минимализм"],
-  fantasy:   ["#ce8cff","#8546c5","Фэнтези"],
-  cyber:     ["#00ffd0","#008bff","Киберпанк"],
-  fun:       ["#ffbd59","#ff6b75","Забавный"],
-  nature:    ["#8de47b","#2d9b64","Природа"],
-  space:     ["#8f9cff","#5546d8","Космос"],
-  myth:      ["#ffbd70","#c65b37","Мифология"],
-  stealth:   ["#80a6d8","#3e5888","Скрытность"],
-  royal:     ["#e6bdff","#9b65d4","Королевский"]
+const $=id=>document.getElementById(id);
+const HISTORY_KEY="nickforge_history_v7";
+const themes={
+ all:["#00d5ff","#087dff","Все стили","CYBER GUARDIAN"],
+ game:["#00b9ff","#087dff","Игровой","BATTLE RANGER"],
+ immoral:["#ff5577","#b31252","Провокационный","CHAOS IMP"],
+ ordinary:["#8da9c4","#536e8c","Обычный","QUIET COMPANION"],
+ letters:["#a6a0ff","#6254db","Абстрактный","VOID SHIFTER"],
+ light:["#ffe28a","#ffad42","Светлый","SOLAR SPIRIT"],
+ dark:["#9d85ff","#4e32a8","Мрачный","NIGHT PHANTOM"],
+ warrior:["#ff604d","#b82032","Воин","IRON WARRIOR"],
+ minimal:["#6fffd1","#27b99a","Минимализм","NEO UNIT"],
+ fantasy:["#ce8cff","#8546c5","Фэнтези","ARCANE MAGE"],
+ cyber:["#00ffd0","#008bff","Киберпанк","CYBER GUARDIAN"],
+ fun:["#ffbd59","#ff6b75","Забавный","CHAOS CRITTER"],
+ nature:["#8de47b","#2d9b64","Природа","FOREST KEEPER"],
+ space:["#8f9cff","#5546d8","Космос","STAR EXPLORER"],
+ myth:["#ffbd70","#c65b37","Мифология","ANCIENT TITAN"],
+ stealth:["#80a6d8","#3e5888","Скрытность","SHADOW STALKER"],
+ royal:["#e6bdff","#9b65d4","Королевский","ROYAL SENTINEL"]
 };
-
-const dictionaries = {
-game:["Nova","Raven","Frost","Blaze","Echo","Storm","Shadow","Ghost","Iron","Swift","Astra","Drift","Onyx","Rune","Wolf","Silver","Hunter","Strike","Blade","Spark","Knight","Hawk","Orbit","Claw","Vanguard","Теневой","Грозовой","Стальной","Ледяной","Ворон","Волк","Дракон","Охотник","Клинок"],
-immoral:["Dirty","Nasty","Shameless","Crude","Trashy","Goblin","Gremlin","Punk","Clown","Menace","Грязный","Бесстыжий","Пошлый","Хулиган","Проказник","Беспредельщик"],
-ordinary:["Quiet","Happy","Sleepy","Kind","Clever","Funny","Lucky","Random","Lazy","Player","Buddy","Rookie","Nomad","Otter","Тихий","Весёлый","Сонный","Добрый","Хитрый","Игрок","Сосед","Енот","Бублик"],
-letters:["Zyn","Vex","Nyx","Ari","Lux","Zen","Kiro","Nox","Rai","Eon","Axo","Neo","Qir","Vyn","Зен","Нокс","Рин","Кай","Люкс","Най","Рэй","Вин","Эон","Зир"],
-light:["Sunny","Golden","Radiant","Lunar","Stellar","Bright","Pure","Angel","Phoenix","Dreamer","Beacon","Солнечный","Золотой","Небесный","Лучезарный","Лунный","Сияющий","Ангел","Рассвет","Маяк"],
-dark:["Dread","Noct","Grim","Umbra","Abyss","Wraith","Gloom","Shade","Crypt","Vanta","Reaper","Specter","Phantom","Мрачный","Ночной","Проклятый","Безликий","Кровавый","Жнец","Призрак","Мрак","Фантом"],
-warrior:["Rage","Titan","Valor","Feral","Savage","Steel","Fury","Saber","Iron","Breaker","Crusher","Slayer","Vanguard","Striker","Стальной","Яростный","Беспощадный","Берсерк","Каратель","Гладиатор","Завоеватель","Рубака"],
-minimal:["Zyn","Kai","Ryn","Vex","Nyx","Ari","Lux","Zen","Nox","Rai","Eon","Neo","Зен","Нокс","Рин","Векс","Кай","Люкс","Рэй","Нео"],
-fantasy:["Ael","Eld","Thal","Syl","Vael","Aer","Myth","Drae","Kael","Orin","Drin","Thas","Wyn","Driel","Эльф","Дракон","Маг","Чародей","Паладин","Друид","Грифон","Архонт","Волшебный","Рунный"],
-cyber:["Neon","Glitch","Proxy","Zero","Nex","Chrome","Synth","Byte","Hex","Static","Flux","Cipher","Grid","Signal","Неоновый","Цифровой","Квантовый","Пиксель","Протокол","Терминал","Импульс","Глюк"],
-fun:["Mochi","Bumble","Pickle","Waffle","Noodle","Mango","Bongo","Tofu","Doodle","Kiwi","Panda","Wizard","Bandit","Muffin","Duck","Пельмень","Енот","Кабачок","Батон","Бобёр","Котлета","Гусь","Бублик","Кекс","Пончик","Хомяк","Тапок"],
-nature:["Wild","Mossy","River","Cedar","Autumn","Misty","Amber","Willow","Fox","Pine","Brook","Wolf","Fern","Hawk","Лесной","Речной","Кедровый","Туманный","Янтарный","Лис","Волк","Роща","Камень","Папоротник"],
-space:["Cosmic","Lunar","Solar","Stellar","Nebula","Orbit","Nova","Astro","Quasar","Void","Pilot","Comet","Ranger","Drift","Voyager","Космический","Звёздный","Орбитальный","Комета","Странник","Затмение","Звездочёт"],
-myth:["Odin","Aether","Atlas","Rune","Titan","Orion","Ares","Nyx","Elder","Oracle","Keeper","Oath","Вещий","Древний","Титановый","Божественный","Оракул","Хранитель","Мудрец","Корона","Обет"],
-stealth:["Silent","Hidden","Ghost","Cloak","Veiled","Shade","Phantom","Quiet","Swift","Whisper","Trace","Cipher","Prowler","Тихий","Скрытый","Призрачный","Незримый","Бесшумный","Шёпот","Шифр","Лазутчик"],
-royal:["Royal","Noble","Crown","Golden","Regal","Imperial","Sovereign","Velvet","Majestic","Knight","Heir","Duke","Crest","Prince","Throne","Королевский","Знатный","Золотой","Царственный","Имперский","Рыцарь","Наследник","Герцог","Принц","Трон"]
+/* Словари разделены на осмысленные основы и дополнения.
+   Генератор комбинирует совместимые слова, а не случайные слоги. */
+const dictionaries={
+ game:{a:["Nova","Raven","Frost","Blaze","Echo","Storm","Shadow","Ghost","Iron","Swift","Astra","Drift","Onyx","Rune","Wolf","Silver","Hunter","Strike","Blade","Spark","Knight","Hawk","Orbit","Claw","Vanguard"],b:["Runner","Hunter","Strike","Blade","Rider","Fang","Storm","Guard","Pilot","Ranger","Wolf","Knight","Scout","Flame","Arrow"]},
+ immoral:{a:["Dirty","Nasty","Shameless","Crude","Trashy","Goblin","Gremlin","Punk","Clown","Rogue","Rascal","Menace"],b:["Bandit","Goblin","Clown","Gremlin","Rogue","Trouble","Punk","Chaos","Rascal","Joker"]},
+ ordinary:{a:["Quiet","Happy","Sleepy","Kind","Clever","Funny","Lucky","Random","Lazy","Player","Buddy","Rookie","Nomad","Otter","Mellow"],b:["Otter","Player","Buddy","Nomad","Fox","Panda","Rookie","Dreamer","Wanderer","Comet"]},
+ letters:{a:["Zyn","Vex","Nyx","Ari","Lux","Zen","Kiro","Nox","Rai","Eon","Axo","Neo","Qir","Vyn"],b:["Zyn","Vex","Nyx","Ari","Lux","Zen","Kiro","Nox","Rai","Eon","Axo","Neo","Qir","Vyn"]},
+ light:{a:["Sunny","Golden","Radiant","Lunar","Stellar","Bright","Pure","Angel","Phoenix","Dream","Beacon","Dawn","Aurora"],b:["Light","Wing","Dream","Glow","Angel","Dawn","Star","Spirit","Ray","Hope"]},
+ dark:{a:["Dread","Noct","Grim","Umbra","Abyss","Wraith","Gloom","Shade","Crypt","Vanta","Reaper","Specter","Phantom","Night"],b:["Reaper","Wraith","Shade","Phantom","Raven","Specter","Stalker","Fang","Dagger","Ghost"]},
+ warrior:{a:["Rage","Titan","Valor","Feral","Savage","Steel","Fury","Saber","Iron","Breaker","Crusher","Slayer","Vanguard","Striker"],b:["Breaker","Crusher","Slayer","Guard","Warrior","Titan","Fang","Blade","Knight","Rider"]},
+ minimal:{a:["Zyn","Kai","Ryn","Vex","Nyx","Ari","Lux","Zen","Nox","Rai","Eon","Neo"],b:["Zyn","Kai","Ryn","Vex","Nyx","Ari","Lux","Zen","Nox","Rai","Eon","Neo"]},
+ fantasy:{a:["Ael","Eld","Thal","Syl","Vael","Aer","Myth","Drae","Kael","Orin","Wyn","Driel"],b:["Mage","Drake","Druid","Rune","Sage","Griffin","Warden","Oracle","Phoenix","Rider"]},
+ cyber:{a:["Neon","Glitch","Proxy","Zero","Nex","Chrome","Synth","Byte","Hex","Static","Flux","Cipher","Grid","Signal"],b:["Runner","Ghost","Protocol","Pulse","Circuit","Byte","Proxy","Cipher","Core","Signal"]},
+ fun:{a:["Mochi","Bumble","Pickle","Waffle","Noodle","Mango","Bongo","Tofu","Doodle","Kiwi","Panda","Muffin","Duck","Jelly"],b:["Noodle","Bandit","Panda","Muffin","Duck","Wizard","Bongo","Pickle","Biscuit","Nugget"]},
+ nature:{a:["Wild","Mossy","River","Cedar","Autumn","Misty","Amber","Willow","Fox","Pine","Brook","Fern","Hawk"],b:["Fox","Wolf","River","Leaf","Ranger","Fern","Grove","Hawk","Moss","Storm"]},
+ space:{a:["Cosmic","Lunar","Solar","Stellar","Nebula","Orbit","Nova","Astro","Quasar","Void","Pilot","Comet","Ranger","Voyager"],b:["Pilot","Ranger","Voyager","Comet","Drifter","Star","Orbit","Seeker","Nova","Explorer"]},
+ myth:{a:["Odin","Aether","Atlas","Rune","Titan","Orion","Ares","Nyx","Oracle","Keeper","Oath","Helios"],b:["Keeper","Titan","Oracle","Guardian","Sage","Warden","Seeker","Phoenix","Sentinel","Rider"]},
+ stealth:{a:["Silent","Hidden","Ghost","Cloak","Veiled","Shade","Phantom","Quiet","Swift","Whisper","Trace","Cipher"],b:["Ghost","Trace","Whisper","Stalker","Shadow","Cloak","Runner","Raven","Dagger","Phantom"]},
+ royal:{a:["Royal","Noble","Crown","Golden","Regal","Imperial","Sovereign","Velvet","Majestic","Knight","Heir","Duke"],b:["Knight","Heir","Duke","Crown","Guard","Prince","Regent","Throne","Sentinel","Lion"]}
 };
-
-let history = [];
-try {
-  const stored = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
-  if (Array.isArray(stored)) {
-    history = stored.filter(x => typeof x === "string").slice(-1000);
-  }
-} catch {}
-
-let latest = [];
-let generating = false;
-
-function randomInt(min,max){
-  return Math.floor(Math.random()*(max-min+1))+min;
+const ru={
+game:{a:["Грозовой","Стальной","Ледяной","Теневой","Быстрый","Звёздный","Огненный","Северный","Верный","Дикий"],b:["Ворон","Волк","Дракон","Охотник","Клинок","Страж","Рейнджер","Следопыт","Рыцарь","Сокол"]},
+immoral:{a:["Дерзкий","Наглый","Шальной","Хитрый","Злой","Дикий","Шумный"],b:["Проказник","Бандит","Хулиган","Гремлин","Шут","Разбойник","Трикстер"]},
+ordinary:{a:["Тихий","Весёлый","Сонный","Добрый","Хитрый","Ловкий","Мирный","Счастливый"],b:["Енот","Бублик","Игрок","Сосед","Кот","Панда","Странник","Дружок"]},
+letters:{a:["Зен","Нокс","Рин","Кай","Люкс","Най","Рэй","Вин","Эон","Зир"],b:["Зен","Нокс","Рин","Кай","Люкс","Най","Рэй","Вин","Эон","Зир"]},
+light:{a:["Солнечный","Золотой","Небесный","Лучезарный","Лунный","Сияющий","Светлый","Рассветный"],b:["Ангел","Рассвет","Маяк","Феникс","Свет","Луч","Страж","Мечтатель"]},
+dark:{a:["Мрачный","Ночной","Проклятый","Безликий","Кровавый","Тёмный","Мёртвый"],b:["Жнец","Призрак","Фантом","Ворон","Палач","Странник","Охотник"]},
+warrior:{a:["Стальной","Яростный","Беспощадный","Грозный","Сильный","Железный","Боевой"],b:["Берсерк","Каратель","Гладиатор","Завоеватель","Рубака","Воитель","Страж"]},
+minimal:{a:["Зен","Нокс","Рин","Векс","Кай","Люкс","Рэй","Нео"],b:["Зен","Нокс","Рин","Векс","Кай","Люкс","Рэй","Нео"]},
+fantasy:{a:["Древний","Рунный","Лунный","Мудрый","Сумрачный","Вечный","Магический"],b:["Маг","Чародей","Паладин","Друид","Грифон","Архонт","Оракул","Дракон"]},
+cyber:{a:["Неоновый","Цифровой","Квантовый","Пиксельный","Сетевой","Стальной","Электро"],b:["Призрак","Протокол","Терминал","Импульс","Глюк","Странник","Охотник"]},
+fun:{a:["Смешной","Пузатый","Сонный","Ловкий","Круглый","Шустрый","Милый"],b:["Пельмень","Енот","Кабачок","Батон","Бобёр","Гусь","Бублик","Кекс","Пончик","Хомяк"]},
+nature:{a:["Лесной","Речной","Кедровый","Туманный","Янтарный","Дикий","Северный"],b:["Лис","Волк","Сокол","Ручей","Камень","Папоротник","Охотник","Следопыт"]},
+space:{a:["Космический","Звёздный","Орбитальный","Лунный","Солнечный","Дальний"],b:["Странник","Комета","Пилот","Звездочёт","Исследователь","Навигатор","Фантом"]},
+myth:{a:["Вещий","Древний","Титановый","Божественный","Мудрый","Славный","Вечный"],b:["Оракул","Хранитель","Мудрец","Страж","Титан","Феникс","Воитель"]},
+stealth:{a:["Тихий","Скрытый","Призрачный","Незримый","Бесшумный","Сумрачный"],b:["Шёпот","Шифр","Лазутчик","Следопыт","Призрак","Сталкер"]},
+royal:{a:["Королевский","Знатный","Золотой","Царственный","Имперский","Высокий"],b:["Рыцарь","Наследник","Герцог","Принц","Трон","Страж","Лев"]}
+};
+let history=[];
+try{
+ const v=JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]");
+ if(Array.isArray(v)) history=v.filter(x=>typeof x==="string").slice(-1500);
+}catch{}
+let latest=[],generating=false;
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+function setStatus(t,k=""){$("status").textContent=t;$("status").className="status "+k}
+function randomCase(s){
+ if(s==="upper")return "upper";
+ if(s==="lower")return "lower";
+ return "any";
 }
-function pick(array){
-  return array[Math.floor(Math.random()*array.length)];
+function normalize(s,alphabet){
+ let out=s;
+ if(alphabet==="latin"){
+  const m={"а":"a","б":"b","в":"v","г":"g","д":"d","е":"e","ё":"yo","ж":"zh","з":"z","и":"i","й":"y","к":"k","л":"l","м":"m","н":"n","о":"o","п":"p","р":"r","с":"s","т":"t","у":"u","ф":"f","х":"h","ц":"ts","ч":"ch","ш":"sh","щ":"shch","ъ":"","ы":"y","ь":"","э":"e","ю":"yu","я":"ya"};
+  out=Array.from(out.toLowerCase()).map(c=>m[c]??c).join("");
+  return out.replace(/[^a-z0-9_-]/g,"");
+ }
+ if(alphabet==="cyrillic"){
+  const m={a:"а",b:"б",c:"к",d:"д",e:"е",f:"ф",g:"г",h:"х",i:"и",j:"дж",k:"к",l:"л",m:"м",n:"н",o:"о",p:"п",q:"к",r:"р",s:"с",t:"т",u:"у",v:"в",w:"в",x:"кс",y:"й",z:"з"};
+  out=Array.from(out.toLowerCase()).map(c=>m[c]??c).join("");
+  return out.replace(/[^а-яё0-9_-]/g,"");
+ }
+ return out.replace(/[^a-zа-яё0-9_-]/gi,"");
 }
-function setStatus(message,kind=""){
-  $("status").textContent = message;
-  $("status").className = "status " + kind;
+function getSettings(){
+ let min=Number.parseInt($("min").value,10),max=Number.parseInt($("max").value,10);
+ if(!Number.isFinite(min))min=5;if(!Number.isFinite(max))max=12;
+ min=Math.max(3,Math.min(20,min));max=Math.max(3,Math.min(20,max));
+ if(min>max)min=max;
+ $("min").value=min;$("max").value=max;
+ const alphabet=$("alphabet").value;
+ const own=normalize($("own").value.trim(),alphabet);
+ const blocked=$("blocked").value.split(/[,;\n]+/).map(x=>normalize(x.trim(),alphabet).toLowerCase()).filter(Boolean);
+ return {min,max,alphabet,style:$("style").value,digits:$("digits").value,symbols:$("symbols").value,letterCase:randomCase($("case").value),noRepeat:$("noRepeat").checked,unique:$("unique").checked,smart:$("smart").checked,own,ownMode:$("ownMode").value,blocked,quantity:Number($("quantity").value)};
 }
-
-function applyTheme(){
-  const style = $("style").value;
-  const theme = themes[style] || themes.all;
-
-  document.documentElement.style.setProperty("--accent",theme[0]);
-  document.documentElement.style.setProperty("--accent2",theme[1]);
-
-  const hex = theme[0].replace("#","");
-  const r = parseInt(hex.slice(0,2),16);
-  const g = parseInt(hex.slice(2,4),16);
-  const b = parseInt(hex.slice(4,6),16);
-
-  document.documentElement.style.setProperty("--glow",`rgba(${r},${g},${b},.22)`);
-  document.body.className = document.body.className
-    .split(/\s+/)
-    .filter(c => !c.startsWith("theme-"))
-    .join(" ");
-  document.body.classList.add("theme-" + style);
-
-  $("styleHint").textContent =
-    "Выбран стиль «" + theme[2] + "»: цвета, кнопки, рамки и подсветка изменены.";
+function chooseStyle(s){return s.style==="all"?pick(Object.keys(dictionaries)):s.style}
+function alphabetFor(s){
+ if(s.alphabet==="mixed")return Math.random()<.5?"latin":"cyrillic";
+ return s.alphabet;
 }
-
-function normalizeAlphabet(word,alphabet){
-  let s = word;
-
-  if(alphabet === "latin"){
-    const map = {
-      "а":"a","б":"b","в":"v","г":"g","д":"d","е":"e","ё":"yo",
-      "ж":"zh","з":"z","и":"i","й":"y","к":"k","л":"l","м":"m",
-      "н":"n","о":"o","п":"p","р":"r","с":"s","т":"t","у":"u",
-      "ф":"f","х":"h","ц":"ts","ч":"ch","ш":"sh","щ":"shch",
-      "ъ":"","ы":"y","ь":"","э":"e","ю":"yu","я":"ya"
-    };
-    s = Array.from(s.toLowerCase()).map(c => map[c] ?? c).join("");
-  } else if(alphabet === "cyrillic"){
-    const map = {
-      a:"а",b:"б",c:"к",d:"д",e:"е",f:"ф",g:"г",h:"х",i:"и",
-      j:"дж",k:"к",l:"л",m:"м",n:"н",o:"о",p:"п",q:"к",r:"р",
-      s:"с",t:"т",u:"у",v:"в",w:"в",x:"кс",y:"й",z:"з"
-    };
-    s = Array.from(s.toLowerCase()).map(c => map[c] ?? c).join("");
-  }
-
-  if(alphabet === "latin") return s.replace(/[^a-zA-Z0-9]/g,"");
-  if(alphabet === "cyrillic") return s.replace(/[^а-яА-ЯёЁ0-9]/g,"");
-  return s.replace(/[^a-zA-Zа-яА-ЯёЁ0-9]/g,"");
+function wordsFor(style,alphabet){
+ if(alphabet==="cyrillic")return ru[style]||ru.game;
+ return dictionaries[style]||dictionaries.game;
 }
-
-function settings(){
-  let min = Math.max(3,Math.min(20,parseInt($("min").value,10)||5));
-  let max = Math.max(3,Math.min(20,parseInt($("max").value,10)||12));
-
-  if(min > max) min = max;
-  $("min").value = min;
-  $("max").value = max;
-
-  const alphabet = $("alphabet").value;
-  const own = normalizeAlphabet($("own").value.trim(),alphabet);
-
-  return {
-    min,max,alphabet,
-    style:$("style").value,
-    digits:$("digits").value,
-    symbols:$("symbols").value,
-    letterCase:$("case").value,
-    noRepeat:$("noRepeat").checked,
-    unique:$("unique").checked,
-    smart:$("smart").checked,
-    own,
-    ownMode:$("ownMode").value,
-    blocked:$("blocked").value
-      .toLowerCase()
-      .split(/[,;\n]+/)
-      .map(x => normalizeAlphabet(x.trim(),alphabet).toLowerCase())
-      .filter(Boolean),
-    quantity:Number($("quantity").value)
-  };
+function makeBase(s,style){
+ if(style==="letters"){
+  const alpha=alphabetFor(s)==="cyrillic"?"абвгдежзийклмнопрстуфхцчшщэюя":"abcdefghijklmnopqrstuvwxyz";
+  const length=rand(s.min,s.max);
+  let out="";
+  for(let i=0;i<length;i++)out+=pick(alpha.split(""));
+  return out;
+ }
+ const alphabet=alphabetFor(s);
+ const d=wordsFor(style,alphabet);
+ const first=pick(d.a),second=pick(d.b);
+ if(!s.smart){
+  return pick([first+second,second+first,first,second,first+first]);
+ }
+ // Для коротких ников не добавляем длинные случайные хвосты.
+ const options=[first+second,first+second];
+ if(first.length<=5)options.push(first+second);
+ if(second.length<=5)options.push(second+first);
+ options.push(first);
+ return pick(options);
 }
-
-function randomAlphabet(s){
-  if(s.alphabet === "mixed") return Math.random()<.5 ? "latin" : "cyrillic";
-  return s.alphabet;
-}
-
-function buildBase(s){
-  let style = s.style === "all" ? pick(Object.keys(dictionaries)) : s.style;
-  if(!dictionaries[style]) style = "game";
-
-  if(style === "letters"){
-    const alphabet = randomAlphabet(s) === "cyrillic"
-      ? "абвгдежзийклмнопрстуфхцчшщэюя"
-      : "abcdefghijklmnopqrstuvwxyz";
-    return Array.from({length:randomInt(s.min,s.max)},() => pick(Array.from(alphabet))).join("");
-  }
-
-  const words = dictionaries[style];
-  const first = pick(words);
-  const second = s.style === "all" && Math.random()<.65
-    ? pick(dictionaries[pick(Object.keys(dictionaries))])
-    : pick(words);
-
-  let name;
-  if(s.smart){
-    name = pick([
-      first+second,
-      first+second,
-      second+first,
-      first.slice(0,Math.min(4,first.length))+second,
-      first+second.slice(0,Math.min(4,second.length))
-    ]);
-  } else {
-    name = pick([
-      first+second,
-      second+first,
-      first,
-      second,
-      first.slice(0,4)+second.slice(0,4)
-    ]);
-  }
-
-  if(s.alphabet === "latin") name = normalizeAlphabet(name,"latin");
-  if(s.alphabet === "cyrillic") name = normalizeAlphabet(name,"cyrillic");
-  if(s.alphabet === "mixed" && Math.random()<.35) name = normalizeAlphabet(name,"latin");
-
-  return name;
-}
-
 function candidate(s){
-  const mandatory = (s.digits === "yes" ? 1 : 0) + (s.symbols === "yes" ? 1 : 0);
-  const cap = s.max - mandatory;
-  if(cap < 1) return "";
-
-  let name = buildBase(s);
-  const own = s.own;
-
-  if(own){
-    if(s.ownMode === "prefix") name = own + name;
-    else if(s.ownMode === "suffix") name = name + own;
-    else name = Math.random()<.5 ? own+name : name+own;
+ const style=chooseStyle(s);
+ const hasOwn=!!s.own;
+ let name=makeBase(s,style);
+ if(s.alphabet==="latin")name=normalize(name,"latin");
+ else if(s.alphabet==="cyrillic")name=normalize(name,"cyrillic");
+ if(hasOwn){
+  if(s.ownMode==="prefix")name=s.own+name;
+  else if(s.ownMode==="suffix")name=name+s.own;
+  else name=Math.random()<.5?s.own+name:name+s.own;
+ }
+ // Соблюдаем максимальную длину, не обрезая обязательное пользовательское слово.
+ if(name.length>s.max){
+  if(hasOwn){
+   if(s.ownMode==="prefix")name=s.own+name.slice(s.own.length,s.max);
+   else if(s.ownMode==="suffix")name=name.slice(0,s.max-s.own.length)+s.own;
+   else if(name.startsWith(s.own))name=s.own+name.slice(s.own.length,s.max);
+   else name=name.slice(0,s.max-s.own.length)+s.own;
+  }else name=name.slice(0,s.max);
+ }
+ if(hasOwn&&!name.toLowerCase().includes(s.own.toLowerCase()))return "";
+ const letters=s.alphabet==="cyrillic"?"абвгдежзийклмнопрстуфхцчшщэюя":"abcdefghijklmnopqrstuvwxyz";
+ while(name.length<s.min){
+  const c=pick(letters.split(""));
+  // Избегаем повторов подряд при заполнении короткого ника.
+  if(!s.noRepeat||name.slice(-1).toLowerCase()!==c.toLowerCase())name+=c;
+ }
+ if(s.digits==="yes"||(s.digits==="optional"&&Math.random()<.25)){
+  if(name.length<s.max)name+=String(rand(0,9));
+ }
+ if(s.symbols==="yes"||(s.symbols==="optional"&&Math.random()<.15)){
+  if(name.length<s.max&&name.length>1){
+   const pos=rand(1,name.length-1);
+   name=name.slice(0,pos)+pick(["_","-"])+name.slice(pos);
   }
-
-  if(name.length > cap){
-    if(own && s.ownMode === "prefix"){
-      name = own + name.slice(own.length,cap);
-    } else if(own && s.ownMode === "suffix"){
-      name = name.slice(0,Math.max(0,cap-own.length)) + own;
-    } else if(own){
-      name = name.startsWith(own)
-        ? own + name.slice(own.length,cap)
-        : name.slice(0,Math.max(0,cap-own.length)) + own;
-    } else {
-      name = name.slice(0,cap);
-    }
-  }
-
-  if(own && !name.toLowerCase().includes(own.toLowerCase())) return "";
-
-  const fillerAlphabet = randomAlphabet(s) === "cyrillic"
-    ? "абвгдежзийклмнопрстуфхцчшщэюя"
-    : "abcdefghijklmnopqrstuvwxyz";
-
-  while(name.length < Math.min(s.min,cap)){
-    name += pick(Array.from(fillerAlphabet));
-  }
-
-  if(s.digits === "yes" || (s.digits === "optional" && Math.random()<.25)){
-    if(name.length < s.max) name += randomInt(0,9);
-  }
-
-  if(s.symbols === "yes" || (s.symbols === "optional" && Math.random()<.15)){
-    if(name.length < s.max && name.length > 1){
-      const symbol = pick(["_","-"]);
-      const position = randomInt(1,name.length-1);
-      name = name.slice(0,position) + symbol + name.slice(position);
-    }
-  }
-
-  if(s.letterCase === "upper") name = name.charAt(0).toUpperCase()+name.slice(1);
-  if(s.letterCase === "lower") name = name.charAt(0).toLowerCase()+name.slice(1);
-
-  return name;
+ }
+ if(s.letterCase==="upper")name=name.charAt(0).toUpperCase()+name.slice(1);
+ if(s.letterCase==="lower")name=name.charAt(0).toLowerCase()+name.slice(1);
+ return name;
 }
-
 function valid(name,s){
-  if(!name || name.length<s.min || name.length>s.max) return false;
-  if(!/^[A-Za-zА-Яа-яЁё0-9_-]+$/.test(name)) return false;
-  if(s.alphabet === "latin" && !/^[A-Za-z0-9_-]+$/.test(name)) return false;
-  if(s.alphabet === "cyrillic" && !/^[А-Яа-яЁё0-9_-]+$/.test(name)) return false;
-  if(s.digits === "no" && /\d/.test(name)) return false;
-  if(s.digits === "yes" && !/\d/.test(name)) return false;
-  if(s.symbols === "no" && /[_-]/.test(name)) return false;
-  if(s.symbols === "yes" && !/[_-]/.test(name)) return false;
-  if(s.noRepeat && /(.)\1/iu.test(name)) return false;
-  if(s.blocked.some(word => word && name.toLowerCase().includes(word))) return false;
-  if(s.own && !name.toLowerCase().includes(s.own.toLowerCase())) return false;
-  if(s.letterCase === "upper" && !/^[A-ZА-ЯЁ]/.test(name)) return false;
-  if(s.letterCase === "lower" && !/^[a-zа-яё]/.test(name)) return false;
-  return true;
+ if(!name||name.length<s.min||name.length>s.max)return false;
+ if(!/^[A-Za-zА-Яа-яЁё0-9_-]+$/.test(name))return false;
+ if(s.alphabet==="latin"&&!/^[A-Za-z0-9_-]+$/.test(name))return false;
+ if(s.alphabet==="cyrillic"&&!/^[А-Яа-яЁё0-9_-]+$/.test(name))return false;
+ if(s.alphabet==="mixed"&&!/[A-Za-zА-Яа-яЁё]/.test(name))return false;
+ if(s.digits==="no"&&/\d/.test(name))return false;
+ if(s.digits==="yes"&&!/\d/.test(name))return false;
+ if(s.symbols==="no"&&/[_-]/.test(name))return false;
+ if(s.symbols==="yes"&&!/[_-]/.test(name))return false;
+ if(s.noRepeat&&/(.)\1/iu.test(name))return false;
+ if(s.blocked.some(w=>w&&name.toLowerCase().includes(w)))return false;
+ if(s.own&&!name.toLowerCase().includes(s.own.toLowerCase()))return false;
+ if(s.letterCase==="upper"&&!/^[A-ZА-ЯЁ]/.test(name))return false;
+ if(s.letterCase==="lower"&&!/^[a-zа-яё]/.test(name))return false;
+ return true;
 }
-
 function validate(s){
-  const mandatory = (s.digits === "yes" ? 1 : 0) + (s.symbols === "yes" ? 1 : 0);
-
-  if(s.own && s.own.length>s.max) return "Своё слово длиннее максимальной длины.";
-  if(s.max-mandatory<s.min) return "Не хватает места для обязательных цифр и символов.";
-  if(s.own && s.own.length+mandatory>s.max) return "Своё слово и обязательные элементы не помещаются в ник.";
-  if(s.symbols === "yes" && s.max === s.min && s.max<4) {
-    return "Для ника с обязательным символом увеличь максимальную длину хотя бы до 4.";
-  }
-  return "";
+ const mandatory=(s.digits==="yes"?1:0)+(s.symbols==="yes"?1:0);
+ if(s.own&&s.own.length>s.max)return "Своё слово длиннее максимальной длины.";
+ if(s.own&&s.own.length<s.min&&s.own.length+mandatory>s.max)return "Своё слово и обязательные элементы не помещаются в ник.";
+ if(s.max-mandatory<s.min)return "Увеличь максимальную длину: обязательные цифры и символы не помещаются.";
+ if(s.own&&s.own.length+mandatory>s.max)return "Своё слово и обязательные элементы не помещаются в ник.";
+ if(s.symbols==="yes"&&s.max<3)return "Увеличь длину ника.";
+ return "";
 }
-
 function render(){
-  $("count").textContent = "· " + latest.length + " из " + $("quantity").value;
-  const root = $("results");
-  root.replaceChildren();
-
-  if(!latest.length){
-    const empty = document.createElement("div");
-    empty.className = "empty";
-    empty.textContent = "Подходящие ники не найдены. Ослабь ограничения или очисти историю.";
-    root.append(empty);
-    return;
-  }
-
-  latest.forEach((name,index) => {
-    const card = document.createElement("div");
-    card.className = "nick";
-    card.style.animationDelay = Math.min(index*.035,.5) + "s";
-
-    const info = document.createElement("div");
-    info.style.minWidth = "0";
-
-    const title = document.createElement("div");
-    title.className = "nick-name";
-    title.textContent = name;
-
-    const meta = document.createElement("div");
-    meta.className = "nick-info";
-    meta.textContent = Array.from(name).length + " символов · " + themes[$("style").value][2];
-
-    info.append(title,meta);
-
-    const button = document.createElement("button");
-    button.className = "copy";
-    button.textContent = "Копировать";
-    button.type = "button";
-    button.addEventListener("click",() => copyText(name));
-
-    card.append(info,button);
-    root.append(card);
-  });
+ $("count").textContent="· "+latest.length+" из "+$("quantity").value;
+ const root=$("results");root.replaceChildren();
+ if(!latest.length){
+  const e=document.createElement("div");e.className="empty";
+  e.textContent="Подходящие ники не найдены. Ослабь ограничения или очисти историю.";root.append(e);return;
+ }
+ latest.forEach((name,i)=>{
+  const card=document.createElement("div");card.className="nick";card.style.animationDelay=Math.min(i*.025,.4)+"s";
+  const info=document.createElement("div");info.style.minWidth="0";
+  const title=document.createElement("div");title.className="nick-name";title.textContent=name;
+  const meta=document.createElement("div");meta.className="nick-info";
+  meta.textContent=Array.from(name).length+" символов · "+themes[$("style").value][2];
+  info.append(title,meta);
+  const b=document.createElement("button");b.className="copy";b.type="button";b.textContent="Копировать";
+  b.addEventListener("click",()=>copyText(name));
+  card.append(info,b);root.append(card);
+ });
 }
-
 async function copyText(value){
-  try{
-    if(navigator.clipboard && window.isSecureContext){
-      await navigator.clipboard.writeText(value);
-    } else {
-      const area = document.createElement("textarea");
-      area.value = value;
-      area.style.position = "fixed";
-      area.style.opacity = "0";
-      document.body.append(area);
-      area.select();
-      const success = document.execCommand("copy");
-      area.remove();
-      if(!success) throw new Error("copy failed");
-    }
-
-    setStatus(value.includes("\n") ? "Все ники скопированы." : "Скопировано: " + value,"good");
-    burst(window.innerWidth/2,window.innerHeight/2,9);
-  } catch {
-    setStatus("Не удалось скопировать автоматически. Выдели ник и скопируй вручную.","bad");
+ try{
+  if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(value);
+  else{
+   const area=document.createElement("textarea");area.value=value;
+   area.style.position="fixed";area.style.opacity="0";document.body.append(area);
+   area.select();const ok=document.execCommand("copy");area.remove();
+   if(!ok)throw Error("copy");
   }
+  setStatus(value.includes("\n")?"Все ники скопированы.":"Скопировано: "+value,"good");
+  playSound("copy");burst(innerWidth/2,innerHeight/2,10);
+ }catch{
+  setStatus("Не удалось скопировать автоматически. Выдели ник и скопируй вручную.","bad");
+  playSound("error");
+ }
 }
-
 function burst(x,y,count=22){
-  const color = themes[$("style").value][0];
-
-  for(let i=0;i<count;i++){
-    const particle = document.createElement("span");
-    particle.className = "particle";
-    particle.style.background = color;
-    particle.style.boxShadow = "0 0 10px "+color;
-    particle.style.left = x+"px";
-    particle.style.top = y+"px";
-
-    const angle = Math.random()*Math.PI*2;
-    const distance = 35+Math.random()*125;
-    particle.style.setProperty("--dx",Math.cos(angle)*distance+"px");
-    particle.style.setProperty("--dy",Math.sin(angle)*distance+"px");
-    particle.style.width = (3+Math.random()*4)+"px";
-    particle.style.height = particle.style.width;
-
-    document.body.append(particle);
-    setTimeout(() => particle.remove(),900);
-  }
+ const color=themes[$("style").value][0];
+ for(let i=0;i<count;i++){
+  const p=document.createElement("span");p.className="particle";
+  p.style.background=color;p.style.boxShadow="0 0 10px "+color;
+  p.style.left=x+"px";p.style.top=y+"px";
+  const a=Math.random()*Math.PI*2,d=30+Math.random()*100;
+  p.style.setProperty("--dx",Math.cos(a)*d+"px");p.style.setProperty("--dy",Math.sin(a)*d+"px");
+  document.body.append(p);setTimeout(()=>p.remove(),800);
+ }
 }
-
 function ringEffect(x,y){
-  const ring = document.createElement("span");
-  ring.className = "ring";
-  ring.style.left = x+"px";
-  ring.style.top = y+"px";
-  ring.style.borderColor = themes[$("style").value][0];
-  document.body.append(ring);
-  setTimeout(() => ring.remove(),600);
+ const e=document.createElement("span");e.className="ring";e.style.left=x+"px";e.style.top=y+"px";
+ document.body.append(e);setTimeout(()=>e.remove(),500);
 }
-
-function sparkEffect(x,y){
-  const color = themes[$("style").value][0];
-
-  for(let i=0;i<5;i++){
-    const spark = document.createElement("span");
-    spark.className = "spark";
-    spark.style.left = x+"px";
-    spark.style.top = y+"px";
-    spark.style.background = color;
-    spark.style.boxShadow = "0 0 10px "+color;
-    spark.style.setProperty("--dx",(Math.random()*90-45)+"px");
-    spark.style.setProperty("--dy",(Math.random()*-80-10)+"px");
-    spark.style.setProperty("--rot",(Math.random()*180-90)+"deg");
-    document.body.append(spark);
-    setTimeout(() => spark.remove(),700);
+/* Звуки генерируются локально через Web Audio: никаких файлов и загрузок.
+   Браузер включает звук после первого действия пользователя. */
+let audioCtx=null;
+function playSound(type="click"){
+ try{
+  const AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC)return;
+  if(!audioCtx)audioCtx=new AC();
+  if(audioCtx.state==="suspended")audioCtx.resume();
+  const now=audioCtx.currentTime;
+  const presets={
+   click:[620,.045,"sine",.035],
+   generate:[520,.08,"triangle",.045],
+   copy:[880,.06,"sine",.04],
+   error:[180,.1,"square",.025],
+   theme:[740,.05,"triangle",.035]
+  };
+  const [freq,duration,wave,volume]=presets[type]||presets.click;
+  const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
+  osc.type=wave;osc.frequency.setValueAtTime(freq,now);
+  if(type==="generate")osc.frequency.exponentialRampToValueAtTime(1040,now+duration);
+  if(type==="error")osc.frequency.exponentialRampToValueAtTime(110,now+duration);
+  gain.gain.setValueAtTime(volume,now);
+  gain.gain.exponentialRampToValueAtTime(.001,now+duration);
+  osc.connect(gain);gain.connect(audioCtx.destination);
+  osc.start(now);osc.stop(now+duration);
+  if(type==="generate"){
+   const o2=audioCtx.createOscillator(),g2=audioCtx.createGain();
+   o2.type="sine";o2.frequency.value=1320;
+   g2.gain.setValueAtTime(.025,now+.09);g2.gain.exponentialRampToValueAtTime(.001,now+.19);
+   o2.connect(g2);g2.connect(audioCtx.destination);o2.start(now+.09);o2.stop(now+.19);
   }
+ }catch{}
 }
-
+/* Оригинальные персонажи рисуются SVG прямо в коде страницы. */
+function mascotSVG(style){
+ const cfg={
+  all:["#00d5ff","#087dff","fox"],game:["#00b9ff","#087dff","wolf"],
+  immoral:["#ff5577","#b31252","imp"],ordinary:["#8da9c4","#536e8c","buddy"],
+  letters:["#a6a0ff","#6254db","void"],light:["#ffe28a","#ffad42","angel"],
+  dark:["#9d85ff","#4e32a8","ghost"],warrior:["#ff604d","#b82032","warrior"],
+  minimal:["#6fffd1","#27b99a","robot"],fantasy:["#ce8cff","#8546c5","mage"],
+  cyber:["#00ffd0","#008bff","fox"],fun:["#ffbd59","#ff6b75","critter"],
+  nature:["#8de47b","#2d9b64","forest"],space:["#8f9cff","#5546d8","astronaut"],
+  myth:["#ffbd70","#c65b37","titan"],stealth:["#80a6d8","#3e5888","ninja"],
+  royal:["#e6bdff","#9b65d4","royal"]
+ };
+ const [c1,c2,type]=cfg[style]||cfg.all;
+ const ear=type==="fox"||type==="wolf"||type==="critter"
+ ? `<path d="M91 104 L79 45 L125 77 L151 40 L166 100" fill="${c2}" stroke="${c1}" stroke-width="4" stroke-linejoin="round"/><path d="M95 89 L91 61 L114 79 M149 80 L157 57 L162 88" fill="#101827"/>`
+ : type==="astronaut"||type==="robot"
+ ? `<path d="M90 100 L83 67 L105 79 M155 100 L164 67 L142 79" fill="${c2}" stroke="${c1}" stroke-width="4"/>`
+ : `<path d="M93 101 L80 58 L113 76 M151 76 L175 51 L163 103" fill="${c2}" stroke="${c1}" stroke-width="4" stroke-linejoin="round"/>`;
+ const accessory={
+  fox:`<path d="M84 150 Q54 170 70 201 Q84 219 106 202" fill="none" stroke="${c1}" stroke-width="12" stroke-linecap="round"/><path d="M73 198 L95 201" stroke="${c2}" stroke-width="9" stroke-linecap="round"/>`,
+  wolf:`<path d="M80 151 L56 187 L76 205 L96 177" fill="${c2}" stroke="${c1}" stroke-width="4"/>`,
+  imp:`<path d="M86 93 L62 68 L93 75 M159 91 L186 65 L172 99" fill="none" stroke="${c1}" stroke-width="7" stroke-linecap="round"/>`,
+  buddy:`<circle cx="80" cy="74" r="8" fill="${c1}"/><circle cx="166" cy="71" r="7" fill="${c2}"/>`,
+  void:`<path d="M82 96 L68 75 L94 82 M159 94 L180 72 L167 102" fill="none" stroke="${c1}" stroke-width="4"/>`,
+  angel:`<path d="M92 125 Q44 75 53 131 Q60 157 98 153 M153 124 Q199 74 207 132 Q197 157 151 153" fill="${c2}" stroke="${c1}" stroke-width="4"/>`,
+  ghost:`<path d="M88 160 Q65 195 80 208 L98 197 L114 210 L132 198 L151 210 L172 186" fill="${c2}" stroke="${c1}" stroke-width="4"/>`,
+  warrior:`<path d="M88 112 L121 90 L154 112 L148 133 L94 133 Z" fill="${c2}" stroke="${c1}" stroke-width="4"/><path d="M170 134 L193 95" stroke="${c1}" stroke-width="6" stroke-linecap="round"/>`,
+  robot:`<path d="M121 62 L121 44 L141 44 L141 62" fill="none" stroke="${c1}" stroke-width="5"/><circle cx="131" cy="38" r="5" fill="${c1}"/>`,
+  mage:`<path d="M76 112 L127 35 L179 112 Z" fill="${c2}" stroke="${c1}" stroke-width="4"/><path d="M177 129 L196 83" stroke="${c1}" stroke-width="5"/><circle cx="196" cy="79" r="8" fill="${c1}"/>`,
+  critter:`<circle cx="85" cy="79" r="13" fill="${c2}" stroke="${c1}" stroke-width="3"/><circle cx="165" cy="79" r="13" fill="${c2}" stroke="${c1}" stroke-width="3"/>`,
+  forest:`<path d="M84 99 L67 70 L99 80 M155 80 L179 68 L164 104" fill="${c2}" stroke="${c1}" stroke-width="4"/>`,
+  astronaut:`<path d="M74 139 Q44 145 56 177 L84 183 M178 139 Q205 149 191 177 L165 183" fill="none" stroke="${c1}" stroke-width="10" stroke-linecap="round"/>`,
+  titan:`<path d="M82 107 L72 63 L113 81 L130 55 L151 81 L184 62 L170 112" fill="${c2}" stroke="${c1}" stroke-width="4"/>`,
+  ninja:`<path d="M78 116 L180 116 L169 140 L91 140 Z" fill="${c2}" stroke="${c1}" stroke-width="3"/><path d="M168 136 L199 126" stroke="${c1}" stroke-width="5"/>`,
+  royal:`<path d="M88 100 L82 66 L111 85 L130 57 L150 85 L177 66 L169 102 Z" fill="${c2}" stroke="${c1}" stroke-width="4"/>`
+ };
+ const extra=accessory[type]||"";
+ return `<svg class="mascot" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Оригинальный персонаж стиля ${style}">
+ <defs><linearGradient id="armor${style}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs>
+ <ellipse cx="130" cy="226" rx="67" ry="10" fill="${c1}" opacity=".14"/>
+ <circle class="energy" cx="130" cy="124" r="91" fill="none" stroke="${c1}" stroke-width="1.5" stroke-dasharray="5 10" opacity=".55"/>
+ <path d="M85 177 L76 213 L111 213 L123 182 M139 182 L151 213 L185 213 L175 177" fill="#111c2a" stroke="${c1}" stroke-width="4" stroke-linejoin="round"/>
+ <path d="M91 141 L76 174 L90 199 L118 187 L142 187 L169 199 L184 174 L169 141 Z" fill="url(#armor${style})" stroke="${c1}" stroke-width="3"/>
+ <path d="M107 152 L130 165 L153 152 L145 181 L115 181 Z" fill="#08121f" stroke="${c1}" stroke-width="2"/>
+ ${ear}
+ <path d="M94 94 Q130 68 164 94 L174 129 Q165 157 130 160 Q96 155 85 129 Z" fill="#121e2e" stroke="${c1}" stroke-width="4"/>
+ <path d="M91 111 Q110 94 127 111 L124 123 L94 123 Z M133 111 Q151 94 169 111 L166 123 L136 123 Z" fill="${c1}" class="eyes"/>
+ <path d="M117 138 L130 143 L143 138" fill="none" stroke="${c1}" stroke-width="3" stroke-linecap="round"/>
+ <path d="M105 129 L121 129 M139 129 L155 129" stroke="#dffcff" stroke-width="2" opacity=".75"/>
+ ${extra}
+ <path d="M66 113 L48 101 M191 112 L211 98 M76 153 L57 158 M184 153 L203 158" stroke="${c1}" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+ <circle cx="51" cy="100" r="3" fill="${c1}"/><circle cx="211" cy="98" r="3" fill="${c1}"/>
+ </svg>`;
+}
+function applyTheme(){
+ const style=$("style").value,t=themes[style]||themes.all;
+ document.documentElement.style.setProperty("--accent",t[0]);
+ document.documentElement.style.setProperty("--accent2",t[1]);
+ const hex=t[0].slice(1),r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16);
+ document.documentElement.style.setProperty("--glow",`rgba(${r},${g},${b},.22)`);
+ document.body.className=document.body.className.split(/\s+/).filter(c=>!c.startsWith("theme-")).join(" ");
+ document.body.classList.add("theme-"+style);
+ $("heroArt").innerHTML=mascotSVG(style);
+ $("mascotLabel").textContent=t[3];
+ $("styleHint").textContent="Стиль «"+t[2]+"»: персонаж, цвета и подсветка обновлены.";
+}
 function generate(){
-  if(generating) return;
-  generating = true;
-
-  document.body.classList.add("generating");
-  const button = $("generate");
-  button.disabled = true;
-
-  try{
-    const s = settings();
-    const problem = validate(s);
-
-    if(problem){
-      latest = [];
-      render();
-      setStatus(problem,"bad");
-      return;
-    }
-
-    const found = [];
-    const local = new Set();
-    const seen = new Set(s.unique ? history.map(x => x.toLowerCase()) : []);
-    let attempts = 0;
-
-    while(found.length<s.quantity && attempts<30000){
-      attempts++;
-      const name = candidate(s);
-      const key = name.toLowerCase();
-
-      if(!valid(name,s) || local.has(key) || seen.has(key)) continue;
-
-      local.add(key);
-      found.push(name);
-    }
-
-    latest = found;
-
-    if(s.unique){
-      history.push(...found.map(x => x.toLowerCase()));
-      history = [...new Set(history)].slice(-1000);
-      try{localStorage.setItem(HISTORY_KEY,JSON.stringify(history))}catch{}
-    }
-
-    render();
-    burst(window.innerWidth*.72,Math.min(window.innerHeight*.45,420),30);
-    setStatus(
-      found.length===s.quantity
-        ? "Готово! Создано "+found.length+" уникальных вариантов."
-        : "Создано "+found.length+" из "+s.quantity+". Измени ограничения или очисти историю.",
-      found.length===s.quantity ? "good" : "bad"
-    );
-  } finally {
-    setTimeout(() => {
-      generating = false;
-      button.disabled = false;
-      document.body.classList.remove("generating");
-    },350);
+ if(generating)return;
+ generating=true;
+ const button=$("generate");button.disabled=true;
+ try{
+  const s=getSettings(),problem=validate(s);
+  if(problem){latest=[];render();setStatus(problem,"bad");playSound("error");return}
+  const found=[],local=new Set();
+  const seen=new Set(s.unique?history.map(x=>x.toLowerCase()):[]);
+  let attempts=0;
+  while(found.length<s.quantity&&attempts<25000){
+   attempts++;
+   const name=candidate(s),key=name.toLowerCase();
+   if(!valid(name,s)||local.has(key)||seen.has(key))continue;
+   local.add(key);found.push(name);
   }
+  latest=found;
+  if(s.unique){
+   history.push(...found.map(x=>x.toLowerCase()));
+   history=[...new Set(history)].slice(-1500);
+   try{localStorage.setItem(HISTORY_KEY,JSON.stringify(history))}catch{}
+  }
+  render();playSound("generate");
+  burst(innerWidth*.72,Math.min(innerHeight*.45,420),25);
+  setStatus(found.length===s.quantity
+   ?"Готово! Создано "+found.length+" уникальных вариантов."
+   :"Создано "+found.length+" из "+s.quantity+". Измени ограничения или очисти историю.",
+   found.length===s.quantity?"good":"bad");
+ }finally{
+  setTimeout(()=>{generating=false;button.disabled=false},250);
+ }
 }
-
-/* Эффекты нажатий для кнопок сайта */
-document.addEventListener("click",event => {
-  const button = event.target.closest("button");
-  if(!button || button.disabled) return;
-
-  const rect = button.getBoundingClientRect();
-  const x = event.clientX || rect.left+rect.width/2;
-  const y = event.clientY || rect.top+rect.height/2;
-
-  const wave = document.createElement("span");
-  wave.className = "click-wave";
-  wave.style.left = (x-rect.left)+"px";
-  wave.style.top = (y-rect.top)+"px";
-  button.append(wave);
-  setTimeout(() => wave.remove(),600);
-
-  ringEffect(x,y);
-  sparkEffect(x,y);
+document.addEventListener("click",e=>{
+ const b=e.target.closest("button");
+ if(!b||b.disabled)return;
+ if(!["generate","again","heroGenerate","copyAll","clearHistory"].includes(b.id)&&!b.classList.contains("copy"))playSound("click");
+ const rect=b.getBoundingClientRect();
+ const x=Number.isFinite(e.clientX)&&e.clientX!==0?e.clientX:rect.left+rect.width/2;
+ const y=Number.isFinite(e.clientY)&&e.clientY!==0?e.clientY:rect.top+rect.height/2;
+ const wave=document.createElement("span");wave.className="click-wave";
+ wave.style.left=(x-rect.left)+"px";wave.style.top=(y-rect.top)+"px";
+ b.append(wave);setTimeout(()=>wave.remove(),500);
+ ringEffect(x,y);
 });
-
-$("style").addEventListener("change",() => {
-  applyTheme();
-  burst(window.innerWidth*.5,90,18);
-  setStatus("Стиль изменён: оформление интерфейса обновлено.","good");
-});
-
+$("style").addEventListener("change",()=>{applyTheme();playSound("theme");burst(innerWidth*.5,100,14);setStatus("Стиль изменён: персонаж и оформление обновлены.","good")});
 $("generate").addEventListener("click",generate);
 $("again").addEventListener("click",generate);
-
-$("heroGenerate").addEventListener("click",() => {
-  generate();
-  $("resultPanel").scrollIntoView({
-    behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-    block:"start"
-  });
+$("heroGenerate").addEventListener("click",()=>{
+ generate();
+ $("resultPanel").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
 });
-
-$("copyAll").addEventListener("click",() => {
-  if(latest.length) copyText(latest.join("\n"));
-  else setStatus("Сначала сгенерируй ники.");
+$("copyAll").addEventListener("click",()=>{
+ if(latest.length)copyText(latest.join("\n"));else{setStatus("Сначала сгенерируй ники.");playSound("error")}
 });
-
-$("clearHistory").addEventListener("click",() => {
-  history = [];
-  try{localStorage.removeItem(HISTORY_KEY)}catch{}
-  setStatus("История очищена. Прежние ники снова могут появляться.","good");
-  burst(window.innerWidth*.25,window.innerHeight*.6,14);
+$("clearHistory").addEventListener("click",()=>{
+ history=[];try{localStorage.removeItem(HISTORY_KEY)}catch{}
+ setStatus("История очищена. Прежние ники снова могут появляться.","good");
+ playSound("copy");burst(innerWidth*.25,innerHeight*.6,12);
 });
-
-$("own").addEventListener("input",() => {
-  $("own").value = $("own").value.slice(0,20);
-});
-
-applyTheme();
-render();
-
+$("own").addEventListener("input",()=>{if($("own").value.length>20)$("own").value=$("own").value.slice(0,20)});
+applyTheme();render();
 })();
 </script>
 </body>
