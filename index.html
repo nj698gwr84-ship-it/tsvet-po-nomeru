@@ -1,112 +1,97 @@
-
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f8f7f3">
-<title>Цвет по номеру — каталог раскрасок</title>
-<meta name="description" content="Каталог раскрасок по номерам маркеров. Ищите раскраску и находите номера цветов для своей палитры.">
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#f8f7f3;color:#292b32;font:16px -apple-system,BlinkMacSystemFont,Arial,sans-serif}
-header{padding:27px 18px;background:#fff;border-bottom:1px solid #e9e6df}
-.wrap{max-width:850px;margin:auto}
-.logo{font-size:25px;font-weight:800;letter-spacing:-1px}
-.logo span{color:#e77b57}
-header p{color:#73747b;margin:9px 0 0;line-height:1.5}
-main{padding:22px 16px 50px;max-width:850px;margin:auto}
-h1{font-size:27px;letter-spacing:-.7px;margin:8px 0}
-.sub{color:#73747b;line-height:1.5;margin:10px 0 20px}
-.search{width:100%;padding:16px;border:1px solid #ddd9d1;border-radius:13px;font-size:16px;background:#fff;outline:none}
-.search:focus{border-color:#e77b57}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin:13px 0 23px}
-.filter{border:1px solid #dedbd4;background:white;padding:9px 13px;border-radius:30px;color:#444;font-size:14px}
-.filter.active{background:#292b32;color:white;border-color:#292b32}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.card{background:#fff;border:1px solid #e9e6df;border-radius:15px;overflow:hidden}
-.art{height:125px;display:flex;align-items:center;justify-content:center;font-size:54px;background:#f0e9df}
-.info{padding:13px}
-.info h2{font-size:16px;margin:0 0 7px}
-.meta{font-size:13px;color:#777;line-height:1.5}
-.open{width:100%;padding:11px;margin-top:12px;border:0;border-radius:9px;background:#f7e4dc;color:#8d432b;font-size:14px;font-weight:700}
-.note{font-size:12px;color:#888;line-height:1.5;margin-top:22px}
-.empty{grid-column:1/-1;background:white;border-radius:12px;padding:25px;text-align:center;color:#777}
-#details{display:none;position:fixed;inset:0;background:#0008;z-index:5;padding:15px;overflow:auto}
-.panel{background:#fff;border-radius:18px;max-width:520px;margin:30px auto;padding:21px}
-.close{float:right;border:0;background:#eee;border-radius:50%;width:36px;height:36px;font-size:21px}
-.panel h2{margin-top:4px;padding-right:38px}
-.panel p{line-height:1.5;color:#777;font-size:14px}
-table{width:100%;border-collapse:collapse;margin-top:15px}
-td,th{text-align:left;padding:11px 6px;border-bottom:1px solid #eee;font-size:14px}
-.swatch{display:inline-block;width:20px;height:20px;border-radius:6px;vertical-align:middle;margin-right:8px;border:1px solid #ddd}
-footer{text-align:center;padding:22px;color:#888;font-size:12px}
-@media(min-width:620px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.art{height:155px}}
-</style>
-</head>
-<body>
-<header><div class="wrap">
-<div class="logo">🎨 Цвет <span>по номеру</span></div>
-<p>Находи номера маркеров для своих раскрасок</p>
-</div></header>
-<main>
-<h1>Каталог раскрасок</h1>
-<p class="sub">Найди свою картину и посмотри, какие номера маркеров нужны для раскрашивания.</p>
-<input class="search" id="search" placeholder="Название, бренд или артикул..." aria-label="Поиск раскрасок">
-<div class="filters" id="filters">
-<button class="filter active" data-brand="Все">Все</button>
-<button class="filter" data-brand="Пример">Примеры</button>
-</div>
-<div class="grid" id="catalog"></div>
-<p class="note">Каталог наполняется. Цвета в демонстрационных карточках условные и не являются проверенными соответствиями оригинальным наборам.</p>
-</main>
-<div id="details">
-<div class="panel">
-<button class="close" id="close" aria-label="Закрыть">×</button>
-<div id="detailContent"></div>
-</div>
-</div>
-<footer>Цвет по номеру · Бесплатный каталог для любителей раскрасок</footer>
-<script>
-const pictures=[
-{id:1,title:"Цветочный сад",brand:"Пример",article:"DEMO-001",emoji:"🌷",colors:[["01","#f4a6a6","Розовый"],["12","#65a875","Зелёный"],["23","#f4d16b","Жёлтый"],["34","#8c78b8","Фиолетовый"]]},
-{id:2,title:"Домик у моря",brand:"Пример",article:"DEMO-002",emoji:"🏡",colors:[["02","#78b9dd","Голубой"],["13","#5e966a","Зелёный"],["24","#e9c28d","Песочный"],["35","#df8e69","Коралловый"]]},
-{id:3,title:"Котёнок",brand:"Пример",article:"DEMO-003",emoji:"🐈",colors:[["03","#d6d0c7","Серый"],["14","#e8b68d","Бежевый"],["25","#e9cf64","Жёлтый"],["36","#8b8b8b","Тёмно-серый"]]}
+mage: "https://static.wixstatic.com/media/4468f4_6e5b2245ce094af092926e1bb448aa4e~mv2.jpg/v1/fill/w_2181%2Ch_2943%2Cal_c%2Cq_90%2Cenc_avif%2Cquality_auto/4468f4_6e5b2245ce094af092926e1bb448aa4e~mv2.jpg",
+    url: "https://www.hachetteheroes.com/produit/85504/9782017312512/coloriages-mysteres-disney-princesses-tome-2"
+  },
+  {
+    title: "Disney Best of Méchants — Злодеи",
+    category: "Злодеи",
+    characters: "Малефисента и злодеи Disney/Pixar",
+    image: "https://image.smythstoys.com/original/800/desktop/260906.jpg",
+    url: "https://www.hachette.fr/livre/coloriages-mysteres-disney-best-mechants-9782017356288/"
+  },
+  {
+    title: "Disney Pixar — Best of Pixar",
+    category: "Pixar",
+    characters: "Персонажи мультфильмов Pixar",
+    image: "https://www.scrapmalin.com/pub/Photos/Hachette/2025-06/.P_663628_P_1_l.jpg",
+    url: "https://www.hachetteheroes.com/theme/42/coloriages-mysteres-disney"
+  },
+  {
+    title: "Disney Pixar — Tome 2",
+    category: "Pixar",
+    characters: "История игрушек, В поисках Немо, Тачки",
+    image: "https://www.hachette.fr/livre/coloriages-mysteres-disney-pixar-tome-2-9782019452438/",
+    url: "https://www.hachetteheroes.com/produit/93/9782019452438/coloriages-mysteres-disney-pixar-tome-2"
+  },
+  {
+    title: "Disney Grands Classiques — Tome 2",
+    category: "Классика",
+    characters: "Классические мультфильмы Disney",
+    image: "https://scrapbooktendance.ca/media/catalog/product/cache/207e23213cf636ccdef205098cf3c8a3/6/0/60326b5a-612a-4ae7-996c-a2d7c455ea3d.png",
+    url: "https://www.hachetteheroes.com/produit/282/9782012407565/coloriages-mysteres-disney-les-grands-classiques-tome-2"
+  },
+  {
+    title: "Disney Grands Classiques — Tome 13",
+    category: "Классика",
+    characters: "Анна, Эльза и другие герои",
+    image: "https://www.lagriffenoire.com/cache/images/product/0367227-couverture1-xcgzbqmbjst5x9jxnwinu_cm9br-zrkad3odohw5i-daxxeskkplbq-cover-full.jpg",
+    url: "https://www.hachetteheroes.com/produit/85646/9782017276302/coloriages-mysteres-disney-grands-classiques-tome-13"
+  },
+  {
+    title: "Disney Vitraux — Tome 2",
+    category: "Другие",
+    characters: "Витражный стиль, герои Disney и Pixar",
+    image: "https://theneverland.be/img/p/3/4/6/2/6/34626-large_default.jpg",
+    url: "https://www.hachetteheroes.com/theme/42/coloriages-mysteres-disney"
+  },
+  {
+    title: "Disney Best of Nature",
+    category: "Другие",
+    characters: "Животные и природа",
+    image: "https://media.e.leclerc/9782017285694_1?fit=fit&fmt=pjpeg&hei=450&op_sharpen=1&qlt=85&resmode=bilin&trim=0.5&wid=450",
+    url: "https://www.hachetteheroes.com/theme/42/coloriages-mysteres-disney"
+  },
+  {
+    title: "Disney Best of Héroïnes — Героини",
+    category: "Другие",
+    characters: "Героини Disney и Pixar",
+    image: "https://www.artetloisirs.fr/20404-large_default/coloriages-mysteres-disney-best-of-heroines-.jpg",
+    url: "https://www.hachetteheroes.com/theme/42/coloriages-mysteres-disney"
+  },
+  {
+    title: "Disney Très grands classiques — XXL",
+    category: "Классика",
+    characters: "Большой формат, Disney и Pixar",
+    image: "https://image.smythstoys.com/zoom/253298.webp",
+    url: "https://www.hachetteheroes.com/theme/42/coloriages-mysteres-disney"
+  }
 ];
-let currentBrand="Все";
-const catalog=document.getElementById("catalog");
-function render(){
-const q=document.getElementById("search").value.trim().toLowerCase();
-const list=pictures.filter(p=>(currentBrand==="Все"||p.brand===currentBrand)&&[p.title,p.brand,p.article].some(x=>x.toLowerCase().includes(q)));
-catalog.innerHTML="";
-if(!list.length){catalog.innerHTML='<div class="empty">Ничего не найдено. Попробуй изменить запрос.</div>';return}
-list.forEach(p=>{
-const card=document.createElement("article");card.className="card";
-card.innerHTML='<div class="art">'+p.emoji+'</div><div class="info"><h2></h2><div class="meta"></div><button class="open">Посмотреть цвета →</button></div>';
-card.querySelector("h2").textContent=p.title;
-card.querySelector(".meta").textContent=p.brand+" · Артикул: "+p.article;
-card.querySelector("button").onclick=()=>showDetails(p.id);
-catalog.appendChild(card);
-});
-}
-function showDetails(id){
-const p=pictures.find(x=>x.id===id);
-document.getElementById("detailContent").innerHTML="";
-const box=document.getElementById("detailContent");
-const h=document.createElement("h2");h.textContent=p.title;box.appendChild(h);
-const intro=document.createElement("p");intro.textContent="Демонстрационные данные — номера и цвета пока условные.";box.appendChild(intro);
-const table=document.createElement("table");
-table.innerHTML="<thead><tr><th>Цвет</th><th>Номер</th><th>Название</th></tr></thead>";
-const body=document.createElement("tbody");
-p.colors.forEach(c=>{const tr=document.createElement("tr");tr.innerHTML='<td><span class="swatch"></span></td><td></td><td></td>';tr.querySelector(".swatch").style.background=c[1];tr.cells[1].textContent=c[0];tr.cells[2].textContent=c[2];body.appendChild(tr)});
-table.appendChild(body);box.appendChild(table);
-document.getElementById("details").style.display="block";
-}
-document.getElementById("close").onclick=()=>document.getElementById("details").style.display="none";
-document.getElementById("details").onclick=e=>{if(e.target.id==="details")e.currentTarget.style.display="none"};
-document.getElementById("search").addEventListener("input",render);
-document.querySelectorAll(".filter").forEach(b=>b.onclick=()=>{currentBrand=b.dataset.brand;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()});
-render();
-</script>
-</body>
-</html>
+
+const catalog = document.getElementById("catalog");
+const search = document.getElementById("search");
+let activeFilter = "Все";
+
+function render() {
+  const q = search.value.trim().toLocaleLowerCase("ru");
+  const filtered = books.filter(book => {
+    const matchesFilter =
+      activeFilter === "Все" || book.category === activeFilter;
+    const text = [
+      book.title, book.category, book.characters
+    ].join(" ").toLocaleLowerCase("ru");
+    return matchesFilter && text.includes(q);
+  });
+
+  catalog.innerHTML = "";
+
+  if (!filtered.length) {
+    catalog.innerHTML = "<p>Ничего не найдено. Попробуй другой запрос.</p>";
+    return;
+  }
+
+  filtered.forEach(book => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const img = document.createElement("img");
+    img.className = "cover";
+    img.
