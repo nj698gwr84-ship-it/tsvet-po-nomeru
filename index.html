@@ -1,19 +1,43 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10121b">
-<meta name="description" content="NickForge — генератор уникальных никнеймов с гибкими настройками.">
+<meta name="description" content="NickForge — бесплатный генератор уникальных никнеймов. Настрой стиль, длину, алфавит, символы и другие критерии.">
+<meta property="og:title" content="NickForge — генератор никнеймов">
+<meta property="og:description" content="Создавай уникальные никнеймы под свои правила.">
+<meta property="og:type" content="website">
 <title>NickForge — генератор никнеймов</title>
+
 <style>
-:root{--bg:#0c0e16;--panel:#151927;--line:#2b3247;--text:#f3f4ff;--muted:#a0a8bf;--accent:#9988ff}
+:root{
+  --bg:#0c0e16;
+  --panel:#151927;
+  --line:#2b3247;
+  --text:#f3f4ff;
+  --muted:#a0a8bf;
+  --accent:#9988ff;
+}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#28214c,transparent 45%),var(--bg);color:var(--text);font:16px/1.5 system-ui,sans-serif}
+body{
+  margin:0;
+  background:radial-gradient(ellipse at top,#28214c,transparent 45%),var(--bg);
+  color:var(--text);
+  font:16px/1.5 system-ui,sans-serif;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;font-weight:750;border-radius:10px}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+}
 .wrap{max-width:1050px;margin:auto;padding:25px 16px 50px}
 header{display:flex;align-items:center;gap:12px;margin-bottom:30px}
-.logo{background:linear-gradient(135deg,#b0a3ff,#6852dc);padding:10px 15px;border-radius:13px;font-weight:900;font-size:22px}
+.logo{
+  background:linear-gradient(135deg,#b0a3ff,#6852dc);
+  padding:10px 15px;border-radius:13px;font-weight:900;font-size:22px;
+}
 .brand{font-size:21px;font-weight:850}
 .muted{color:var(--muted);font-size:13px}
 .hero{text-align:center;margin-bottom:28px}
@@ -21,386 +45,731 @@ header{display:flex;align-items:center;gap:12px;margin-bottom:30px}
 .hero p{color:var(--muted);max-width:600px;margin:auto}
 .gradient{color:#b8aaff}
 .layout{display:grid;grid-template-columns:330px 1fr;gap:18px;align-items:start}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;min-width:0}
+.panel{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:18px;padding:20px;min-width:0;
+}
 h2{font-size:18px;margin:0 0 18px}
 .field{margin-bottom:16px}
 label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
-input,select,textarea{width:100%;padding:11px;background:#0e111c;color:var(--text);border:1px solid #353c52;border-radius:10px;font:inherit;min-width:0}
-input:focus,select:focus,textarea:focus{outline:2px solid #9988ff80}
-input[type=checkbox]{width:17px;height:17px;accent-color:var(--accent)}
+input,select,textarea{
+  width:100%;padding:11px;background:#0e111c;color:var(--text);
+  border:1px solid #353c52;border-radius:10px;min-width:0;
+}
+input[type=checkbox]{width:17px;height:17px;accent-color:var(--accent);flex-shrink:0}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .check{display:flex;gap:9px;align-items:center;margin:12px 0;color:#dce0f4}
 .check label{margin:0;font-weight:500}
-button{cursor:pointer;font:inherit;font-weight:750;border-radius:10px}
-.primary{width:100%;padding:13px;background:linear-gradient(100deg,#aa9bff,#705be6);color:white;border:0}
-.secondary,.copy{background:#292f43;color:#f0efff;border:1px solid #3b435d;padding:9px 12px}
+.primary{
+  width:100%;padding:13px;background:linear-gradient(100deg,#aa9bff,#705be6);
+  color:white;border:0;
+}
+.secondary,.copy{
+  background:#292f43;color:#f0efff;border:1px solid #3b435d;padding:9px 12px;
+}
 button:hover{filter:brightness(1.12)}
+button:disabled{opacity:.5;cursor:not-allowed}
 .results{display:grid;gap:9px}
-.nick{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px;background:#10141f;border:1px solid #2b3247;border-radius:12px;min-width:0}
+.nick{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  padding:13px;background:#10141f;border:1px solid #2b3247;
+  border-radius:12px;min-width:0;
+}
 .nick-name{font-size:18px;font-weight:800;overflow-wrap:anywhere}
 .nick-info{color:var(--muted);font-size:11px}
 .copy{font-size:12px;flex-shrink:0}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.empty{padding:30px 15px;text-align:center;border:1px dashed #3b435d;border-radius:12px;color:var(--muted)}
+.empty{
+  padding:30px 15px;text-align:center;border:1px dashed #3b435d;
+  border-radius:12px;color:var(--muted);
+}
 .status{color:var(--muted);font-size:12px;margin-top:14px;overflow-wrap:anywhere}
-.good{color:#76e7b0}.bad{color:#ff9ba8}
+.good{color:#76e7b0}
+.bad{color:#ff9ba8}
 .note{color:var(--muted);font-size:12px;margin-top:18px}
 footer{text-align:center;color:#7e879f;font-size:12px;margin-top:25px}
-@media(max-width:760px){.layout{grid-template-columns:1fr}.panel{padding:16px}.wrap{padding-top:18px}}
+@media(max-width:760px){
+  .layout{grid-template-columns:1fr}
+  .panel{padding:16px}
+  .wrap{padding-top:18px}
+}
 </style>
 </head>
+
 <body>
 <div class="wrap">
+
 <header>
-<div class="logo">N</div>
-<div><div class="brand">NickForge</div><div class="muted">Никнейм под твои правила</div></div>
+  <div class="logo">N</div>
+  <div>
+    <div class="brand">NickForge</div>
+    <div class="muted">Никнейм под твои правила</div>
+  </div>
 </header>
 
 <section class="hero">
-<div class="muted">ГЕНЕРАТОР ИГРОВЫХ НИКНЕЙМОВ</div>
-<h1>Твой стиль.<br><span class="gradient">Твой ник.</span></h1>
-<p>Настрой критерии, создай подборку и найди никнейм, который подходит именно тебе.</p>
+  <div class="muted">ГЕНЕРАТОР ИГРОВЫХ НИКНЕЙМОВ</div>
+  <h1>Твой стиль.<br><span class="gradient">Твой ник.</span></h1>
+  <p>Настрой критерии, создай подборку и найди никнейм, который подходит именно тебе.</p>
 </section>
 
 <main class="layout">
+
 <section class="panel">
 <h2>Критерии генерации</h2>
 
 <div class="field">
-<label for="platform">Платформа</label>
-<select id="platform">
-<option value="custom">Свои настройки</option>
-<option value="steam">Steam — имя профиля</option>
-<option value="roblox">Roblox — username</option>
-<option value="minecraft">Minecraft Java</option>
-</select>
-<div class="muted" id="platformHint">Задай собственные ограничения.</div>
+  <label for="platform">Платформа</label>
+  <select id="platform">
+    <option value="custom">Свои настройки</option>
+    <option value="steam">Steam — имя профиля</option>
+    <option value="roblox">Roblox — username</option>
+    <option value="minecraft">Minecraft Java</option>
+  </select>
+  <div class="muted" id="platformHint">Задай собственные ограничения.</div>
 </div>
 
 <div class="field">
-<label for="style">Стиль ника</label>
-<select id="style">
-<option value="game">Игровой</option>
-<option value="immoral">Аморальный</option>
-<option value="ordinary">Обычный</option>
-<option value="letters">Набор букв</option>
-<option value="light">Светлый</option>
-<option value="dark">Мрачный</option>
-<option value="warrior">Воин</option>
-<option value="minimal">Минималистичный</option>
-<option value="fantasy">Фэнтези</option>
-<option value="cyber">Киберпанк</option>
-<option value="fun">Забавный</option>
-</select>
+  <label for="style">Стиль ника</label>
+  <select id="style">
+    <option value="game">Игровой</option>
+    <option value="immoral">Аморальный</option>
+    <option value="ordinary">Обычный</option>
+    <option value="letters">Набор букв</option>
+    <option value="light">Светлый</option>
+    <option value="dark">Мрачный</option>
+    <option value="warrior">Воин</option>
+    <option value="minimal">Минималистичный</option>
+    <option value="fantasy">Фэнтези</option>
+    <option value="cyber">Киберпанк</option>
+    <option value="fun">Забавный</option>
+  </select>
 </div>
 
 <div class="row field">
-<div><label for="min">Мин. длина</label><input id="min" type="number" min="3" max="20" value="5"></div>
-<div><label for="max">Макс. длина</label><input id="max" type="number" min="3" max="20" value="12"></div>
+  <div>
+    <label for="min">Мин. длина</label>
+    <input id="min" type="number" min="3" max="20" value="5">
+  </div>
+  <div>
+    <label for="max">Макс. длина</label>
+    <input id="max" type="number" min="3" max="20" value="12">
+  </div>
 </div>
 
 <div class="field">
-<label for="alphabet">Алфавит</label>
-<select id="alphabet">
-<option value="latin">Только латиница</option>
-<option value="cyrillic">Только кириллица</option>
-<option value="mixed">Оба алфавита</option>
-</select>
+  <label for="alphabet">Алфавит</label>
+  <select id="alphabet">
+    <option value="latin">Только латиница</option>
+    <option value="cyrillic">Только кириллица</option>
+    <option value="mixed">Оба алфавита</option>
+  </select>
 </div>
 
 <div class="field">
-<label for="digits">Цифры</label>
-<select id="digits">
-<option value="no">Запрещены</option>
-<option value="optional" selected>Разрешены</option>
-<option value="yes">Обязательны</option>
-</select>
+  <label for="digits">Цифры</label>
+  <select id="digits">
+    <option value="no">Запрещены</option>
+    <option value="optional" selected>Разрешены</option>
+    <option value="yes">Обязательны</option>
+  </select>
 </div>
 
 <div class="field">
-<label for="symbols">Символы _ и -</label>
-<select id="symbols">
-<option value="no">Запрещены</option>
-<option value="optional">Разрешены</option>
-<option value="yes">Обязателен хотя бы один</option>
-</select>
+  <label for="symbols">Символы _ и -</label>
+  <select id="symbols">
+    <option value="no">Запрещены</option>
+    <option value="optional">Разрешены</option>
+    <option value="yes">Обязателен хотя бы один</option>
+  </select>
 </div>
 
 <div class="field">
-<label for="case">Первая буква</label>
-<select id="case">
-<option value="upper">Заглавная</option>
-<option value="lower">Строчная</option>
-<option value="any">Без разницы</option>
-</select>
+  <label for="case">Первая буква</label>
+  <select id="case">
+    <option value="upper">Заглавная</option>
+    <option value="lower">Строчная</option>
+    <option value="any">Без разницы</option>
+  </select>
 </div>
 
-<div class="check"><input id="noRepeat" type="checkbox" checked><label for="noRepeat">Без одинаковых символов подряд</label></div>
-<div class="check"><input id="unique" type="checkbox" checked><label for="unique">Не повторять ники в подборке и истории</label></div>
-
-<div class="field">
-<label for="own">Своё слово или часть ника</label>
-<input id="own" maxlength="20" placeholder="Например, Artem">
-<div class="muted">Генератор включит это слово в каждый результат.</div>
+<div class="check">
+  <input id="noRepeat" type="checkbox" checked>
+  <label for="noRepeat">Без одинаковых символов подряд</label>
 </div>
 
-<div class="field">
-<label for="blocked">Запрещённые слова</label>
-<textarea id="blocked" rows="2" placeholder="noob, bot, bad"></textarea>
-<div class="muted">Разделяй слова запятыми.</div>
+<div class="check">
+  <input id="unique" type="checkbox" checked>
+  <label for="unique">Не повторять ники в подборке и истории</label>
 </div>
 
 <div class="field">
-<label>Количество вариантов</label>
-<input type="text" value="10" readonly>
-<div class="muted">Всегда 10 вариантов за генерацию.</div>
+  <label for="own">Своё слово или часть ника</label>
+  <input id="own" maxlength="20" placeholder="Например, Artem">
+  <div class="muted">Генератор включит это слово в каждый результат.</div>
+</div>
+
+<div class="field">
+  <label for="blocked">Запрещённые слова</label>
+  <textarea id="blocked" rows="2" placeholder="noob, bot, bad"></textarea>
+  <div class="muted">Разделяй слова запятыми.</div>
+</div>
+
+<div class="field">
+  <label>Количество вариантов</label>
+  <input type="text" value="10" readonly>
+  <div class="muted">Всегда 10 вариантов за генерацию.</div>
 </div>
 
 <button class="primary" id="generate">✦ Сгенерировать 10 ников</button>
 </section>
 
 <section class="panel">
-<h2>Твоя подборка <span class="muted" id="count"></span></h2>
-<div class="results" id="results"><div class="empty">Настрой критерии и нажми кнопку генерации.</div></div>
-<div class="actions">
-<button class="secondary" id="copyAll">Копировать все</button>
-<button class="secondary" id="again">↻ Ещё 10 вариантов</button>
-</div>
-<div class="status" id="status" aria-live="polite">Работает в браузере. Регистрация не нужна.</div>
-<div class="note"><b>Важно:</b> проверка доступности ника на серверах игр не выполняется. Ограничения платформ могут изменяться.</div>
+  <h2>Твоя подборка <span class="muted" id="count"></span></h2>
+  <div class="results" id="results">
+    <div class="empty">Настрой критерии и нажми кнопку генерации.</div>
+  </div>
+  <div class="actions">
+    <button class="secondary" id="copyAll">Копировать все</button>
+    <button class="secondary" id="again">↻ Ещё 10 вариантов</button>
+  </div>
+  <div class="status" id="status" aria-live="polite">
+    Работает в браузере. Регистрация не нужна.
+  </div>
+  <div class="note">
+    <b>Важно:</b> доступность ника на серверах игр не проверяется.
+    Правила платформ могут изменяться.
+  </div>
 </section>
+
 </main>
+
 <footer>NickForge · Бесплатный генератор никнеймов</footer>
 </div>
 
 <script>
 (() => {
+"use strict";
+
 const $ = id => document.getElementById(id);
+const STORAGE_KEY = "nickforge_history_v2";
+const MAX_HISTORY = 1000;
 
-const dictionaries = {
-game:{
-a:["Теневой","Грозовой","Стальной","Ледяной","Багровый","Северный","Дикий","Бесшумный","Быстрый","Верный","Звёздный","Пепельный","Ночной","Королевский","Орлиный","Волчий","Огненный","Грозный","Лунный","Морозный","Яростный","Тихий","Скрытый","Древний","Золотой","Серебряный","Штормовой","Кровавый","Могучий","Хитрый"],
-b:["Ворон","Орёл","Волк","Сокол","Дракон","Рыцарь","Страж","Охотник","Клинок","Феникс","Титан","Следопыт","Скиталец","Хранитель","Ястреб","Призрак","Каратель","Король","Лис","Барс","Медведь","Зверь","Клык","Гром","Вихрь","Мастер","Лорд","Капитан","Разведчик","Воитель"]
-},
-ordinary:{
-a:["Тихий","Весёлый","Сонный","Упрямый","Добрый","Хитрый","Смешной","Ловкий","Бодрый","Местный","Обычный","Случайный","Серьёзный","Ленивый","Скромный","Резкий","Удачливый","Бывалый"],
-b:["Парень","Человек","Игрок","Сосед","Тип","Дружище","Кот","Пёс","Енот","Ворон","Чел","Бродяга","Мастер","Путник","Знакомый","Боец"]
-},
-light:{
-a:["Светлый","Солнечный","Золотой","Небесный","Лучезарный","Радужный","Лунный","Звёздный","Добрый","Чистый","Ясный","Сияющий","Мирный","Белый","Счастливый","Утренний"],
-b:["Луч","Ангел","Феникс","Орёл","Странник","Хранитель","Рыцарь","Сокол","Свет","Рассвет","Лис","Ветер","Маяк","Мечтатель","Крыло","Звёздник"]
-},
-dark:{
-a:["Мрачный","Теневой","Беспросветный","Могильный","Чёрный","Ночной","Багровый","Проклятый","Безликий","Забытый","Холодный","Пепельный","Мёртвый","Кровавый","Жуткий","Тёмный","Зловещий","Призрачный"],
-b:["Ворон","Жнец","Призрак","Морок","Палач","Ужас","Клык","Прах","Сумрак","Демон","Мрак","Каратель","Скелет","Вурдалак","Фантом","Потрошитель","Пепел","Некромант"]
-},
-warrior:{
-a:["Стальной","Яростный","Беспощадный","Несломленный","Боевой","Дикий","Железный","Грозный","Лютый","Неукротимый","Кровавый","Могучий","Закалённый","Бесстрашный"],
-b:["Воин","Берсерк","Крушитель","Рубака","Каратель","Боец","Гладиатор","Титан","Рыцарь","Завоеватель","Щитоносец","Мечник","Дозорный","Ветеран"]
-},
-fantasy:{
-a:["Древний","Эльфийский","Лунный","Рунный","Зачарованный","Золотой","Сумеречный","Мифический","Лесной","Королевский","Драконий","Туманный","Волшебный","Забытый"],
-b:["Эльф","Дракон","Маг","Чародей","Паладин","Друид","Феникс","Грифон","Архонт","Вестник","Хранитель","Странник","Владыка","Рыцарь"]
-},
-cyber:{
-a:["Неоновый","Цифровой","Квантовый","Синтетический","Виртуальный","Плазменный","Стальной","Кибернетический","Скрытый","Бесшумный","Нулевой","Глючный"],
-b:["Призрак","Пульс","Пиксель","Код","Хакер","Сигнал","Импульс","Процессор","Аватар","Терминал","Драйвер","Протокол"]
-},
-fun:{
-a:["Сонный","Пьяный","Легендарный","Мега","Супер","Лютый","Крошечный","Деловой","Бешеный","Вечно","Голодный","Уставший","Великий","Случайный"],
-b:["Пельмень","Енот","Кабачок","Батон","Бобёр","Пузырь","Котлета","Гусь","Носок","Бублик","Кекс","Пончик","Хомяк","Бандит","Гоблин","Тапок","Капибара","Пельмешек"]
-},
-immoral:{
-a:["Грязный","Пошлый","Бесстыжий","Развратный","Срамной","Непристойный","Похабный","Матёрый","Охреневший","Ебанутый","Блядский","Сраный","Спермный","Пиздатый","Говняный","Трахнутый","Сексуальный"],
-b:["Член","Хер","Пенис","Хуй","Пизда","Вагина","Сперма","Говно","Дерьмо","Задница","Пердун","Ёбарь","Дрочер","Сракун","Порнолорд","Трахарь","Мудила","Пиздюк","Говноед","Спермобак","Жопотряс"]
+const ru = {
+  game: {
+    a: ["Теневой","Грозовой","Стальной","Ледяной","Багровый","Северный","Дикий","Бесшумный","Быстрый","Верный","Звёздный","Пепельный","Ночной","Королевский","Орлиный","Волчий","Огненный","Грозный","Лунный","Морозный","Яростный","Скрытый","Древний","Золотой","Серебряный","Штормовой","Кровавый","Могучий","Хитрый"],
+    b: ["Ворон","Орёл","Волк","Сокол","Дракон","Рыцарь","Страж","Охотник","Клинок","Феникс","Титан","Следопыт","Скиталец","Хранитель","Ястреб","Призрак","Каратель","Король","Лис","Барс","Медведь","Зверь","Клык","Гром","Вихрь","Мастер","Лорд","Капитан","Разведчик","Воитель"]
+  },
+  immoral: {
+    a: ["Грязный","Пошлый","Бесстыжий","Развратный","Срамной","Непристойный","Похабный","Матёрый","Охреневший","Ебанутый","Блядский","Сраный","Спермный","Пиздатый","Говняный","Трахнутый","Сексуальный","Беспардонный"],
+    b: ["Член","Хер","Пенис","Хуй","Пизда","Вагина","Сперма","Говно","Дерьмо","Задница","Пердун","Ёбарь","Дрочер","Сракун","Порнолорд","Трахарь","Мудила","Пиздюк","Говноед","Спермобак","Жопотряс"]
+  },
+  ordinary: {
+    a: ["Тихий","Весёлый","Сонный","Упрямый","Добрый","Хитрый","Смешной","Ловкий","Бодрый","Местный","Обычный","Случайный","Серьёзный","Ленивый","Скромный","Резкий","Удачливый","Бывалый"],
+    b: ["Парень","Человек","Игрок","Сосед","Тип","Дружище","Кот","Пёс","Енот","Ворон","Чел","Бродяга","Мастер","Путник","Знакомый","Боец"]
+  },
+  light: {
+    a: ["Светлый","Солнечный","Золотой","Небесный","Лучезарный","Радужный","Лунный","Звёздный","Добрый","Чистый","Ясный","Сияющий","Мирный","Белый","Счастливый","Утренний"],
+    b: ["Луч","Ангел","Феникс","Орёл","Странник","Хранитель","Рыцарь","Сокол","Свет","Рассвет","Лис","Ветер","Маяк","Мечтатель","Крыло","Звёздник"]
+  },
+  dark: {
+    a: ["Мрачный","Теневой","Беспросветный","Могильный","Чёрный","Ночной","Багровый","Проклятый","Безликий","Забытый","Холодный","Пепельный","Мёртвый","Кровавый","Жуткий","Тёмный","Зловещий","Призрачный"],
+    b: ["Ворон","Жнец","Призрак","Морок","Палач","Ужас","Клык","Прах","Сумрак","Демон","Мрак","Каратель","Скелет","Вурдалак","Фантом","Потрошитель","Пепел","Некромант"]
+  },
+  warrior: {
+    a: ["Стальной","Яростный","Беспощадный","Несломленный","Боевой","Дикий","Железный","Грозный","Лютый","Неукротимый","Кровавый","Могучий","Закалённый","Бесстрашный"],
+    b: ["Воин","Берсерк","Крушитель","Рубака","Каратель","Боец","Гладиатор","Титан","Рыцарь","Завоеватель","Щитоносец","Мечник","Дозорный","Ветеран"]
+  },
+  minimal: {
+    a: ["Зен","Нокс","Рин","Векс","Кай","Люкс","Най","Ари","Рэй","Вин","Зор","Эон","Нео","Зир","Кир"],
+    b: ["Икс","Он","Ар","Эн","Ор","Ай","Эк","Ум","Ис","Ра","Ин","Эр","Ир"]
+  },
+  fantasy: {
+    a: ["Древний","Эльфийский","Лунный","Рунный","Зачарованный","Золотой","Сумеречный","Мифический","Лесной","Королевский","Драконий","Туманный","Волшебный","Забытый"],
+    b: ["Эльф","Дракон","Маг","Чародей","Паладин","Друид","Феникс","Грифон","Архонт","Вестник","Хранитель","Странник","Владыка","Рыцарь"]
+  },
+  cyber: {
+    a: ["Неоновый","Цифровой","Квантовый","Синтетический","Виртуальный","Плазменный","Стальной","Кибернетический","Скрытый","Бесшумный","Нулевой","Глючный"],
+    b: ["Призрак","Пульс","Пиксель","Код","Хакер","Сигнал","Импульс","Процессор","Аватар","Терминал","Драйвер","Протокол"]
+  },
+  fun: {
+    a: ["Сонный","Легендарный","Мега","Супер","Лютый","Крошечный","Деловой","Бешеный","Голодный","Уставший","Великий","Случайный","Вечно"],
+    b: ["Пельмень","Енот","Кабачок","Батон","Бобёр","Пузырь","Котлета","Гусь","Носок","Бублик","Кекс","Пончик","Хомяк","Бандит","Гоблин","Тапок","Капибара","Пельмешек"]
+  }
+};
+
+const en = {
+  game: {
+    a: ["Nova","Raven","Frost","Blaze","Echo","Storm","Shadow","Ghost","Iron","Swift","Astra","Drift","Onyx","Rune","Royal","Eagle","Wolf","Silver"],
+    b: ["Walker","Strike","Hunter","Blade","Spark","Rider","Forge","Knight","Hawk","Orbit","King","Claw","Keeper","Flame"]
+  },
+  immoral: {
+    a: ["Dirty","Nasty","Shameless","Lewd","Filthy","Rude","Freaky","Horny","Sleazy","Crude","Damn","Trashy"],
+    b: ["Goblin","Gremlin","Pervert","Punk","Clown","Rascal","Weirdo","Menace","Stinker","Prankster","Bandit"]
+  },
+  ordinary: {
+    a: ["Quiet","Happy","Sleepy","Stubborn","Kind","Clever","Funny","Swift","Lucky","Local","Random","Serious","Lazy","Humble"],
+    b: ["Player","Buddy","Neighbor","Raven","Fox","Walker","Rookie","Nomad","Human","Cat","Dog","Otter"]
+  },
+  light: {
+    a: ["Sunny","Golden","Heavenly","Radiant","Rainbow","Lunar","Stellar","Kind","Bright","Pure","Peaceful","Morning"],
+    b: ["Light","Angel","Phoenix","Eagle","Wanderer","Keeper","Knight","Falcon","Breeze","Dreamer","Wing","Beacon"]
+  },
+  dark: {
+    a: ["Dread","Noct","Grim","Raven","Umbra","Abyss","Wraith","Gloom","Night","Shade","Crypt","Vanta","Black","Doom","Blood","Void"],
+    b: ["Veil","Reaper","Whisper","Specter","Cinder","Phantom","Fang","Omen","Shroud","Howl","King","Eagle"]
+  },
+  warrior: {
+    a: ["Rage","Titan","Valor","Feral","Savage","Steel","Fury","Rogue","Saber","Dire","Valk","Iron","Battle"],
+    b: ["Breaker","Fang","Crusher","Slayer","Vanguard","Guard","Storm","Raptor","Striker","Blade","King","Eagle"]
+  },
+  minimal: {
+    a: ["Zyn","Kai","Ryn","Vex","Nyx","Ari","Lux","Zen","Kiro","Nox","Rai","Eon","Axo","Neo","Qir","Vyn","Zeo"],
+    b: ["ix","on","ar","en","yx","or","ai","ex","um","is","ox","ra","yn","eth","ion","une"]
+  },
+  fantasy: {
+    a: ["Ael","Eld","Thal","Syl","Vael","Aer","Myth","Drae","Elun","Kael","Orin","Auri","Elar","Luna"],
+    b: ["drin","thas","wyn","driel","mora","thiel","vorn","lith","rion","dara","mir","riel","dor","ion"]
+  },
+  cyber: {
+    a: ["Neon","Glitch","Proxy","Zero","Nex","Chrome","Synth","Byte","Hex","Static","Cryo","Flux","Cyber","Quantum"],
+    b: ["Ghost","Pulse","Link","Trace","Shift","Drive","Wave","Core","Cipher","Grid","Signal","Sync","Runner"]
+  },
+  fun: {
+    a: ["Mochi","Bumble","Pickle","Waffle","Noodle","Mango","Bongo","Tofu","Doodle","Kiwi","Panda","Sleepy","Lazy","Mega"],
+    b: ["Wizard","Bandit","Ninja","Goblin","Rocket","Muffin","Duck","Captain","Gremlin","Bunny","Toast","Pickle"]
+  }
+};
+
+const profiles = {
+  custom: {
+    min:5,max:12,
+    hint:"Задай собственные ограничения."
+  },
+  steam: {
+    min:3,max:20,
+    hint:"Настройки относятся к имени профиля Steam, не к логину аккаунта."
+  },
+  roblox: {
+    min:3,max:20,
+    hint:"Username Roblox: 3–20 символов; латиница, цифры и не более одного подчёркивания."
+  },
+  minecraft: {
+    min:3,max:16,
+    hint:"Minecraft Java: 3–16 символов, латиница, цифры и подчёркивание."
+  }
+};
+
+function pick(arr){
+  return arr[Math.floor(Math.random()*arr.length)];
 }
-};
 
-const latin = {
-game:[["Nova","Raven","Frost","Blaze","Echo","Storm","Shadow","Ghost","Iron","Swift","Astra","Drift","Onyx","Rune","Royal","Eagle","Wolf","Silver"],["Walker","Strike","Hunter","Blade","Spark","Rider","Forge","Knight","Hawk","Orbit","King","Claw","Keeper","Flame"]],
-dark:[["Dread","Noct","Grim","Raven","Umbra","Abyss","Wraith","Gloom","Night","Shade","Crypt","Vanta","Black","Doom","Blood","Void"],["Veil","Reaper","Whisper","Specter","Cinder","Phantom","Fang","Omen","Shroud","Howl","King","Eagle"]],
-warrior:[["Rage","Titan","Valor","Feral","Savage","Steel","Fury","Rogue","Saber","Dire","Valk","Iron","Battle"],["Breaker","Fang","Crusher","Slayer","Vanguard","Guard","Storm","Raptor","Striker","Blade","King","Eagle"]],
-minimal:[["Zyn","Kai","Ryn","Vex","Nyx","Ari","Lux","Zen","Kiro","Nox","Rai","Eon","Axo","Neo","Qir","Vyn","Zeo"],["ix","on","ar","en","yx","or","ai","ex","um","is","ox","ra","yn","eth","ion","une"]],
-fantasy:[["Ael","Eld","Thal","Syl","Vael","Aer","Myth","Drae","Elun","Kael","Orin","Auri","Elar","Luna"],["drin","thas","wyn","driel","mora","thiel","vorn","lith","rion","dara","mir","riel","dor","ion"]],
-cyber:[["Neon","Glitch","Proxy","Zero","Nex","Chrome","Synth","Byte","Hex","Static","Cryo","Flux","Cyber","Quantum"],["Ghost","Pulse","Link","Trace","Shift","Drive","Wave","Core","Cipher","Grid","Signal","Sync","Runner"]],
-fun:[["Mochi","Bumble","Pickle","Waffle","Noodle","Mango","Bongo","Tofu","Doodle","Kiwi","Panda","Sleepy","Lazy","Mega"],["Wizard","Bandit","Ninja","Goblin","Rocket","Muffin","Duck","Captain","Gremlin","Bunny","Toast","Pickle"]]
-};
+function titleFirst(str){
+  if(!str)return str;
+  return str.charAt(0).toUpperCase()+str.slice(1);
+}
 
-const history = new Set();
-let latest = [];
+function setStatus(message,kind=""){
+  $("status").textContent=message;
+  $("status").className="status "+kind;
+}
 
-function pick(a){return a[Math.floor(Math.random()*a.length)]}
-function title(s){return s.charAt(0).toUpperCase()+s.slice(1)}
-function setStatus(s,kind=""){$("status").textContent=s;$("status").className="status "+kind}
+function transliterateToLatin(str){
+  const map={
+    "а":"a","б":"b","в":"v","г":"g","д":"d","е":"e","ё":"yo",
+    "ж":"zh","з":"z","и":"i","й":"y","к":"k","л":"l","м":"m",
+    "н":"n","о":"o","п":"p","р":"r","с":"s","т":"t","у":"u",
+    "ф":"f","х":"kh","ц":"ts","ч":"ch","ш":"sh","щ":"shch",
+    "ъ":"","ы":"y","ь":"","э":"e","ю":"yu","я":"ya"
+  };
 
-const profiles={
-custom:{min:5,max:12,hint:"Задай собственные ограничения."},
-steam:{min:3,max:20,hint:"Настройки относятся к имени профиля Steam, не к логину аккаунта."},
-roblox:{min:3,max:20,hint:"Для username используются латинские буквы и цифры; правила проверяет платформа."},
-minecraft:{min:3,max:16,hint:"Minecraft Java: 3–16 символов, латиница, цифры и подчёркивание."}
-};
+  return Array.from(str).map(ch=>{
+    const low=ch.toLowerCase();
+    if(!(low in map))return ch;
+    const result=map[low];
+    return ch===ch.toUpperCase()?titleFirst(result):result;
+  }).join("");
+}
 
-$("platform").addEventListener("change",()=>{
-const p=$("platform").value,profile=profiles[p];
-$("min").value=profile.min;$("max").value=profile.max;
-$("platformHint").textContent=profile.hint;
-if(p==="roblox"||p==="minecraft")$("alphabet").value="latin";
-if(p==="roblox")$("symbols").value="no";
-if(p==="minecraft")$("symbols").value="optional";
-});
+function transliterateToCyrillic(str){
+  const map=[
+    [/shch/gi,"щ"],[/sch/gi,"щ"],[/yo/gi,"ё"],[/zh/gi,"ж"],
+    [/kh/gi,"х"],[/ts/gi,"ц"],[/ch/gi,"ч"],[/sh/gi,"ш"],
+    [/yu/gi,"ю"],[/ya/gi,"я"],[/a/gi,"а"],[/b/gi,"б"],
+    [/v/gi,"в"],[/g/gi,"г"],[/d/gi,"д"],[/e/gi,"е"],
+    [/z/gi,"з"],[/i/gi,"и"],[/y/gi,"й"],[/k/gi,"к"],
+    [/l/gi,"л"],[/m/gi,"м"],[/n/gi,"н"],[/o/gi,"о"],
+    [/p/gi,"п"],[/r/gi,"р"],[/s/gi,"с"],[/t/gi,"т"],
+    [/u/gi,"у"],[/f/gi,"ф"],[/h/gi,"х"],[/c/gi,"к"],
+    [/w/gi,"в"],[/x/gi,"кс"],[/j/gi,"дж"],[/q/gi,"к"]
+  ];
+
+  let out=str;
+  for(const [pattern,replacement] of map){
+    out=out.replace(pattern,replacement);
+  }
+  return out;
+}
+
+function cleanOwnWord(value,alphabet){
+  let word=value.replace(/[^a-zA-Zа-яА-ЯёЁ0-9]/g,"");
+  if(alphabet==="latin")word=transliterateToLatin(word);
+  if(alphabet==="cyrillic")word=transliterateToCyrillic(word);
+  return word;
+}
 
 function settings(){
-let min=Math.max(3,Math.min(20,Number($("min").value)||5));
-let max=Math.max(3,Math.min(20,Number($("max").value)||12));
-const p=$("platform").value;
-if(p==="minecraft")max=Math.min(max,16);
-if(min>max)min=max;
-$("min").value=min;$("max").value=max;
-return{
-min,max,p,style:$("style").value,alphabet:$("alphabet").value,
-digits:$("digits").value,symbols:$("symbols").value,
-letterCase:$("case").value,noRepeat:$("noRepeat").checked,
-unique:$("unique").checked,own:$("own").value.trim(),
-blocked:$("blocked").value.toLowerCase().split(",").map(x=>x.trim()).filter(Boolean)
-};
+  let min=Math.trunc(Number($("min").value));
+  let max=Math.trunc(Number($("max").value));
+
+  if(!Number.isFinite(min))min=5;
+  if(!Number.isFinite(max))max=12;
+
+  min=Math.max(3,Math.min(20,min));
+  max=Math.max(3,Math.min(20,max));
+
+  const platform=$("platform").value;
+
+  if(platform==="minecraft")max=Math.min(max,16);
+  if(min>max)min=max;
+
+  let alphabet=$("alphabet").value;
+  let symbols=$("symbols").value;
+
+  if(platform==="roblox"){
+    alphabet="latin";
+  }
+
+  if(platform==="minecraft"){
+    alphabet="latin";
+  }
+
+  $("min").value=min;
+  $("max").value=max;
+
+  return {
+    min,max,platform,
+    style:$("style").value,
+    alphabet,
+    digits:$("digits").value,
+    symbols,
+    letterCase:$("case").value,
+    noRepeat:$("noRepeat").checked,
+    unique:$("unique").checked,
+    own:cleanOwnWord($("own").value,alphabet),
+    blocked:$("blocked").value
+      .toLowerCase()
+      .split(",")
+      .map(word=>word.trim())
+      .filter(Boolean)
+  };
 }
 
-function transliterate(str){
-const map={"а":"a","б":"b","в":"v","г":"g","д":"d","е":"e","ё":"yo","ж":"zh","з":"z","и":"i","й":"y","к":"k","л":"l","м":"m","н":"n","о":"o","п":"p","р":"r","с":"s","т":"t","у":"u","ф":"f","х":"kh","ц":"ts","ч":"ch","ш":"sh","щ":"shch","ъ":"","ы":"y","ь":"","э":"e","ю":"yu","я":"ya"};
-return str.split("").map(c=>{
-const low=c.toLowerCase();
-if(map[low]===undefined)return c;
-const v=map[low];
-return c===c.toUpperCase()?title(v):v;
-}).join("");
+function randomLetters(s){
+  const alphabetChoice=s.alphabet==="mixed"
+    ?pick(["latin","cyrillic"])
+    :s.alphabet;
+
+  const pool=alphabetChoice==="cyrillic"
+    ?"абвгдежзийклмнопрстуфхцчшщэюя"
+    :"abcdefghijklmnopqrstuvwxyz";
+
+  const extraDigits=s.digits==="yes"?1:0;
+  const extraSymbol=s.symbols==="yes"?1:0;
+  const upperLimit=Math.max(s.min, s.max-extraDigits-extraSymbol);
+  const length=Math.floor(Math.random()*(upperLimit-s.min+1))+s.min;
+
+  let result="";
+  for(let i=0;i<length;i++){
+    result+=pool[Math.floor(Math.random()*pool.length)];
+  }
+  return result;
 }
 
-function cyrillicName(style){
-const d=dictionaries[style]||dictionaries.game;
-const a=pick(d.a),b=pick(d.b);
-const forms=[
-a+b,
-a+b,
-b+pick(["ыч","ик","арь","ун"]),
-pick(["Королевско","Орлино","Птице","Собако","Воронье","Грозо","Тенево","Свето","Мрако","Пельмено","Говно","Спермо","Члено","Пиздо"])+b.toLowerCase(),
-a.replace(/ый$/,"о").replace(/ий$/,"е")+b.toLowerCase(),
-b+pick(["оид","атор","ер","ик"])
-];
-return pick(forms);
+function makeWordCombination(s){
+  const useCyrillic=s.alphabet==="cyrillic" ||
+    (s.alphabet==="mixed"&&Math.random()<0.5);
+
+  const dictionary=useCyrillic?ru:en;
+  const words=dictionary[s.style]||dictionary.game;
+  const a=pick(words.a);
+  const b=pick(words.b);
+
+  const options=[
+    a+b,
+    a+b,
+    b+a.slice(0,Math.min(3,a.length)),
+    a.slice(0,Math.min(5,a.length))+b,
+    a.slice(0,Math.min(4,a.length))+b.slice(0,Math.min(4,b.length)),
+    b,
+    a
+  ];
+
+  return pick(options);
+}
+
+function applyFirstLetterCase(name,mode){
+  if(!name)return name;
+
+  if(mode==="upper")return name.charAt(0).toUpperCase()+name.slice(1);
+  if(mode==="lower")return name.charAt(0).toLowerCase()+name.slice(1);
+
+  return name;
 }
 
 function createCandidate(s){
-let name="";
-if(s.style==="letters"){
-const pool=s.alphabet==="cyrillic"?"абвгдежзиклмнопрстуфхцчшэюя":"abcdefghijklmnopqrstuvwxyz";
-const len=Math.floor(Math.random()*(s.max-s.min+1))+s.min;
-for(let i=0;i<len;i++)name+=pool[Math.floor(Math.random()*pool.length)];
-}else if(s.alphabet==="cyrillic"||(s.alphabet==="mixed"&&Math.random()<0.25)){
-name=cyrillicName(s.style);
-}else if(["ordinary","light","immoral"].includes(s.style)){
-name=transliterate(cyrillicName(s.style));
-}else{
-const d=latin[s.style]||latin.game;
-name=pick(d[0])+pick(d[1]);
+  let name=s.style==="letters"
+    ?randomLetters(s)
+    :makeWordCombination(s);
+
+  if(s.own){
+    name=Math.random()<0.5
+      ?s.own+name
+      :name+s.own;
+  }
+
+  name=applyFirstLetterCase(name,s.letterCase);
+
+  if(s.digits==="yes" ||
+    (s.digits==="optional"&&Math.random()<0.3)){
+    name+=String(Math.floor(Math.random()*90)+10);
+  }
+
+  if(s.symbols==="yes" ||
+    (s.symbols==="optional"&&Math.random()<0.2)){
+    let symbol;
+
+    if(s.platform==="minecraft")symbol="_";
+    else if(s.platform==="roblox")symbol="_";
+    else symbol=pick(["_","-"]);
+
+    if(name.length>1){
+      const position=1+Math.floor(Math.random()*(name.length-1));
+      name=name.slice(0,position)+symbol+name.slice(position);
+    }else{
+      name+=symbol;
+    }
+  }
+
+  return name;
 }
 
-if(s.own){
-const own=s.own.replace(/[^a-zA-Zа-яА-ЯёЁ0-9]/g,"");
-if(own)name=Math.random()<0.5?own+name:name+own;
-}
-if(s.letterCase==="upper")name=title(name);
-if(s.letterCase==="lower")name=name.toLowerCase();
+function valid(name,s){
+  if(name.length<s.min||name.length>s.max)return false;
 
-if(s.digits==="yes"||(s.digits==="optional"&&Math.random()<0.25))
-name+=Math.floor(Math.random()*90)+10;
+  if(!/^[A-Za-zА-Яа-яЁё0-9_-]+$/.test(name))return false;
 
-if(s.symbols==="yes"||(s.symbols==="optional"&&Math.random()<0.15)){
-const symbol=s.p==="minecraft"?"_":pick(["_","-"]);
-const at=Math.max(1,Math.floor(Math.random()*Math.max(2,name.length)));
-name=name.slice(0,at)+symbol+name.slice(at);
-}
-if(s.noRepeat)name=name.replace(/(.)\1+/gi,"$1");
-return name;
-}
+  if(s.alphabet==="latin"&&!/^[A-Za-z0-9_-]+$/.test(name))return false;
+  if(s.alphabet==="cyrillic"&&!/^[А-Яа-яЁё0-9_-]+$/.test(name))return false;
 
-function valid(n,s){
-if(n.length<s.min||n.length>s.max)return false;
-if(s.p==="roblox"&&!/^[A-Za-z0-9]+$/.test(n))return false;
-if(s.p==="minecraft"&&!/^[A-Za-z0-9_]+$/.test(n))return false;
-if(s.alphabet==="latin"&&!/^[A-Za-z0-9_-]+$/.test(n))return false;
-if(s.alphabet==="cyrillic"&&!/^[А-Яа-яЁё0-9_-]+$/.test(n))return false;
-if(s.alphabet==="mixed"&&!/^[A-Za-zА-Яа-яЁё0-9_-]+$/.test(n))return false;
-if(s.digits==="no"&&/\d/.test(n))return false;
-if(s.digits==="yes"&&!/\d/.test(n))return false;
-if(s.symbols==="no"&&/[_-]/.test(n))return false;
-if(s.symbols==="yes"&&!/[_-]/.test(n))return false;
-if(s.p==="minecraft"&&s.symbols==="yes"&&!/_/.test(n))return false;
-if(s.noRepeat&&/(.)\1/i.test(n))return false;
-if(s.blocked.some(w=>n.toLowerCase().includes(w)))return false;
-const own=s.own.replace(/[^a-zA-Zа-яА-ЯёЁ0-9]/g,"").toLowerCase();
-if(own&&!n.toLowerCase().includes(own))return false;
-if(s.letterCase==="upper"&&!/^[A-ZА-ЯЁ]/.test(n))return false;
-if(s.letterCase==="lower"&&!/^[a-zа-яё]/.test(n))return false;
-return true;
+  if(s.digits==="no"&&/\d/.test(name))return false;
+  if(s.digits==="yes"&&!/\d/.test(name))return false;
+
+  if(s.symbols==="no"&&/[_-]/.test(name))return false;
+  if(s.symbols==="yes"&&!/[_-]/.test(name))return false;
+
+  if(s.noRepeat&&/(.)\1/i.test(name))return false;
+
+  if(s.blocked.some(word=>name.toLowerCase().includes(word)))return false;
+
+  if(s.own&&!name.toLowerCase().includes(s.own.toLowerCase()))return false;
+
+  if(s.letterCase==="upper"&&!/^[A-ZА-ЯЁ]/.test(name))return false;
+  if(s.letterCase==="lower"&&!/^[a-zа-яё]/.test(name))return false;
+
+  if(s.platform==="roblox"){
+    if(!/^[A-Za-z0-9_]+$/.test(name))return false;
+    if(name.startsWith("_")||name.endsWith("_"))return false;
+    if((name.match(/_/g)||[]).length>1)return false;
+    if(name.includes("__"))return false;
+  }
+
+  if(s.platform==="minecraft"){
+    if(name.length>16)return false;
+    if(!/^[A-Za-z0-9_]+$/.test(name))return false;
+  }
+
+  return true;
 }
 
-function generate(){
-const s=settings(),local=new Set();
-latest=[];
-let attempts=0;
-while(latest.length<10&&attempts<30000){
-attempts++;
-const n=createCandidate(s),key=n.toLowerCase();
-if(!valid(n,s)||local.has(key))continue;
-if(s.unique&&history.has(key))continue;
-local.add(key);history.add(key);latest.push(n);
+function readHistory(){
+  try{
+    const data=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
+    if(!Array.isArray(data))return new Set();
+    return new Set(
+      data.filter(item=>typeof item==="string")
+        .map(item=>item.toLowerCase())
+    );
+  }catch{
+    return new Set();
+  }
 }
-render();
-if(latest.length===10)setStatus("Готово! Все 10 ников прошли проверку критериев.","good");
-else setStatus(`Найдено ${latest.length} из 10. Ослабь ограничения или увеличь длину ника.`,"bad");
+
+let history=readHistory();
+let latest=[];
+
+function saveHistory(){
+  try{
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(Array.from(history).slice(-MAX_HISTORY))
+    );
+  }catch{
+    // Генератор продолжает работать, если хранилище недоступно.
+  }
 }
 
 function render(){
-$("count").textContent=`· ${latest.length} из 10`;
-const root=$("results");
-root.replaceChildren();
-if(!latest.length){
-const e=document.createElement("div");
-e.className="empty";
-e.textContent="Не удалось найти подходящие ники. Измени критерии и попробуй снова.";
-root.append(e);
-return;
-}
-latest.forEach(n=>{
-const card=document.createElement("div");card.className="nick";
-const info=document.createElement("div");info.style.minWidth="0";
-const name=document.createElement("div");name.className="nick-name";name.textContent=n;
-const meta=document.createElement("div");meta.className="nick-info";meta.textContent=`${n.length} символов`;
-info.append(name,meta);
-const b=document.createElement("button");b.className="copy";b.textContent="Копировать";
-b.addEventListener("click",()=>copy(n));
-card.append(info,b);root.append(card);
-});
+  $("count").textContent=`· ${latest.length} из 10`;
+
+  const root=$("results");
+  root.replaceChildren();
+
+  if(!latest.length){
+    const empty=document.createElement("div");
+    empty.className="empty";
+    empty.textContent="Не удалось найти подходящие ники. Измени критерии и попробуй снова.";
+    root.append(empty);
+    return;
+  }
+
+  latest.forEach(name=>{
+    const card=document.createElement("div");
+    card.className="nick";
+
+    const info=document.createElement("div");
+    info.style.minWidth="0";
+
+    const label=document.createElement("div");
+    label.className="nick-name";
+    label.textContent=name;
+
+    const meta=document.createElement("div");
+    meta.className="nick-info";
+    meta.textContent=`${name.length} символов`;
+
+    info.append(label,meta);
+
+    const button=document.createElement("button");
+    button.className="copy";
+    button.textContent="Копировать";
+    button.addEventListener("click",()=>copyText(name));
+
+    card.append(info,button);
+    root.append(card);
+  });
 }
 
-async function copy(text){
-try{
-await navigator.clipboard.writeText(text);
-setStatus("Скопировано в буфер обмена.","good");
-}catch{
-const t=document.createElement("textarea");t.value=text;document.body.append(t);t.select();
-const ok=document.execCommand("copy");t.remove();
-setStatus(ok?"Скопировано в буфер обмена.":"Не удалось скопировать.","");
+async function copyText(value){
+  try{
+    if(navigator.clipboard&&window.isSecureContext){
+      await navigator.clipboard.writeText(value);
+      setStatus("Скопировано в буфер обмена.","good");
+      return;
+    }
+  }catch{
+    // Используем резервный способ копирования.
+  }
+
+  try{
+    const area=document.createElement("textarea");
+    area.value=value;
+    area.setAttribute("readonly","");
+    area.style.position="fixed";
+    area.style.opacity="0";
+    document.body.append(area);
+    area.select();
+
+    const success=document.execCommand("copy");
+    area.remove();
+
+    setStatus(
+      success?"Скопировано в буфер обмена.":"Не удалось скопировать. Выдели ник и скопируй вручную.",
+      success?"good":"bad"
+    );
+  }catch{
+    setStatus("Не удалось скопировать. Выдели ник и скопируй вручную.","bad");
+  }
 }
+
+function generate(){
+  const s=settings();
+  const found=[];
+  const local=new Set();
+  let attempts=0;
+  const maxAttempts=30000;
+
+  while(found.length<10&&attempts<maxAttempts){
+    attempts++;
+
+    const name=createCandidate(s);
+    const key=name.toLowerCase();
+
+    if(!valid(name,s))continue;
+    if(local.has(key))continue;
+    if(s.unique&&history.has(key))continue;
+
+    local.add(key);
+    found.push(name);
+  }
+
+  latest=found;
+
+  for(const name of found){
+    history.add(name.toLowerCase());
+  }
+
+  if(history.size>MAX_HISTORY){
+    history=new Set(Array.from(history).slice(-MAX_HISTORY));
+  }
+
+  saveHistory();
+  render();
+
+  if(found.length===10){
+    setStatus("Готово! Все 10 ников соответствуют выбранным критериям.","good");
+  }else{
+    setStatus(
+      `Получилось ${found.length} из 10. Попробуй увеличить длину, разрешить больше символов или очистить запрещённые слова.`,
+      "bad"
+    );
+  }
 }
+
+$("platform").addEventListener("change",()=>{
+  const platform=$("platform").value;
+  const profile=profiles[platform];
+
+  $("min").value=profile.min;
+  $("max").value=profile.max;
+  $("platformHint").textContent=profile.hint;
+
+  if(platform==="roblox"||platform==="minecraft"){
+    $("alphabet").value="latin";
+  }
+
+  if(platform==="roblox"){
+    $("symbols").value="optional";
+  }
+
+  if(platform==="minecraft"){
+    $("symbols").value="optional";
+  }
+});
 
 $("generate").addEventListener("click",generate);
 $("again").addEventListener("click",generate);
+
 $("copyAll").addEventListener("click",()=>{
-if(latest.length)copy(latest.join("\n"));
-else setStatus("Сначала сгенерируй ники.");
+  if(latest.length){
+    copyText(latest.join("\n"));
+  }else{
+    setStatus("Сначала сгенерируй ники.");
+  }
 });
+
 generate();
+
 })();
 </script>
 </body>
