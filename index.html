@@ -1,128 +1,435 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#10121b">
-<meta name="description" content="NickForge — генератор игровых никнеймов с настройкой длины, алфавита, символов, стиля и запретных слов.">
-<meta property="og:title" content="NickForge — генератор никнеймов">
-<meta property="og:description" content="Создавай никнеймы под свои правила.">
+<meta name="theme-color" content="#05080d">
+<meta name="description" content="NickForge — бесплатный генератор игровых никнеймов. Создавай уникальные ники с настройкой длины, стиля, символов и запрещённых слов.">
+<meta property="og:title" content="NickForge — генератор игровых никнеймов">
+<meta property="og:description" content="Твой стиль. Твой ник. Создай уникальный игровой никнейм.">
 <meta property="og:type" content="website">
-<title>NickForge — генератор никнеймов</title>
+<title>NickForge — генератор игровых никнеймов</title>
 
 <style>
 :root {
-  --bg:#0c0e16;
-  --panel:#151927;
-  --line:#2b3247;
-  --text:#f3f4ff;
-  --muted:#a0a8bf;
-  --accent:#9988ff;
-  --good:#76e7b0;
-  --bad:#ff9ba8;
+  --bg:#05080d;
+  --panel:#0b111b;
+  --line:#1b344b;
+  --text:#f4f8ff;
+  --muted:#8ca3b9;
+  --accent:#00b9ff;
+  --accent2:#087dff;
+  --red:#ff303e;
+  --good:#58f2b0;
+  --bad:#ff6474;
 }
 * { box-sizing:border-box }
+html { scroll-behavior:smooth }
 body {
   margin:0;
-  background:radial-gradient(ellipse at top,#28214c,transparent 45%),var(--bg);
+  min-height:100vh;
   color:var(--text);
-  font:16px/1.5 system-ui,-apple-system,sans-serif;
+  background:
+    radial-gradient(ellipse at 15% 0%,rgba(0,114,255,.13),transparent 34%),
+    radial-gradient(ellipse at 100% 30%,rgba(255,30,50,.07),transparent 30%),
+    var(--bg);
+  font:15px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+body::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.15;
+  background-image:
+    linear-gradient(rgba(48,125,175,.12) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(48,125,175,.12) 1px,transparent 1px);
+  background-size:38px 38px;
 }
 button,input,select,textarea { font:inherit }
-button { cursor:pointer;font-weight:750;border-radius:10px }
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible {
+button {
+  cursor:pointer;
+  font-weight:800;
+  border-radius:8px;
+  transition:transform .18s,border-color .18s,filter .18s;
+}
+button:focus-visible,input:focus-visible,
+select:focus-visible,textarea:focus-visible {
   outline:2px solid var(--accent);
-  outline-offset:2px;
+  outline-offset:3px;
 }
-.wrap { max-width:1120px;margin:auto;padding:25px 16px 50px }
-header { display:flex;align-items:center;gap:12px;margin-bottom:30px }
+button:hover { filter:brightness(1.14) }
+button:active { transform:scale(.985) }
+button:disabled { opacity:.5;cursor:not-allowed }
+
+.wrap { max-width:1240px;margin:auto;padding:24px 20px 45px }
+
+header {
+  display:flex;
+  align-items:center;
+  gap:13px;
+  margin-bottom:25px;
+  padding-bottom:18px;
+  border-bottom:1px solid rgba(57,115,155,.23);
+}
 .logo {
-  background:linear-gradient(135deg,#b0a3ff,#6852dc);
-  padding:10px 15px;border-radius:13px;font-weight:900;font-size:22px;
+  display:grid;
+  place-items:center;
+  width:48px;
+  height:48px;
+  flex-shrink:0;
+  color:white;
+  font-size:25px;
+  font-weight:1000;
+  font-style:italic;
+  background:linear-gradient(135deg,#00c8ff,#0755ff);
+  clip-path:polygon(0 0,100% 0,100% 76%,76% 100%,0 100%);
+  box-shadow:0 0 25px rgba(0,185,255,.3);
 }
-.brand { font-size:21px;font-weight:850 }
-.muted { color:var(--muted);font-size:13px }
-.hero { text-align:center;margin-bottom:28px }
-.hero h1 { font-size:clamp(32px,6vw,50px);line-height:1.1;margin:12px 0 }
-.hero p { color:var(--muted);max-width:650px;margin:auto }
-.gradient { color:#b8aaff }
+.brand {
+  font-size:25px;
+  line-height:1.1;
+  font-weight:1000;
+  letter-spacing:-1px;
+  font-style:italic;
+  text-transform:uppercase;
+}
+.brand span { color:var(--accent) }
+.muted { color:var(--muted);font-size:12px }
+
+.hero {
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(230px,.9fr);
+  align-items:center;
+  gap:20px;
+  min-height:310px;
+  margin-bottom:24px;
+  padding:34px;
+  border:1px solid #163c59;
+  border-radius:16px;
+  background:
+    linear-gradient(90deg,#08111e 0%,rgba(5,13,24,.97) 43%,rgba(4,13,24,.55) 100%),
+    radial-gradient(ellipse at 83% 50%,rgba(0,156,255,.26),transparent 55%),
+    #08111e;
+  box-shadow:0 0 28px rgba(0,185,255,.09);
+}
+.hero::before {
+  content:"";
+  position:absolute;
+  top:-100px;
+  right:-60px;
+  width:420px;
+  height:420px;
+  border:1px solid rgba(0,185,255,.23);
+  border-radius:50%;
+  box-shadow:0 0 0 35px rgba(0,185,255,.025),
+             0 0 0 75px rgba(0,185,255,.025);
+  pointer-events:none;
+}
+.hero::after {
+  content:"NF";
+  position:absolute;
+  right:7%;
+  top:50%;
+  transform:translateY(-50%) skew(-10deg);
+  color:rgba(0,185,255,.07);
+  font-size:clamp(140px,23vw,290px);
+  font-weight:1000;
+  line-height:1;
+  letter-spacing:-18px;
+  pointer-events:none;
+}
+.hero-copy { position:relative;z-index:1;max-width:650px }
+.eyebrow {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:var(--accent);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+.eyebrow::before {
+  content:"";
+  width:24px;
+  height:2px;
+  background:var(--accent);
+  box-shadow:0 0 12px var(--accent);
+}
+.hero h1 {
+  margin:15px 0;
+  font-size:clamp(36px,6vw,65px);
+  font-weight:1000;
+  letter-spacing:-2.5px;
+  line-height:.99;
+  text-transform:uppercase;
+  font-style:italic;
+}
+.gradient {
+  color:var(--accent);
+  text-shadow:0 0 28px rgba(0,185,255,.27);
+}
+.hero p {
+  max-width:500px;
+  margin:17px 0 22px;
+  color:#aabdd0;
+  font-size:15px;
+}
+.hero-art {
+  position:relative;
+  z-index:1;
+  min-height:190px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+.hero-emblem {
+  display:grid;
+  place-items:center;
+  width:150px;
+  height:150px;
+  border:1px solid rgba(0,185,255,.4);
+  border-radius:50%;
+  color:#dff8ff;
+  font-size:75px;
+  font-weight:1000;
+  font-style:italic;
+  text-shadow:0 0 24px var(--accent);
+  background:radial-gradient(circle,rgba(0,185,255,.22),rgba(0,15,30,.8) 65%);
+  box-shadow:0 0 35px rgba(0,185,255,.13),inset 0 0 35px rgba(0,185,255,.1);
+}
+.hero-art span {
+  margin-top:12px;
+  color:#7fa9c6;
+  font-size:10px;
+  letter-spacing:3px;
+  font-weight:900;
+}
+.primary {
+  width:100%;
+  padding:14px 18px;
+  color:#00101a;
+  border:0;
+  border-radius:8px;
+  background:linear-gradient(110deg,#00d5ff,#0788ff);
+  box-shadow:0 0 24px rgba(0,185,255,.2);
+  text-transform:uppercase;
+  letter-spacing:.3px;
+}
+.hero .primary { width:auto;min-width:230px }
+
 .layout {
   display:grid;
-  grid-template-columns:minmax(290px,350px) minmax(0,1fr);
-  gap:18px;
+  grid-template-columns:minmax(280px,350px) minmax(0,1fr);
+  gap:20px;
   align-items:start;
 }
 .panel {
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:20px;
+  position:relative;
   min-width:0;
+  padding:23px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:linear-gradient(145deg,rgba(14,24,38,.98),rgba(7,13,22,.98));
+  box-shadow:0 10px 35px rgba(0,0,0,.15);
 }
-h2 { font-size:18px;margin:0 0 18px }
-.field { margin-bottom:16px }
-label { display:block;font-size:13px;font-weight:700;margin-bottom:6px }
+.panel h2 {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:0 0 22px;
+  font-size:17px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.2px;
+}
+.panel h2::before {
+  content:"";
+  width:4px;
+  height:21px;
+  flex-shrink:0;
+  background:var(--accent);
+  box-shadow:0 0 12px rgba(0,185,255,.45);
+}
+.field { margin-bottom:17px }
+label {
+  display:block;
+  margin-bottom:7px;
+  color:#d9e9f7;
+  font-size:12px;
+  font-weight:800;
+}
 input,select,textarea {
   width:100%;
-  padding:11px;
-  background:#0e111c;
-  color:var(--text);
-  border:1px solid #353c52;
-  border-radius:10px;
   min-width:0;
+  padding:11px 12px;
+  color:#edf7ff;
+  background:#070d16;
+  border:1px solid #263d52;
+  border-radius:7px;
+  transition:border-color .18s,box-shadow .18s;
+}
+input:hover,select:hover,textarea:hover { border-color:#386080 }
+input:focus,select:focus,textarea:focus {
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(0,185,255,.08);
+  outline:none;
 }
 input[type=checkbox] {
-  width:17px;height:17px;accent-color:var(--accent);flex-shrink:0;
+  width:17px;
+  height:17px;
+  padding:0;
+  accent-color:var(--accent);
+  flex-shrink:0;
 }
 .row { display:grid;grid-template-columns:1fr 1fr;gap:10px }
 .check {
-  display:flex;gap:9px;align-items:center;
-  margin:12px 0;color:#dce0f4;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin:13px 0;
+  color:#cbd9e8;
 }
-.check label { margin:0;font-weight:500 }
-.primary {
-  width:100%;
-  padding:13px;
-  background:linear-gradient(100deg,#aa9bff,#705be6);
-  color:white;border:0;
-}
+.check label { margin:0;font-weight:600 }
+.hint { margin-top:5px;color:#728ba2;font-size:11px }
+
 .secondary,.copy {
-  background:#292f43;
-  color:#f0efff;
-  border:1px solid #3b435d;
   padding:9px 12px;
+  color:#cfeaff;
+  background:#101e2d;
+  border:1px solid #29445b;
+  border-radius:7px;
 }
-button:hover { filter:brightness(1.12) }
-button:disabled { opacity:.5;cursor:not-allowed }
-.results { display:grid;gap:9px }
+.secondary:hover,.copy:hover {
+  border-color:var(--accent);
+  color:white;
+}
+.actions { display:flex;gap:9px;flex-wrap:wrap;margin-top:15px }
+.actions button { flex:1 }
+
+.results { display:grid;gap:10px }
 .nick {
-  display:flex;justify-content:space-between;align-items:center;gap:10px;
-  padding:13px;background:#10141f;border:1px solid #2b3247;
-  border-radius:12px;min-width:0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+  padding:15px;
+  border:1px solid #1b3448;
+  border-radius:9px;
+  background:linear-gradient(100deg,#0b1522,#0a111c);
+  transition:border-color .18s,transform .18s,background .18s;
 }
-.nick-name { font-size:18px;font-weight:800;overflow-wrap:anywhere }
-.nick-info { color:var(--muted);font-size:11px }
-.copy { font-size:12px;flex-shrink:0 }
-.actions { display:flex;gap:8px;flex-wrap:wrap;margin-top:14px }
+.nick:hover {
+  border-color:#078dc7;
+  background:linear-gradient(100deg,#0c1e30,#0a1421);
+  transform:translateX(2px);
+}
+.nick-name {
+  overflow-wrap:anywhere;
+  color:#f5fbff;
+  font-size:19px;
+  font-weight:900;
+  letter-spacing:.3px;
+}
+.nick-info { color:#7793aa;font-size:11px }
+.copy { flex-shrink:0;font-size:11px;font-weight:800 }
 .empty {
-  padding:30px 15px;text-align:center;
-  border:1px dashed #3b435d;border-radius:12px;color:var(--muted);
+  padding:35px 18px;
+  text-align:center;
+  color:#8da4b9;
+  border:1px dashed #29445b;
+  border-radius:9px;
+  background:rgba(5,12,21,.5);
 }
-.status { color:var(--muted);font-size:12px;margin-top:14px;overflow-wrap:anywhere }
+.status {
+  margin-top:15px;
+  color:var(--muted);
+  font-size:12px;
+  overflow-wrap:anywhere;
+}
 .good { color:var(--good) }
 .bad { color:var(--bad) }
-.note { color:var(--muted);font-size:12px;margin-top:18px }
-footer { text-align:center;color:#7e879f;font-size:12px;margin-top:25px }
-.subhead { font-size:14px;margin:20px 0 10px;color:#c9c2ff }
-.hint { font-size:11px;color:var(--muted);margin-top:5px }
+.note {
+  margin-top:20px;
+  padding:12px;
+  color:#849db3;
+  font-size:11px;
+  border-left:2px solid #31536d;
+  background:rgba(12,26,40,.6);
+}
+.subhead {
+  margin:23px 0 12px;
+  color:#e6f5ff;
+  font-size:13px;
+  font-weight:900;
+  text-transform:uppercase;
+}
 .pill {
-  display:inline-block;border:1px solid var(--line);border-radius:999px;
-  padding:3px 8px;color:var(--muted);font-size:11px;margin:0 4px 4px 0;
+  display:inline-block;
+  margin:0 4px 5px 0;
+  padding:5px 9px;
+  color:#a9dfff;
+  font-size:10px;
+  font-weight:700;
+  border:1px solid #21435d;
+  border-radius:4px;
+  background:#0a1a29;
+}
+footer {
+  margin-top:28px;
+  padding-top:18px;
+  color:#627b91;
+  font-size:11px;
+  text-align:center;
+  border-top:1px solid #172c3d;
 }
 @media(max-width:760px) {
-  .layout { grid-template-columns:1fr }
-  .panel { padding:16px }
-  .wrap { padding-top:18px }
+  .wrap { padding:15px 12px 30px }
+  header { margin-bottom:18px;padding-bottom:14px }
+  .brand { font-size:22px }
+  .hero {
+    grid-template-columns:1fr;
+    gap:8px;
+    min-height:0;
+    padding:24px 19px;
+    margin-bottom:15px;
+  }
+  .hero h1 { font-size:clamp(36px,10vw,52px) }
+  .hero p { font-size:13px }
+  .hero-art {
+    min-height:110px;
+    flex-direction:row;
+    gap:14px;
+  }
+  .hero-emblem { width:75px;height:75px;font-size:36px }
+  .hero-art span {
+    max-width:130px;
+    text-align:left;
+    line-height:1.6;
+  }
+  .hero::after { right:-5%;top:25%;font-size:155px }
+  .hero::before { width:220px;height:220px;top:auto;bottom:-110px }
+  .layout { grid-template-columns:1fr;gap:14px }
+  .panel { padding:17px }
+  .panel h2 { margin-bottom:18px }
+  .nick { padding:12px;gap:8px }
+  .nick-name { font-size:16px }
+  .copy { padding:8px;font-size:10px }
+  .actions button { min-width:0 }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    scroll-behavior:auto!important;
+    transition:none!important;
+  }
 }
 </style>
 </head>
@@ -133,15 +440,27 @@ footer { text-align:center;color:#7e879f;font-size:12px;margin-top:25px }
 <header>
   <div class="logo">N</div>
   <div>
-    <div class="brand">NickForge</div>
-    <div class="muted">Никнейм под твои правила</div>
+    <div class="brand">Nick<span>Forge</span></div>
+    <div class="muted">Твой ник. Твои правила. Твоя игра.</div>
   </div>
 </header>
 
 <section class="hero">
-  <div class="muted">ГЕНЕРАТОР ИГРОВЫХ НИКНЕЙМОВ</div>
-  <h1>Твой стиль.<br><span class="gradient">Твой ник.</span></h1>
-  <p>Настрой ограничения, генерируй осмысленные сочетания и находи никнеймы под свои правила.</p>
+  <div class="hero-copy">
+    <div class="eyebrow">Генератор игровых никнеймов</div>
+    <h1>Твой стиль.<br><span class="gradient">Твой ник.</span></h1>
+    <p>
+      Создай никнейм, который выделит тебя в игре.
+      Настрой символы, длину и стиль — найди свою комбинацию.
+    </p>
+    <button class="primary" id="heroGenerate" type="button">
+      ⚡ Создать свой ник
+    </button>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <div class="hero-emblem">NF</div>
+    <span>CREATE YOUR ID<br>STAND OUT. PLAY HARD.</span>
+  </div>
 </section>
 
 <main class="layout">
@@ -276,10 +595,10 @@ footer { text-align:center;color:#7e879f;font-size:12px;margin-top:25px }
   </select>
 </div>
 
-<button class="primary" id="generate">✦ Сгенерировать ники</button>
+<button class="primary" id="generate" type="button">⚡ Сгенерировать ники</button>
 
 <div class="actions">
-  <button class="secondary" id="clearHistory">Очистить историю</button>
+  <button class="secondary" id="clearHistory" type="button">Очистить историю</button>
 </div>
 </section>
 
@@ -291,8 +610,8 @@ footer { text-align:center;color:#7e879f;font-size:12px;margin-top:25px }
   </div>
 
   <div class="actions">
-    <button class="secondary" id="copyAll">Копировать все</button>
-    <button class="secondary" id="again">↻ Ещё варианты</button>
+    <button class="secondary" id="copyAll" type="button">Копировать все</button>
+    <button class="secondary" id="again" type="button">↻ Ещё варианты</button>
   </div>
 
   <div class="status" id="status" aria-live="polite">
@@ -305,16 +624,17 @@ footer { text-align:center;color:#7e879f;font-size:12px;margin-top:25px }
     но не гарантирует, что имя свободно.
   </div>
 
-  <div class="subhead">Что важно знать</div>
+  <div class="subhead">Возможности NickForge</div>
   <span class="pill">До 30 вариантов</span>
   <span class="pill">Локальная история</span>
   <span class="pill">Без аккаунта</span>
   <span class="pill">Работает офлайн</span>
+  <span class="pill">16 стилей</span>
 </section>
 
 </main>
 
-<footer>NickForge · Бесплатный генератор никнеймов</footer>
+<footer>NickForge · Бесплатный генератор игровых никнеймов</footer>
 </div>
 
 <script>
@@ -455,9 +775,9 @@ b:["Рыцарь","Наследник","Герцог","Ладья","Герб","�
 
 const profiles = {
   custom:{min:5,max:12,hint:"Задай собственные ограничения."},
-  steam:{min:3,max:20,hint:"Это настройки для отображаемого имени профиля. Имя профиля Steam и логин — не одно и то же."},
-  roblox:{min:3,max:20,hint:"Username Roblox обычно допускает латинские буквы, цифры и одно подчёркивание. Проверяй актуальные правила Roblox."},
-  minecraft:{min:3,max:16,hint:"Minecraft Java: имя игрока обычно ограничено 3–16 символами, латиницей, цифрами и подчёркиванием."}
+  steam:{min:3,max:20,hint:"Настройки для отображаемого имени профиля Steam. Это не логин."},
+  roblox:{min:3,max:20,hint:"Для Roblox обычно используются латинские буквы, цифры и подчёркивание. Проверяй актуальные правила платформы."},
+  minecraft:{min:3,max:16,hint:"Minecraft Java: обычно 3–16 символов, латиница, цифры и подчёркивание."}
 };
 
 const pick = arr => arr[Math.floor(Math.random()*arr.length)];
@@ -618,7 +938,6 @@ function makeCandidate(s) {
     else name=Math.random()<0.5?own+name:name+own;
   }
 
-  // Укорачиваем ник до места, оставленного для обязательных символов.
   if(name.length>contentMax) {
     if(own && s.ownMode==="suffix") {
       name=name.slice(0,Math.max(0,contentMax-own.length))+own;
@@ -633,7 +952,6 @@ function makeCandidate(s) {
     }
   }
 
-  // Если слово пользователя задано, оно не должно исчезнуть при сокращении.
   if(own && !name.toLowerCase().includes(own.toLowerCase()))return "";
 
   const selected=chooseAlphabet(s);
@@ -729,10 +1047,9 @@ function validateSettings(s) {
     return "Для Roblox не хватает длины, чтобы добавить обязательное подчёркивание.";
   }
 
-  if(s.platform==="roblox"||s.platform==="minecraft") {
-    $("platformHint").textContent=profiles[s.platform].hint+
-      " Алфавит ограничен латиницей.";
-  }
+  $("platformHint").textContent=profiles[s.platform].hint+
+    ((s.platform==="roblox"||s.platform==="minecraft")
+      ?" Алфавит ограничен латиницей.":"");
 
   return "";
 }
@@ -769,6 +1086,7 @@ function render() {
 
     const button=document.createElement("button");
     button.className="copy";
+    button.type="button";
     button.textContent="Копировать";
     button.addEventListener("click",()=>copyText(name));
 
@@ -852,7 +1170,7 @@ function generate() {
 
   if(found.length===s.quantity) {
     setStatus(
-      `Готово: ${found.length} вариантов. Все результаты проверены по заданным ограничениям.`,
+      `Готово: ${found.length} вариантов. Результаты проверены по заданным ограничениям.`,
       "good"
     );
   } else {
@@ -879,6 +1197,14 @@ $("platform").addEventListener("change",()=>{
 
 $("generate").addEventListener("click",generate);
 $("again").addEventListener("click",generate);
+
+$("heroGenerate").addEventListener("click",()=>{
+  generate();
+  document.getElementById("results").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+});
 
 $("copyAll").addEventListener("click",()=>{
   if(latest.length)copyText(latest.join("\n"));
