@@ -4,563 +4,363 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#6656d9">
-<meta name="description" content="Каталог раскрасок Disney и Pixar по номерам. Поиск альбомов и палитр маркеров для раскрашивания дома.">
-<title>Цвет по номеру — Disney и Pixar</title>
-
+<meta name="theme-color" content="#10121b">
+<meta name="description" content="NickForge — генератор уникальных никнеймов с гибкими настройками для игр.">
+<title>NickForge — генератор никнеймов</title>
 <style>
 :root {
-  --bg: #f7f7fc;
-  --card: #ffffff;
-  --text: #24233a;
-  --muted: #77778c;
-  --accent: #6656d9;
-  --accent-light: #eeeaff;
-  --border: #e8e7f0;
+  --bg:#0c0e16; --panel:#151927; --line:#2b3247;
+  --text:#f3f4ff; --muted:#a0a8bf; --accent:#9988ff;
 }
-* { box-sizing: border-box; }
+* { box-sizing:border-box }
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-  color: var(--text);
-  background: var(--bg);
+  margin:0; background:radial-gradient(ellipse at top,#28214c,transparent 45%),var(--bg);
+  color:var(--text); font:16px/1.5 system-ui,sans-serif;
 }
-header {
-  padding: 34px 16px 30px;
-  text-align: center;
-  color: white;
-  background: linear-gradient(135deg, #5547c7, #9b83ee);
+.wrap { max-width:1050px; margin:auto; padding:25px 16px 50px }
+header { display:flex; align-items:center; gap:12px; margin-bottom:30px }
+.logo { background:linear-gradient(135deg,#b0a3ff,#6852dc); padding:10px 15px; border-radius:13px; font-weight:900;font-size:22px }
+.brand { font-size:21px;font-weight:850 }
+.muted { color:var(--muted);font-size:13px }
+.hero { text-align:center;margin-bottom:28px }
+.hero h1 { font-size:clamp(32px,6vw,50px);line-height:1.1;margin:12px 0 }
+.hero p { color:var(--muted);max-width:600px;margin:auto }
+.gradient { color:#b8aaff }
+.layout { display:grid;grid-template-columns:330px 1fr;gap:18px;align-items:start }
+.panel { background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;min-width:0 }
+h2 { font-size:18px;margin:0 0 18px }
+.field { margin-bottom:16px }
+label { display:block;font-size:13px;font-weight:700;margin-bottom:6px }
+input,select,textarea {
+  width:100%;padding:11px;background:#0e111c;color:var(--text);
+  border:1px solid #353c52;border-radius:10px;font:inherit;min-width:0
 }
-header h1 {
-  font-size: clamp(27px, 5vw, 40px);
-  margin: 0 0 10px;
-}
-header p {
-  max-width: 600px;
-  margin: auto;
-  line-height: 1.5;
-  opacity: .95;
-}
-main {
-  width: min(1120px, 100%);
-  margin: auto;
-  padding: 26px 16px 40px;
-}
-h2 { margin: 0 0 8px; }
-.intro {
-  margin: 0 0 20px;
-  color: var(--muted);
-  line-height: 1.5;
-}
-.search-wrap { position: relative; }
-#search {
-  width: 100%;
-  min-height: 50px;
-  padding: 13px 15px;
-  border: 1px solid var(--border);
-  border-radius: 13px;
-  background: white;
-  color: var(--text);
-  font-size: 16px;
-  outline: none;
-}
-#search:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px #6656d922;
-}
-.filters {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin: 15px 0 22px;
-}
-.filters button {
-  border: 1px solid var(--border);
-  background: white;
-  color: var(--text);
-  padding: 10px 14px;
-  min-height: 40px;
-  border-radius: 22px;
-  cursor: pointer;
-  font-size: 14px;
-}
-.filters button.active {
-  color: white;
-  background: var(--accent);
-  border-color: var(--accent);
-}
-.result-line {
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 13px;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 17px;
-}
-.card {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 15px;
-  box-shadow: 0 3px 12px #24233a08;
-  transition: transform .15s, box-shadow .15s;
-}
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 7px 22px #24233a12;
-}
-.cover-wrap {
-  aspect-ratio: 3 / 4;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: linear-gradient(145deg, #f0edff, #f9f6ff);
-  position: relative;
-}
-.cover {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-.cover-placeholder {
-  padding: 20px 12px;
-  text-align: center;
-  color: #5046a6;
-}
-.cover-placeholder .book-icon {
-  font-size: 38px;
-  margin-bottom: 12px;
-}
-.cover-placeholder strong {
-  display: block;
-  font-size: 15px;
-  line-height: 1.4;
-}
-.cover-placeholder small {
-  display: block;
-  margin-top: 10px;
-  color: #77708f;
-}
-.info {
-  padding: 13px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 9px;
-}
-.info h3 {
-  font-size: 15px;
-  line-height: 1.4;
-  margin: 0;
-}
-.category {
-  align-self: flex-start;
-  border-radius: 20px;
-  padding: 5px 9px;
-  background: var(--accent-light);
-  color: #5043b4;
-  font-size: 12px;
-}
-.book-note {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.45;
-}
-.link {
-  display: block;
-  margin-top: auto;
-  padding: 11px 8px;
-  text-align: center;
-  text-decoration: none;
-  background: var(--accent);
-  color: white;
-  border-radius: 9px;
-  font-size: 13px;
-  line-height: 1.3;
-}
-.link:hover { background: #5141c0; }
-.empty {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 40px 15px;
-  background: white;
-  border-radius: 14px;
-  color: var(--muted);
-}
-.notice {
-  margin-top: 25px;
-  padding: 17px;
-  border: 1px solid var(--border);
-  background: white;
-  border-radius: 13px;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.65;
-}
-footer {
-  text-align: center;
-  padding: 24px 15px;
-  color: var(--muted);
-  font-size: 12px;
-}
-@media (max-width: 900px) {
-  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@media (max-width: 600px) {
-  main { padding: 22px 12px 30px; }
-  header { padding: 28px 15px; }
-  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
-  .info { padding: 10px; }
-  .info h3 { font-size: 13px; }
-  .link { font-size: 12px; }
-  .filters { gap: 6px; }
-  .filters button { padding: 9px 11px; font-size: 13px; }
+input:focus,select:focus,textarea:focus { outline:2px solid #9988ff80 }
+input[type=checkbox] { width:17px;height:17px;accent-color:var(--accent) }
+.row { display:grid;grid-template-columns:1fr 1fr;gap:10px }
+.check { display:flex;gap:9px;align-items:center;margin:12px 0;color:#dce0f4 }
+.check label { margin:0;font-weight:500 }
+button { cursor:pointer;font:inherit;font-weight:750;border-radius:10px }
+.primary { width:100%;padding:13px;background:linear-gradient(100deg,#aa9bff,#705be6);color:white;border:0 }
+.secondary,.copy { background:#292f43;color:#f0efff;border:1px solid #3b435d;padding:9px 12px }
+button:hover { filter:brightness(1.12) }
+.results { display:grid;gap:9px }
+.nick { display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px;background:#10141f;border:1px solid #2b3247;border-radius:12px;min-width:0 }
+.nick-name { font-size:18px;font-weight:800;overflow-wrap:anywhere }
+.nick-info { color:var(--muted);font-size:11px }
+.copy { font-size:12px;flex-shrink:0 }
+.actions { display:flex;gap:8px;flex-wrap:wrap;margin-top:14px }
+.empty { padding:30px 15px;text-align:center;border:1px dashed #3b435d;border-radius:12px;color:var(--muted) }
+.status { color:var(--muted);font-size:12px;margin-top:14px;overflow-wrap:anywhere }
+.good { color:#76e7b0 }.bad { color:#ff9ba8 }
+.note { color:var(--muted);font-size:12px;margin-top:18px }
+footer { text-align:center;color:#7e879f;font-size:12px;margin-top:25px }
+@media(max-width:760px) {
+  .layout { grid-template-columns:1fr }
+  .panel { padding:16px }
+  .wrap { padding-top:18px }
 }
 </style>
 </head>
-
 <body>
+<div class="wrap">
 <header>
-  <h1>🎨 Цвет по номеру</h1>
-  <p>Найди свой альбом Disney или Pixar и подбери номера маркеров для раскрашивания дома.</p>
+  <div class="logo">N</div>
+  <div><div class="brand">NickForge</div><div class="muted">Никнейм под твои правила</div></div>
 </header>
 
-<main>
-  <h2>Каталог альбомов</h2>
-  <p class="intro">
-    Выбери серию или найди альбом через поиск.
-  </p>
+<section class="hero">
+  <div class="muted">ГЕНЕРАТОР ИГРОВЫХ НИКНЕЙМОВ</div>
+  <h1>Твой стиль.<br><span class="gradient">Твой ник.</span></h1>
+  <p>Настрой критерии, создай подборку и найди никнейм, который подходит именно тебе.</p>
+</section>
 
-  <div class="search-wrap">
-    <input
-      id="search"
-      type="search"
-      placeholder="Название альбома, серия, персонаж..."
-      aria-label="Поиск альбомов"
-      autocomplete="off"
-    >
-  </div>
+<main class="layout">
+<section class="panel">
+<h2>Критерии генерации</h2>
 
-  <nav class="filters" aria-label="Категории альбомов">
-    <button class="active" data-filter="Все" type="button">Все</button>
-    <button data-filter="Принцессы" type="button">Принцессы</button>
-    <button data-filter="Злодеи" type="button">Злодеи</button>
-    <button data-filter="Pixar" type="button">Pixar</button>
-    <button data-filter="Классика" type="button">Классика</button>
-    <button data-filter="Микки и друзья" type="button">Микки и друзья</button>
-    <button data-filter="Животные и природа" type="button">Животные и природа</button>
-    <button data-filter="Другие" type="button">Другие</button>
-  </nav>
+<div class="field">
+<label for="platform">Платформа</label>
+<select id="platform">
+<option value="custom">Свои настройки</option>
+<option value="steam">Steam — имя профиля</option>
+<option value="roblox">Roblox — username</option>
+<option value="minecraft">Minecraft Java</option>
+</select>
+<div class="muted" id="platformHint">Задай собственные ограничения.</div>
+</div>
 
-  <div id="result-count" class="result-line" aria-live="polite"></div>
-  <section id="catalog" class="grid" aria-label="Каталог раскрасок"></section>
+<div class="field">
+<label for="style">Стиль ника</label>
+<select id="style">
+<option value="game">Игровой</option>
+<option value="dark">Мрачный</option>
+<option value="warrior">Воин</option>
+<option value="minimal">Минималистичный</option>
+<option value="fantasy">Фэнтези</option>
+<option value="cyber">Киберпанк</option>
+<option value="fun">Забавный</option>
+</select>
+</div>
 
-  <div class="notice">
-    <strong>Как пользоваться сайтом</strong><br>
-    1. Найди название своего альбома.<br>
-    2. Открой страницу издателя, чтобы проверить точное издание.<br>
-    3. Найди палитру маркеров, соответствующую этому альбому.<br><br>
-    Каталог постепенно пополняется. Номера маркеров необходимо сверять
-    с палитрой именно своего издания.
-  </div>
+<div class="row field">
+<div><label for="min">Мин. длина</label><input id="min" type="number" min="3" max="20" value="5"></div>
+<div><label for="max">Макс. длина</label><input id="max" type="number" min="3" max="20" value="12"></div>
+</div>
+
+<div class="field">
+<label for="alphabet">Алфавит</label>
+<select id="alphabet">
+<option value="latin">Только латиница</option>
+<option value="cyrillic">Только кириллица</option>
+<option value="mixed">Оба алфавита</option>
+</select>
+</div>
+
+<div class="field">
+<label for="digits">Цифры</label>
+<select id="digits">
+<option value="no">Запрещены</option>
+<option value="optional" selected>Разрешены</option>
+<option value="yes">Обязательны</option>
+</select>
+</div>
+
+<div class="field">
+<label for="symbols">Символы _ и -</label>
+<select id="symbols">
+<option value="no">Запрещены</option>
+<option value="optional">Разрешены</option>
+<option value="yes">Обязателен хотя бы один</option>
+</select>
+</div>
+
+<div class="field">
+<label for="case">Первая буква</label>
+<select id="case">
+<option value="upper">Заглавная</option>
+<option value="lower">Строчная</option>
+<option value="any">Без разницы</option>
+</select>
+</div>
+
+<div class="check"><input id="noRepeat" type="checkbox" checked><label for="noRepeat">Без одинаковых символов подряд</label></div>
+<div class="check"><input id="unique" type="checkbox" checked><label for="unique">Не повторять ники в подборке</label></div>
+
+<div class="field">
+<label for="own">Своё слово или часть ника</label>
+<input id="own" maxlength="20" placeholder="Например, Artem">
+<div class="muted">Генератор включит это слово в каждый результат.</div>
+</div>
+
+<div class="field">
+<label for="blocked">Запрещённые слова</label>
+<textarea id="blocked" rows="2" placeholder="noob, bot, bad"></textarea>
+<div class="muted">Разделяй слова запятыми.</div>
+</div>
+
+<div class="field">
+<label for="amount">Количество вариантов</label>
+<select id="amount">
+<option>10</option><option selected>20</option><option>30</option><option>50</option>
+</select>
+</div>
+
+<button class="primary" id="generate">✦ Сгенерировать ники</button>
+</section>
+
+<section class="panel">
+<h2>Твоя подборка <span class="muted" id="count"></span></h2>
+<div class="results" id="results">
+<div class="empty">Настрой критерии и нажми кнопку генерации.</div>
+</div>
+<div class="actions">
+<button class="secondary" id="copyAll">Копировать все</button>
+<button class="secondary" id="again">↻ Ещё варианты</button>
+</div>
+<div class="status" id="status" aria-live="polite">Работает в браузере. Регистрация не нужна.</div>
+<div class="note"><b>Важно:</b> отсутствие повторов гарантируется только для текущей подборки и истории этой страницы. Проверка доступности ника на серверах игр не выполняется. Ограничения платформ могут изменяться.</div>
+</section>
 </main>
-
-<footer>
-  Цвет по номеру · Независимый справочный каталог
-</footer>
+<footer>NickForge · Бесплатный генератор никнеймов</footer>
+</div>
 
 <script>
-const PUBLISHER =
-  "https://www.hachetteheroes.com/theme/42/coloriages-mysteres-disney";
+(() => {
+const $ = id => document.getElementById(id);
 
-const books = [
-  {
-    title: "Disney Princesses Tome 2",
-    category: "Принцессы",
-    characters: "Принцессы Disney",
-    url: "https://www.hachetteheroes.com/produit/85504/9782017312512/coloriages-mysteres-disney-princesses-tome-2",
-    image: "https://www.hachetteheroes.com/system/product_pictures/data/009/732/295/large/9782019457150-001-X.webp"
-  },
-  {
-    title: "Disney Petites princesses",
-    category: "Принцессы",
-    characters: "Маленькие принцессы",
-    url: PUBLISHER
-  },
-  {
-    title: "Disney Princes et Héros",
-    category: "Принцессы",
-    characters: "Принцы и герои",
-    url: "https://www.hachetteheroes.com/produit/85312/9782017260165/coloriages-mysteres-disney-princes-et-heros"
-  },
-  {
-    title: "Disney Best of Méchants",
-    category: "Злодеи",
-    characters: "Злодеи Disney и Pixar",
-    url: "https://www.hachetteheroes.com/produit/85756/9782017356288/coloriages-mysteres-disney-best-of-mechants",
-    image: "https://www.hachetteheroes.com/system/product_pictures/data/010/008/041/large/9782017356288-001-X.webp"
-  },
-  {
-    title: "Disney Héros & Méchants — La Battle",
-    category: "Злодеи",
-    characters: "Герои против злодеев",
-    url: "https://www.hachetteheroes.com/produit/85503/9782017285991/"
-  },
-  {
-    title: "Disney Pixar",
-    category: "Pixar",
-    characters: "Мультфильмы Pixar",
-    url: PUBLISHER
-  },
-  {
-    title: "Disney Best of Pixar",
-    category: "Pixar",
-    characters: "Лучшие раскраски Pixar",
-    url: "https://www.hachetteheroes.com/produit/85507/9782017312734/coloriages-mysteres-disney-best-of-pixar",
-    image: "https://www.hachetteheroes.com/system/product_pictures/data/010/005/129/large/9782017312734-001-X.webp"
-  },
-  {
-    title: "Disney Pixar Tome 2",
-    category: "Pixar",
-    characters: "Персонажи Pixar",
-    url: PUBLISHER
-  },
-  {
-    title: "Disney Grands classiques",
-    category: "Классика",
-    characters: "Классические мультфильмы",
-    url: "https://www.hachetteheroes.com/produit/85497/9782017285670/coloriages-au-numero-disney-les-grands-classiques"
-  },
-  {
-    title: "Disney Grands classiques Tome 2",
-    category: "Классика",
-    characters: "Классические мультфильмы",
-    url: PUBLISHER
-  },
-  {
-    title: "Disney Grands classiques Tome 3",
-    category: "Классика",
-    characters: "Третий том классики",
-    url: PUBLISHER
-  },
-  {
-    title: "Disney Grands classiques Tome 4",
-    category: "Классика",
-    characters: "Четвёртый том классики",
-    url: PUBLISHER
-  },
-  {
-    title: "Disney Grands classiques Tome 5",
-    category: "Классика",
-    characters: "Пятый том классики",
-    url: PUBLISHER
-  },
-  {
-    title: "Disney Grands classiques Tome 6",
-    category: "Классика",
-    characters: "Шестой том классики",
-    url: PUBLISHER
-  },
-  {
-    title: "Disney Grands classiques Tome 7",
-    category: "Классика",
-    characters: "Седьмой том классики",
-    url: PUBLISHER
-  },
-  {
-    title: "Disney Grands classiques Tome 13",
-    category: "Классика",
-    characters: "100 иллюстраций Disney и Pixar",
-    url: "https://www.hachetteheroes.com/produit/85646/9782017276302/coloriages-mysteres-disney-grands-classiques-tome-13"
-  },
-  {
-    title: "Disney Très grands classiques",
-    category: "Классика",
-    characters: "Большой формат XXL",
-    url: "https://www.hachetteheroes.com/produit/85679/9782017312765/coloriages-mysteres-disney-tres-grands-classiques"
-  },
-  {
-    title: "Disney Grands classiques — Spécial débutants",
-    category: "Классика",
-    characters: "Для начинающих",
-    url: "https://www.hachetteheroes.com/produit/85487/9782017285649/coloriages-mysteres-disney-grands-classiques-special-debutants"
-  },
-  {
-    title: "Disney Grands classiques — Spécial débutants Tome 2",
-    category: "Классика",
-    characters: "Для начинающих",
-    url: PUBLISHER
-  },
-  {
-    title: "Disney Mickey and Friends",
-    category: "Микки и друзья",
-    characters: "Микки, Минни и друзья",
-    url: PUBLISHER
-  },
-  {
-    title: "Disney Stitch — Coloriages au numéro",
-    category: "Другие",
-    characters: "Лило и Стич",
-    url: PUBLISHER
-  },
-  {
-    title: "Disney Best of Nature",
-    category: "Животные и природа",
-    characters: "Природа и животные",
-    url: PUBLISHER
-  },
-  {
-    title: "Disney Best of Héroïnes",
-    category: "Другие",
-    characters: "Героини Disney",
-    url: PUBLISHER
-  },
-  {
-    title: "Disney Best of Bestiaire",
-    category: "Животные и природа",
-    characters: "Животные и сказочные существа",
-    url: PUBLISHER
-  },
-  {
-    title: "Disney Vitraux Tome 2",
-    category: "Другие",
-    characters: "Витражный стиль",
-    url: PUBLISHER
-  }
-];
+const dictionaries = {
+game:[
+["Nova","Raven","Frost","Blaze","Echo","Storm","Shadow","Ghost","Iron","Swift","Astra","Drift","Onyx","Pixel","Rune"],
+["Walker","Strike","Hunter","Blade","Spark","Rider","Wolf","Core","Shift","Forge","Runner","Knight","Hawk","Scout","Orbit"]
+],
+dark:[
+["Dread","Noct","Grim","Raven","Umbra","Abyss","Wraith","Gloom","Night","Shade","Crypt","Vanta"],
+["Veil","Reaper","Whisper","Specter","Cinder","Phantom","Fang","Omen","Shroud","Howl"]
+],
+warrior:[
+["Rage","Titan","Valor","Feral","Savage","Steel","Fury","Rogue","Saber","Dire","Valk"],
+["Breaker","Fang","Crusher","Slayer","Vanguard","Guard","Storm","Raptor","Striker","Blade"]
+],
+minimal:[
+["Zyn","Kai","Ryn","Vex","Nyx","Ari","Lux","Zen","Kiro","Nox","Rai","Eon","Axo","Neo"],
+["ix","on","ar","en","yx","or","ai","ex","um","is","ox","ra","yn"]
+],
+fantasy:[
+["Ael","Eld","Thal","Syl","Vael","Aer","Myth","Drae","Elun","Kael","Orin","Auri"],
+["drin","thas","wyn","driel","mora","thiel","vorn","lith","rion","dara","mir","riel"]
+],
+cyber:[
+["Neon","Glitch","Proxy","Zero","Nex","Chrome","Synth","Byte","Hex","Static","Cryo","Flux"],
+["Ghost","Pulse","Link","Trace","Shift","Drive","Wave","Core","Cipher","Grid","Signal","Sync"]
+],
+fun:[
+["Mochi","Bumble","Pickle","Waffle","Noodle","Mango","Bongo","Tofu","Doodle","Kiwi","Panda"],
+["Wizard","Bandit","Ninja","Goblin","Rocket","Muffin","Duck","Captain","Gremlin","Bunny","Toast"]
+]
+};
 
-const catalog = document.getElementById("catalog");
-const search = document.getElementById("search");
-const resultCount = document.getElementById("result-count");
+const cyrA=["Тень","Гром","Ворон","Лёд","Искра","Шторм","Призрак","Север","Пепел","Клык","Сумрак","Вихрь","Руна","Страж","Феникс","Сокол"];
+const cyrB=["Хранитель","Клинок","Охотник","Странник","Рыцарь","Следопыт","Ветер","Титан","Ястреб","Дозор","Мастер","Морок","Зверь","Скиталец"];
+const history=new Set();
+let latest=[];
 
-let activeFilter = "Все";
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function title(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+function setStatus(s,kind=""){ $("status").textContent=s;$("status").className="status "+kind }
 
-function makeCard(book) {
-  const card = document.createElement("article");
-  card.className = "card";
+const profiles={
+custom:{min:5,max:12,hint:"Задай собственные ограничения."},
+steam:{min:3,max:20,hint:"Настройки относятся к имени профиля Steam, не к логину аккаунта."},
+roblox:{min:3,max:20,hint:"Для username используются латинские буквы и цифры; дополнительные правила проверяются платформой."},
+minecraft:{min:3,max:16,hint:"Minecraft Java: 3–16 символов, латиница, цифры и подчёркивание."}
+};
 
-  const coverWrap = document.createElement("div");
-  coverWrap.className = "cover-wrap";
-
-  function showPlaceholder() {
-    coverWrap.replaceChildren();
-
-    const placeholder = document.createElement("div");
-    placeholder.className = "cover-placeholder";
-
-    const icon = document.createElement("div");
-    icon.className = "book-icon";
-    icon.textContent = "📚";
-
-    const title = document.createElement("strong");
-    title.textContent = book.title;
-
-    const caption = document.createElement("small");
-    caption.textContent = "Альбом Disney";
-
-    placeholder.append(icon, title, caption);
-    coverWrap.append(placeholder);
-  }
-
-  if (book.image) {
-    const img = document.createElement("img");
-    img.className = "cover";
-    img.alt = "Обложка альбома " + book.title;
-    img.loading = "lazy";
-    img.src = book.image;
-    img.onerror = showPlaceholder;
-    coverWrap.append(img);
-  } else {
-    showPlaceholder();
-  }
-
-  const info = document.createElement("div");
-  info.className = "info";
-
-  const title = document.createElement("h3");
-  title.textContent = book.title;
-
-  const category = document.createElement("span");
-  category.className = "category";
-  category.textContent = book.category;
-
-  const note = document.createElement("div");
-  note.className = "book-note";
-  note.textContent = book.characters;
-
-  const link = document.createElement("a");
-  link.className = "link";
-  link.href = book.url;
-  link.target = "_blank";
-  link.rel = "noopener noreferrer";
-  link.textContent = "Открыть альбом ↗";
-
-  info.append(title, category, note, link);
-  card.append(coverWrap, info);
-
-  return card;
-}
-
-function render() {
-  const query = search.value.trim().toLocaleLowerCase("ru");
-
-  const filtered = books.filter(book => {
-    const matchesCategory =
-      activeFilter === "Все" || book.category === activeFilter;
-
-    const searchable = [
-      book.title,
-      book.category,
-      book.characters
-    ].join(" ").toLocaleLowerCase("ru");
-
-    return matchesCategory && searchable.includes(query);
-  });
-
-  catalog.replaceChildren();
-
-  resultCount.textContent =
-    "Найдено альбомов: " + filtered.length + " из " + books.length;
-
-  if (filtered.length === 0) {
-    const empty = document.createElement("div");
-    empty.className = "empty";
-    empty.textContent =
-      "Ничего не найдено. Попробуй другое название или категорию.";
-    catalog.append(empty);
-    return;
-  }
-
-  const fragment = document.createDocumentFragment();
-
-  filtered.forEach(book => fragment.append(makeCard(book)));
-  catalog.append(fragment);
-}
-
-search.addEventListener("input", render);
-
-document.querySelectorAll("[data-filter]").forEach(button => {
-  button.addEventListener("click", () => {
-    activeFilter = button.dataset.filter;
-
-    document.querySelectorAll("[data-filter]").forEach(item => {
-      item.classList.toggle("active", item === button);
-    });
-
-    render();
-  });
+$("platform").addEventListener("change",()=>{
+ const p=$("platform").value,profile=profiles[p];
+ $("min").value=profile.min;$("max").value=profile.max;
+ $("platformHint").textContent=profile.hint;
+ if(p==="roblox"||p==="minecraft")$("alphabet").value="latin";
+ if(p==="roblox")$("symbols").value="no";
+ if(p==="minecraft")$("symbols").value="optional";
 });
 
-render();
+function settings(){
+ let min=Math.max(3,Math.min(20,Number($("min").value)||5));
+ let max=Math.max(3,Math.min(20,Number($("max").value)||12));
+ const p=$("platform").value;
+ if(p==="minecraft")max=Math.min(max,16);
+ if(min>max)min=max;
+ $("min").value=min;$("max").value=max;
+ return {
+ min,max,p,style:$("style").value,alphabet:$("alphabet").value,
+ digits:$("digits").value,symbols:$("symbols").value,
+ letterCase:$("case").value,noRepeat:$("noRepeat").checked,
+ unique:$("unique").checked,own:$("own").value.trim(),
+ blocked:$("blocked").value.toLowerCase().split(",").map(x=>x.trim()).filter(Boolean),
+ amount:Number($("amount").value)
+ };
+}
+
+function createCandidate(s){
+ let name;
+ if(s.alphabet==="cyrillic"){
+   name=pick(cyrA)+pick(cyrB);
+ }else{
+   const d=dictionaries[s.style]||dictionaries.game;
+   if(s.alphabet==="mixed"&&Math.random()<0.25) name=pick(cyrA)+pick(cyrB);
+   else name=pick(d[0])+pick(d[1]);
+ }
+ if(s.own){
+   const own=s.own.replace(/[^a-zA-Zа-яА-ЯёЁ0-9]/g,"");
+   if(own)name=Math.random()<0.5?own+name:name+own;
+ }
+ if(s.letterCase==="upper")name=title(name);
+ if(s.letterCase==="lower")name=name.toLowerCase();
+
+ if(s.digits==="yes"||(s.digits==="optional"&&Math.random()<0.35))
+   name+=Math.floor(Math.random()*90)+10;
+
+ if(s.symbols==="yes"||(s.symbols==="optional"&&Math.random()<0.2)){
+   const p=s.p==="minecraft"?"_":pick(["_","-"]);
+   const at=Math.max(1,Math.floor(Math.random()*Math.max(2,name.length)));
+   name=name.slice(0,at)+p+name.slice(at);
+ }
+ if(s.noRepeat)name=name.replace(/(.)\1+/gi,"$1");
+ return name;
+}
+
+function valid(n,s){
+ if(n.length<s.min||n.length>s.max)return false;
+ if(s.p==="roblox"&&!/^[A-Za-z0-9]+$/.test(n))return false;
+ if(s.p==="minecraft"&&!/^[A-Za-z0-9_]+$/.test(n))return false;
+ if(s.alphabet==="latin"&&!/^[A-Za-z0-9_-]+$/.test(n))return false;
+ if(s.alphabet==="cyrillic"&&!/^[А-Яа-яЁё0-9_-]+$/.test(n))return false;
+ if(s.alphabet==="mixed"&&!/^[A-Za-zА-Яа-яЁё0-9_-]+$/.test(n))return false;
+ if(s.digits==="no"&&/\d/.test(n))return false;
+ if(s.digits==="yes"&&!/\d/.test(n))return false;
+ if(s.symbols==="no"&&/[_-]/.test(n))return false;
+ if(s.symbols==="yes"&&!/[_-]/.test(n))return false;
+ if(s.p==="minecraft"&&s.symbols==="yes"&&!/_/.test(n))return false;
+ if(s.noRepeat&&/(.)\1/i.test(n))return false;
+ if(s.blocked.some(w=>n.toLowerCase().includes(w)))return false;
+ if(s.own&&!n.toLowerCase().includes(s.own.replace(/[^a-zA-Zа-яА-ЯёЁ0-9]/g,"").toLowerCase()))return false;
+ if(s.letterCase==="upper"&&!/^[A-ZА-ЯЁ]/.test(n))return false;
+ if(s.letterCase==="lower"&&!/^[a-zа-яё]/.test(n))return false;
+ return true;
+}
+
+function generate(){
+ const s=settings(),local=new Set();latest=[];
+ let attempts=0;
+ while(latest.length<s.amount&&attempts<s.amount*1500){
+   attempts++;
+   const n=createCandidate(s),key=n.toLowerCase();
+   if(!valid(n,s)||local.has(key))continue;
+   if(s.unique&&history.has(key))continue;
+   local.add(key);history.add(key);latest.push(n);
+ }
+ render();
+ if(latest.length===s.amount)setStatus("Готово! Все ники прошли проверку выбранных критериев.","good");
+ else setStatus(`Найдено ${latest.length} из ${s.amount}. Ослабь ограничения или увеличь длину ника.`,"bad");
+}
+
+function render(){
+ $("count").textContent=`· ${latest.length}`;
+ const root=$("results");root.replaceChildren();
+ if(!latest.length){
+   const e=document.createElement("div");e.className="empty";
+   e.textContent="Не удалось найти подходящие ники. Измени критерии и попробуй снова.";
+   root.append(e);return;
+ }
+ latest.forEach(n=>{
+   const card=document.createElement("div");card.className="nick";
+   const info=document.createElement("div");info.style.minWidth="0";
+   const name=document.createElement("div");name.className="nick-name";name.textContent=n;
+   const meta=document.createElement("div");meta.className="nick-info";meta.textContent=`${n.length} символов`;
+   info.append(name,meta);
+   const b=document.createElement("button");b.className="copy";b.textContent="Копировать";
+   b.addEventListener("click",()=>copy(n));
+   card.append(info,b);root.append(card);
+ });
+}
+
+async function copy(text){
+ try{await navigator.clipboard.writeText(text);setStatus("Скопировано в буфер обмена.","good")}
+ catch{
+   const t=document.createElement("textarea");t.value=text;document.body.append(t);t.select();
+   const ok=document.execCommand("copy");t.remove();
+   setStatus(ok?"Скопировано в буфер обмена.":"Не удалось скопировать.","");
+ }
+}
+$("generate").addEventListener("click",generate);
+$("again").addEventListener("click",generate);
+$("copyAll").addEventListener("click",()=>{
+ if(latest.length)copy(latest.join("\n"));
+ else setStatus("Сначала сгенерируй ники.");
+});
+generate();
+})();
 </script>
 </body>
 </html>
-
