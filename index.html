@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#05080d">
-<meta name="description" content="NickForge — генератор игровых никнеймов с музыкой, звуками, визуальными эффектами и настройкой стилей.">
+<meta name="description" content="NickForge — бесплатный генератор игровых никнеймов с уникальными стилями, эффектами и настройкой критериев.">
 <title>NickForge — генератор игровых никнеймов</title>
 <style>
 :root{
@@ -13,62 +13,103 @@
   --line:#20374d;
   --text:#f4f8ff;
   --muted:#8ca3b9;
-  --accent:#00b9ff;
+  --accent:#00d5ff;
   --accent2:#087dff;
-  --glow:rgba(0,185,255,.18);
+  --glow:rgba(0,185,255,.22);
   --good:#58f2b0;
   --bad:#ff6474;
+  --radius:10px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   margin:0;min-height:100vh;color:var(--text);
-  background:radial-gradient(ellipse at 15% 0%,var(--glow),transparent 38%),var(--bg);
+  background:
+    radial-gradient(ellipse at 12% 0%,var(--glow),transparent 38%),
+    radial-gradient(ellipse at 95% 40%,#10264a38,transparent 35%),
+    var(--bg);
   font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;
   overflow-x:hidden;
+  transition:background .45s,color .3s;
 }
 body::before{
   content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
-  background-image:linear-gradient(#397da70c 1px,transparent 1px),
-  linear-gradient(90deg,#397da70c 1px,transparent 1px);
+  background-image:
+    linear-gradient(#397da70d 1px,transparent 1px),
+    linear-gradient(90deg,#397da70d 1px,transparent 1px);
   background-size:36px 36px;
+  animation:gridMove 28s linear infinite;
+}
+body::after{
+  content:"";position:fixed;inset:-50%;pointer-events:none;z-index:-1;
+  background:conic-gradient(from 0deg,transparent,var(--glow),transparent 25%);
+  opacity:.28;animation:ambientSpin 36s linear infinite;
 }
 button,input,select,textarea{font:inherit}
-button{cursor:pointer;font-weight:800;transition:transform .16s,border-color .2s,filter .2s}
-button:hover{filter:brightness(1.15)}
-button:active{transform:scale(.97)}
+button{
+  position:relative;overflow:hidden;isolation:isolate;
+  cursor:pointer;font-weight:800;
+  transition:transform .18s,border-color .25s,filter .25s,
+    box-shadow .25s,background .3s,color .25s,border-radius .3s;
+  -webkit-tap-highlight-color:transparent;
+}
+button:hover{filter:brightness(1.15);transform:translateY(-2px)}
+button:active{transform:scale(.94);filter:brightness(1.3)}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
   outline:2px solid var(--accent);outline-offset:3px
 }
-button:disabled{opacity:.5;cursor:not-allowed}
+button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+button::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(110deg,transparent 20%,#ffffff25 48%,transparent 75%);
+  transform:translateX(-130%);transition:transform .55s;
+}
+button:hover::after{transform:translateX(130%)}
 .wrap{max-width:1240px;margin:auto;padding:22px 18px 40px}
 header{display:flex;align-items:center;gap:12px;margin-bottom:22px}
 .logo{
   display:grid;place-items:center;width:47px;height:47px;flex-shrink:0;
   font-size:25px;font-weight:1000;font-style:italic;
-  background:linear-gradient(135deg,#00d5ff,#0755ff);
+  color:#00101a;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
   clip-path:polygon(0 0,100% 0,100% 76%,76% 100%,0 100%);
-  box-shadow:0 0 24px var(--glow)
+  box-shadow:0 0 24px var(--glow);
+  animation:logoPulse 3s ease-in-out infinite;
+  transition:background .35s,filter .35s;
 }
 .brand{font-size:25px;line-height:1.1;font-weight:1000;font-style:italic;letter-spacing:-1px}
-.brand span{color:var(--accent)}
+.brand span{color:var(--accent);transition:color .35s}
 .muted{color:var(--muted);font-size:12px}
 .hero{
   position:relative;overflow:hidden;display:grid;
   grid-template-columns:1.2fr .8fr;align-items:center;gap:20px;
   padding:32px;margin-bottom:20px;border:1px solid var(--line);
-  border-radius:16px;background:linear-gradient(110deg,#0b1726,#07101b);
-  box-shadow:0 0 32px var(--glow)
+  border-radius:var(--radius);
+  background:linear-gradient(110deg,#0b1726,#07101b);
+  box-shadow:0 0 32px var(--glow),inset 0 0 35px #ffffff03;
+  transition:border-color .4s,box-shadow .4s,border-radius .4s;
+  animation:panelEnter .65s ease both;
+}
+.hero::before{
+  content:"";position:absolute;top:-120%;left:-30%;width:45%;height:340%;
+  transform:rotate(25deg);
+  background:linear-gradient(90deg,transparent,#ffffff06,transparent);
+  animation:heroSweep 9s ease-in-out infinite;
 }
 .hero::after{
   content:"NF";position:absolute;right:5%;top:0;
   font-size:clamp(150px,25vw,280px);font-weight:1000;
-  color:var(--glow);font-style:italic;pointer-events:none
+  color:var(--glow);font-style:italic;pointer-events:none;
+  animation:watermark 5s ease-in-out infinite;
 }
 .hero-copy,.hero-art{position:relative;z-index:1}
-.eyebrow{font-size:11px;color:var(--accent);font-weight:900;letter-spacing:2px;text-transform:uppercase}
+.eyebrow{
+  font-size:11px;color:var(--accent);font-weight:900;
+  letter-spacing:2px;text-transform:uppercase;
+  transition:color .35s;
+}
 h1{font-size:clamp(37px,6vw,64px);line-height:1;margin:15px 0;letter-spacing:-2px;font-style:italic}
-.gradient{color:var(--accent);text-shadow:0 0 25px var(--glow)}
+.gradient{color:var(--accent);text-shadow:0 0 25px var(--glow);transition:color .35s,text-shadow .35s}
 .hero p{max-width:500px;color:#aabdd0}
 .hero-art{display:grid;place-items:center;min-height:160px}
 .emblem{
@@ -76,84 +117,156 @@ h1{font-size:clamp(37px,6vw,64px);line-height:1;margin:15px 0;letter-spacing:-2p
   border:1px solid var(--accent);color:var(--accent);font-size:58px;font-weight:1000;
   background:radial-gradient(circle,var(--glow),#06101b 70%);
   box-shadow:0 0 35px var(--glow),inset 0 0 25px var(--glow);
-  animation:float 4s ease-in-out infinite
+  animation:float 4s ease-in-out infinite,emblemGlow 3s ease-in-out infinite;
+  transition:color .35s,border-color .35s,box-shadow .35s;
 }
-@keyframes float{50%{transform:translateY(-8px)}}
-@keyframes appear{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
-@keyframes flash{0%{box-shadow:0 0 0 transparent}40%{box-shadow:0 0 35px var(--glow)}100%{box-shadow:0 0 0 transparent}}
 .primary{
-  border:0;border-radius:8px;padding:13px 17px;width:100%;
-  color:#00101a;background:linear-gradient(110deg,#00d5ff,#0788ff);
-  box-shadow:0 0 22px var(--glow);text-transform:uppercase
+  border:1px solid transparent;border-radius:8px;padding:13px 17px;width:100%;
+  color:#00101a;
+  background:linear-gradient(110deg,var(--accent),var(--accent2));
+  box-shadow:0 0 22px var(--glow),inset 0 1px #ffffff55;
+  text-transform:uppercase;
+  transition:all .3s;
 }
 .hero .primary{width:auto;min-width:220px}
-.layout{display:grid;grid-template-columns:minmax(270px,350px) minmax(0,1fr);gap:18px;align-items:start}
-.panel{
-  min-width:0;padding:21px;border:1px solid var(--line);border-radius:13px;
-  background:linear-gradient(145deg,#0e1826fa,#070d16fa);
-  box-shadow:0 10px 35px #0002
+.layout{
+  display:grid;grid-template-columns:minmax(270px,350px) minmax(0,1fr);
+  gap:18px;align-items:start
 }
+.panel{
+  min-width:0;padding:21px;border:1px solid var(--line);border-radius:var(--radius);
+  background:linear-gradient(145deg,#0e1826fa,#070d16fa);
+  box-shadow:0 10px 35px #0002,0 0 0 1px #ffffff03;
+  transition:border-color .4s,box-shadow .4s,border-radius .4s;
+  animation:panelEnter .6s ease both;
+}
+.panel:hover{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
 .panel h2{
   display:flex;align-items:center;gap:10px;margin:0 0 20px;
   font-size:17px;font-weight:900;text-transform:uppercase
 }
-.panel h2::before{content:"";width:4px;height:21px;background:var(--accent);box-shadow:0 0 12px var(--glow)}
+.panel h2::before{
+  content:"";width:4px;height:21px;background:var(--accent);
+  box-shadow:0 0 12px var(--glow);border-radius:4px;
+  transition:background .35s,box-shadow .35s;
+}
 .field{margin-bottom:15px}
 label{display:block;margin-bottom:6px;color:#d9e9f7;font-size:12px;font-weight:800}
 input,select,textarea{
   width:100%;min-width:0;padding:10px 11px;color:#edf7ff;
-  background:#070d16;border:1px solid #263d52;border-radius:7px
+  background:#070d16;border:1px solid #263d52;border-radius:7px;
+  transition:border-color .25s,box-shadow .25s,background .25s;
 }
-input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none}
-input[type=checkbox]{width:17px;height:17px;accent-color:var(--accent)}
+input:hover,select:hover,textarea:hover{border-color:color-mix(in srgb,var(--accent) 55%,#263d52)}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--accent);outline:none;
+  box-shadow:0 0 0 3px var(--glow),0 0 16px var(--glow);
+}
+input[type=checkbox]{width:17px;height:17px;accent-color:var(--accent);cursor:pointer}
 input[type=range]{padding:0;accent-color:var(--accent);border:0}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .check{display:flex;align-items:center;gap:9px;margin:12px 0;color:#cbd9e8}
-.check label{margin:0;font-weight:600}
+.check label{margin:0;font-weight:600;cursor:pointer}
 .hint{margin-top:5px;color:#728ba2;font-size:11px}
 .secondary,.copy{
   padding:9px 12px;color:#cfeaff;background:#101e2d;
-  border:1px solid #29445b;border-radius:7px
+  border:1px solid #29445b;border-radius:7px;
+}
+.secondary:hover,.copy:hover{
+  color:var(--text);border-color:var(--accent);
+  box-shadow:0 0 16px var(--glow),inset 0 0 12px var(--glow);
 }
 .actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
 .actions button{flex:1}
 .results{display:grid;gap:9px}
 .nick{
+  position:relative;overflow:hidden;
   display:flex;justify-content:space-between;align-items:center;gap:10px;
   min-width:0;padding:13px;border:1px solid #1b3448;border-radius:9px;
   background:linear-gradient(100deg,#0b1522,#0a111c);
-  animation:appear .3s ease both;transition:border-color .2s,background .2s
+  animation:nickEnter .42s cubic-bezier(.2,.8,.2,1) both;
+  transition:border-color .25s,background .25s,transform .25s,box-shadow .25s,border-radius .3s;
 }
-.nick:hover{border-color:var(--accent);background:#0d1d2c}
+.nick::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--accent);transform:scaleY(0);transition:transform .25s;
+}
+.nick:hover{
+  border-color:var(--accent);background:linear-gradient(100deg,#0d2030,#0a111c);
+  transform:translateX(3px);box-shadow:0 0 18px var(--glow);
+}
+.nick:hover::before{transform:scaleY(1)}
 .nick-name{overflow-wrap:anywhere;font-size:19px;font-weight:900;letter-spacing:.3px}
 .nick-info{font-size:11px;color:var(--muted)}
 .copy{flex-shrink:0;font-size:11px}
-.empty{padding:30px 16px;text-align:center;color:var(--muted);border:1px dashed #29445b;border-radius:9px}
+.empty{
+  padding:30px 16px;text-align:center;color:var(--muted);
+  border:1px dashed #29445b;border-radius:9px;
+  background:radial-gradient(ellipse,var(--glow),transparent 75%);
+}
 .status{margin-top:14px;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
 .good{color:var(--good)}.bad{color:var(--bad)}
 .subhead{margin:22px 0 10px;font-size:13px;font-weight:900;text-transform:uppercase}
-.pill{display:inline-block;margin:0 4px 5px 0;padding:5px 9px;font-size:10px;color:#a9dfff;border:1px solid #21435d;border-radius:4px;background:#0a1a29}
-.note{margin-top:18px;padding:12px;border-left:2px solid #31536d;background:#0c1a2866;color:#849db3;font-size:11px}
-.sound-panel{margin:0 0 20px;padding:16px;border:1px solid var(--line);border-radius:12px;background:#0b121df2}
-.sound-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
-.sound-title{font-weight:900}
-.sound-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
-.sound-controls label{display:flex;align-items:center;gap:8px;margin:0 0 7px}
-.sound-controls .field{margin:0}
-.sound-controls .check{margin:0}
-.switches{display:flex;gap:15px;flex-wrap:wrap;margin-top:12px}
-.switches .check{margin:0}
-.visual-toggle{display:flex;align-items:center;gap:8px}
+.pill{
+  display:inline-block;margin:0 4px 5px 0;padding:5px 9px;font-size:10px;
+  color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 35%,#21435d);
+  border-radius:5px;background:color-mix(in srgb,var(--accent) 8%,#0a1a29);
+  transition:color .35s,border-color .35s,background .35s;
+}
+.note{margin-top:18px;padding:12px;border-left:2px solid var(--accent);background:#0c1a2866;color:#849db3;font-size:11px;transition:border-color .35s}
 footer{margin-top:25px;padding-top:18px;color:#627b91;font-size:11px;text-align:center;border-top:1px solid #172c3d}
 .particle{
   position:fixed;z-index:100;pointer-events:none;width:5px;height:5px;
   border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);
-  animation:particle .8s ease-out forwards
+  animation:particle .85s cubic-bezier(.15,.7,.25,1) forwards;
 }
-@keyframes particle{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
-body.no-motion *,body.no-motion *::before,body.no-motion *::after{
-  animation:none!important;transition:none!important;scroll-behavior:auto!important
+.ring{
+  position:fixed;z-index:99;pointer-events:none;width:12px;height:12px;
+  border:2px solid var(--accent);border-radius:50%;
+  transform:translate(-50%,-50%);
+  animation:ring .55s ease-out forwards;
 }
+.spark{
+  position:fixed;z-index:101;pointer-events:none;width:3px;height:14px;
+  background:var(--accent);border-radius:4px;
+  box-shadow:0 0 10px var(--accent);
+  animation:spark .65s ease-out forwards;
+}
+.click-wave{
+  position:absolute;z-index:-1;pointer-events:none;width:12px;height:12px;
+  border-radius:50%;background:#ffffff55;
+  transform:translate(-50%,-50%) scale(0);
+  animation:wave .55s ease-out forwards;
+}
+body.generating .hero{animation:generatePulse .7s ease}
+body.generating .emblem{animation:float .5s ease-in-out 2,emblemGlow .5s ease-in-out 2}
+body.theme-cyber .primary,body.theme-cyber .secondary,body.theme-cyber .copy{border-radius:2px;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px))}
+body.theme-minimal .primary,body.theme-minimal .secondary,body.theme-minimal .copy{border-radius:3px;box-shadow:none}
+body.theme-minimal .panel,body.theme-minimal .hero{box-shadow:0 4px 18px #0003}
+body.theme-royal .primary,body.theme-royal .secondary,body.theme-royal .copy{border-radius:18px}
+body.theme-fun .primary,body.theme-fun .secondary,body.theme-fun .copy{border-radius:22px}
+body.theme-fun .primary:hover,body.theme-fun .secondary:hover,body.theme-fun .copy:hover{transform:translateY(-3px) rotate(-1deg)}
+body.theme-dark .primary,body.theme-dark .secondary,body.theme-dark .copy{border-radius:0 9px 0 9px}
+body.theme-warrior .primary,body.theme-warrior .secondary,body.theme-warrior .copy{border-radius:3px 12px 3px 12px}
+body.theme-light .panel,body.theme-light .hero{box-shadow:0 0 25px var(--glow),inset 0 0 25px var(--glow)}
+body.theme-stealth .primary,body.theme-stealth .secondary,body.theme-stealth .copy{letter-spacing:.5px;border-radius:2px}
+body.theme-space .emblem{border-style:dashed}
+body.theme-fantasy .emblem{border-radius:35% 65% 58% 42%}
+body.theme-nature .panel,body.theme-nature .hero{border-radius:20px}
+@keyframes float{50%{transform:translateY(-9px) rotate(2deg)}}
+@keyframes logoPulse{50%{filter:brightness(1.18);box-shadow:0 0 34px var(--glow)}}
+@keyframes emblemGlow{50%{box-shadow:0 0 48px var(--glow),inset 0 0 32px var(--glow)}}
+@keyframes panelEnter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes nickEnter{from{opacity:0;transform:translateY(10px) scale(.98);filter:blur(3px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes particle{to{transform:translate(var(--dx),var(--dy)) rotate(180deg) scale(0);opacity:0}}
+@keyframes spark{to{transform:translate(var(--dx),var(--dy)) rotate(var(--rot));opacity:0}}
+@keyframes ring{to{width:80px;height:80px;opacity:0}}
+@keyframes wave{to{transform:translate(-50%,-50%) scale(18);opacity:0}}
+@keyframes gridMove{to{background-position:36px 36px}}
+@keyframes ambientSpin{to{transform:rotate(360deg)}}
+@keyframes heroSweep{0%,65%{left:-60%}100%{left:140%}}
+@keyframes watermark{50%{transform:translateY(-7px);opacity:.8}}
+@keyframes generatePulse{50%{box-shadow:0 0 45px var(--glow),inset 0 0 25px var(--glow)}}
 @media(max-width:760px){
   .wrap{padding:14px 11px 28px}
   .hero{grid-template-columns:1fr;padding:22px 17px;gap:8px}
@@ -163,12 +276,13 @@ body.no-motion *,body.no-motion *::before,body.no-motion *::after{
   .hero .primary{width:100%}
   .layout{grid-template-columns:1fr;gap:13px}
   .panel{padding:16px}
-  .sound-controls{grid-template-columns:1fr 1fr}
   .nick-name{font-size:16px}
   .copy{padding:8px}
 }
-@media(max-width:400px){.sound-controls{grid-template-columns:1fr}.row{gap:7px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media(max-width:400px){.row{gap:7px}.actions{gap:7px}}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}
+}
 </style>
 </head>
 <body>
@@ -180,54 +294,21 @@ body.no-motion *,body.no-motion *::before,body.no-motion *::after{
     <div class="muted">Твой ник. Твои правила. Твоя игра.</div>
   </div>
 </header>
+
 <section class="hero">
   <div class="hero-copy">
     <div class="eyebrow">Генератор игровых никнеймов</div>
     <h1>Твой стиль.<br><span class="gradient">Твой ник.</span></h1>
-    <p>Создавай игровые имена, настраивай звучание интерфейса и выбирай собственный визуальный стиль.</p>
+    <p>Создавай игровые имена, меняй оформление и находи сочетания под свой характер.</p>
     <button class="primary" id="heroGenerate">⚡ Создать свой ник</button>
   </div>
   <div class="hero-art" aria-hidden="true"><div class="emblem">NF</div></div>
 </section>
-<section class="sound-panel">
-  <div class="sound-head">
-    <div class="sound-title">♫ Звук и эффекты</div>
-    <button class="secondary" id="muteAll">Звук: выкл.</button>
-  </div>
-  <div class="sound-controls">
-    <div class="field">
-      <label for="masterVolume">Общая громкость <span id="masterLabel">45%</span></label>
-      <input id="masterVolume" type="range" min="0" max="100" value="45">
-    </div>
-    <div class="field">
-      <label for="musicVolume">Музыка <span id="musicLabel">18%</span></label>
-      <input id="musicVolume" type="range" min="0" max="100" value="18">
-    </div>
-    <div class="field">
-      <label for="fxVolume">Звуковые эффекты <span id="fxLabel">55%</span></label>
-      <input id="fxVolume" type="range" min="0" max="100" value="55">
-    </div>
-  </div>
-  <div class="switches">
-    <div class="check"><input type="checkbox" id="musicOn"><label for="musicOn">Фоновая музыка</label></div>
-    <div class="check"><input type="checkbox" id="fxOn" checked><label for="fxOn">Звуки действий</label></div>
-    <div class="check"><input type="checkbox" id="visualOn" checked><label for="visualOn">Визуальные эффекты</label></div>
-  </div>
-  <div class="hint">Музыка запускается после нажатия на сайт. Звук создаётся браузером, без загрузки аудиофайлов.</div>
-</section>
+
 <main class="layout">
 <section class="panel">
 <h2>Критерии генерации</h2>
-<div class="field">
-<label for="platform">Платформа</label>
-<select id="platform">
-<option value="custom">Свои настройки</option>
-<option value="steam">Steam — имя профиля</option>
-<option value="roblox">Roblox — username</option>
-<option value="minecraft">Minecraft Java</option>
-</select>
-<div class="hint" id="platformHint">Задай собственные ограничения.</div>
-</div>
+
 <div class="field">
 <label for="style">Стиль ника</label>
 <select id="style">
@@ -249,12 +330,14 @@ body.no-motion *,body.no-motion *::before,body.no-motion *::after{
 <option value="stealth">Скрытность</option>
 <option value="royal">Королевский</option>
 </select>
-<div class="hint" id="styleHint">Выбирай стиль: оформление и словари меняются вместе с ним.</div>
+<div class="hint" id="styleHint">Оформление интерфейса меняется вместе со стилем.</div>
 </div>
+
 <div class="row field">
 <div><label for="min">Мин. длина</label><input id="min" type="number" min="3" max="20" value="5"></div>
 <div><label for="max">Макс. длина</label><input id="max" type="number" min="3" max="20" value="12"></div>
 </div>
+
 <div class="field">
 <label for="alphabet">Алфавит</label>
 <select id="alphabet">
@@ -262,8 +345,9 @@ body.no-motion *,body.no-motion *::before,body.no-motion *::after{
 <option value="cyrillic">Только кириллица</option>
 <option value="mixed">Смешанный алфавит</option>
 </select>
-<div class="hint">Поддержка символов зависит от игры.</div>
+<div class="hint">Подбирай алфавит под нужную игру.</div>
 </div>
+
 <div class="field">
 <label for="digits">Цифры</label>
 <select id="digits">
@@ -272,6 +356,7 @@ body.no-motion *,body.no-motion *::before,body.no-motion *::after{
 <option value="yes">Обязательны</option>
 </select>
 </div>
+
 <div class="field">
 <label for="symbols">Символы _ и -</label>
 <select id="symbols">
@@ -280,6 +365,7 @@ body.no-motion *,body.no-motion *::before,body.no-motion *::after{
 <option value="yes">Обязателен хотя бы один</option>
 </select>
 </div>
+
 <div class="field">
 <label for="case">Первая буква</label>
 <select id="case">
@@ -288,9 +374,11 @@ body.no-motion *,body.no-motion *::before,body.no-motion *::after{
 <option value="any">Без разницы</option>
 </select>
 </div>
+
 <div class="check"><input id="noRepeat" type="checkbox" checked><label for="noRepeat">Без одинаковых символов подряд</label></div>
 <div class="check"><input id="unique" type="checkbox" checked><label for="unique">Не повторять ники из истории</label></div>
 <div class="check"><input id="smart" type="checkbox" checked><label for="smart">Предпочитать осмысленные сочетания</label></div>
+
 <div class="field">
 <label for="ownMode">Как использовать своё слово</label>
 <select id="ownMode">
@@ -299,25 +387,32 @@ body.no-motion *,body.no-motion *::before,body.no-motion *::after{
 <option value="suffix">Поставить в конец</option>
 </select>
 </div>
+
 <div class="field">
 <label for="own">Своё слово или часть ника</label>
 <input id="own" maxlength="20" placeholder="Например, Artem">
 </div>
+
 <div class="field">
 <label for="blocked">Запрещённые слова</label>
 <textarea id="blocked" rows="2" placeholder="noob, bot, bad"></textarea>
-<div class="hint">Разделяй запятыми или переносами строк.</div>
+<div class="hint">Разделяй слова запятыми или переносами строк.</div>
 </div>
+
 <div class="field">
 <label for="quantity">Количество вариантов</label>
 <select id="quantity">
-<option value="5">5</option><option value="10" selected>10</option>
-<option value="20">20</option><option value="30">30</option>
+<option value="5">5</option>
+<option value="10" selected>10</option>
+<option value="20">20</option>
+<option value="30">30</option>
 </select>
 </div>
+
 <button class="primary" id="generate">⚡ Сгенерировать ники</button>
 <div class="actions"><button class="secondary" id="clearHistory">Очистить историю</button></div>
 </section>
+
 <section class="panel" id="resultPanel">
 <h2>Твоя подборка <span class="muted" id="count"></span></h2>
 <div class="results" id="results"><div class="empty">Настрой критерии и нажми генерацию.</div></div>
@@ -326,41 +421,46 @@ body.no-motion *,body.no-motion *::before,body.no-motion *::after{
 <button class="secondary" id="again">↻ Ещё варианты</button>
 </div>
 <div class="status" id="status" aria-live="polite">Готов к работе. Регистрация не нужна.</div>
-<div class="note"><b>Важно:</b> доступность ника на игровых серверах не проверяется. Формат имени зависит от правил конкретной игры.</div>
+<div class="note"><b>Важно:</b> доступность ника на игровых серверах не проверяется. Правила имени зависят от конкретной игры.</div>
 <div class="subhead">Возможности NickForge</div>
-<span class="pill">17 стилей</span><span class="pill">До 30 вариантов</span>
-<span class="pill">Музыка</span><span class="pill">Звуковые эффекты</span>
-<span class="pill">Настройка громкости</span><span class="pill">Локальная история</span>
+<span class="pill">17 стилей</span>
+<span class="pill">До 30 вариантов</span>
+<span class="pill">Эффекты нажатий</span>
+<span class="pill">Смена оформления</span>
+<span class="pill">Локальная история</span>
 <span class="pill">Без внешних библиотек</span>
 </section>
 </main>
 <footer>NickForge · Бесплатный генератор игровых никнеймов</footer>
 </div>
+
 <script>
 (() => {
 "use strict";
+
 const $ = id => document.getElementById(id);
-const HISTORY_KEY = "nickforge_history_v5";
-const settingsKey = "nickforge_audio_v1";
+const HISTORY_KEY = "nickforge_history_v6";
+
 const themes = {
-all:       ["#00d5ff","Все стили смешаны"],
-game:      ["#00b9ff","Игровой"],
-immoral:   ["#ff5577","Провокационный"],
-ordinary:  ["#8da9c4","Обычный"],
-letters:   ["#a6a0ff","Абстрактный"],
-light:     ["#ffe28a","Светлый"],
-dark:      ["#9d85ff","Мрачный"],
-warrior:   ["#ff604d","Воин"],
-minimal:   ["#6fffd1","Минимализм"],
-fantasy:   ["#ce8cff","Фэнтези"],
-cyber:     ["#00ffd0","Киберпанк"],
-fun:       ["#ffbd59","Забавный"],
-nature:    ["#8de47b","Природа"],
-space:     ["#8f9cff","Космос"],
-myth:      ["#ffbd70","Мифология"],
-stealth:   ["#80a6d8","Скрытность"],
-royal:     ["#e6bdff","Королевский"]
+  all:       ["#00d5ff","#087dff","Все стили смешаны"],
+  game:      ["#00b9ff","#087dff","Игровой"],
+  immoral:   ["#ff5577","#b31252","Провокационный"],
+  ordinary:  ["#8da9c4","#536e8c","Обычный"],
+  letters:   ["#a6a0ff","#6254db","Абстрактный"],
+  light:     ["#ffe28a","#ffad42","Светлый"],
+  dark:      ["#9d85ff","#4e32a8","Мрачный"],
+  warrior:   ["#ff604d","#b82032","Воин"],
+  minimal:   ["#6fffd1","#27b99a","Минимализм"],
+  fantasy:   ["#ce8cff","#8546c5","Фэнтези"],
+  cyber:     ["#00ffd0","#008bff","Киберпанк"],
+  fun:       ["#ffbd59","#ff6b75","Забавный"],
+  nature:    ["#8de47b","#2d9b64","Природа"],
+  space:     ["#8f9cff","#5546d8","Космос"],
+  myth:      ["#ffbd70","#c65b37","Мифология"],
+  stealth:   ["#80a6d8","#3e5888","Скрытность"],
+  royal:     ["#e6bdff","#9b65d4","Королевский"]
 };
+
 const dictionaries = {
 game:["Nova","Raven","Frost","Blaze","Echo","Storm","Shadow","Ghost","Iron","Swift","Astra","Drift","Onyx","Rune","Wolf","Silver","Hunter","Strike","Blade","Spark","Knight","Hawk","Orbit","Claw","Vanguard","Теневой","Грозовой","Стальной","Ледяной","Ворон","Волк","Дракон","Охотник","Клинок"],
 immoral:["Dirty","Nasty","Shameless","Crude","Trashy","Goblin","Gremlin","Punk","Clown","Menace","Грязный","Бесстыжий","Пошлый","Хулиган","Проказник","Беспредельщик"],
@@ -372,430 +472,481 @@ warrior:["Rage","Titan","Valor","Feral","Savage","Steel","Fury","Saber","Iron","
 minimal:["Zyn","Kai","Ryn","Vex","Nyx","Ari","Lux","Zen","Nox","Rai","Eon","Neo","Зен","Нокс","Рин","Векс","Кай","Люкс","Рэй","Нео"],
 fantasy:["Ael","Eld","Thal","Syl","Vael","Aer","Myth","Drae","Kael","Orin","Drin","Thas","Wyn","Driel","Эльф","Дракон","Маг","Чародей","Паладин","Друид","Грифон","Архонт","Волшебный","Рунный"],
 cyber:["Neon","Glitch","Proxy","Zero","Nex","Chrome","Synth","Byte","Hex","Static","Flux","Cipher","Grid","Signal","Неоновый","Цифровой","Квантовый","Пиксель","Протокол","Терминал","Импульс","Глюк"],
-fun:["Mochi","Bumble","Pickle","Waffle","Noodle","Mango","Bongo","Tofu","Doodle","Kiwi","Panda","Wizard","Bandit","Muffin","Duck","Mochi","Пельмень","Енот","Кабачок","Батон","Бобёр","Котлета","Гусь","Бублик","Кекс","Пончик","Хомяк","Тапок"],
+fun:["Mochi","Bumble","Pickle","Waffle","Noodle","Mango","Bongo","Tofu","Doodle","Kiwi","Panda","Wizard","Bandit","Muffin","Duck","Пельмень","Енот","Кабачок","Батон","Бобёр","Котлета","Гусь","Бублик","Кекс","Пончик","Хомяк","Тапок"],
 nature:["Wild","Mossy","River","Cedar","Autumn","Misty","Amber","Willow","Fox","Pine","Brook","Wolf","Fern","Hawk","Лесной","Речной","Кедровый","Туманный","Янтарный","Лис","Волк","Роща","Камень","Папоротник"],
 space:["Cosmic","Lunar","Solar","Stellar","Nebula","Orbit","Nova","Astro","Quasar","Void","Pilot","Comet","Ranger","Drift","Voyager","Космический","Звёздный","Орбитальный","Комета","Странник","Затмение","Звездочёт"],
 myth:["Odin","Aether","Atlas","Rune","Titan","Orion","Ares","Nyx","Elder","Oracle","Keeper","Oath","Вещий","Древний","Титановый","Божественный","Оракул","Хранитель","Мудрец","Корона","Обет"],
 stealth:["Silent","Hidden","Ghost","Cloak","Veiled","Shade","Phantom","Quiet","Swift","Whisper","Trace","Cipher","Prowler","Тихий","Скрытый","Призрачный","Незримый","Бесшумный","Шёпот","Шифр","Лазутчик"],
 royal:["Royal","Noble","Crown","Golden","Regal","Imperial","Sovereign","Velvet","Majestic","Knight","Heir","Duke","Crest","Prince","Throne","Королевский","Знатный","Золотой","Царственный","Имперский","Рыцарь","Наследник","Герцог","Принц","Трон"]
 };
-const profiles = {
-custom:{min:5,max:12,hint:"Задай собственные ограничения."},
-steam:{min:3,max:20,hint:"Имя профиля Steam. Это не логин."},
-roblox:{min:3,max:20,hint:"Латиница, цифры и подчёркивание; проверь актуальные правила Roblox."},
-minecraft:{min:3,max:16,hint:"Minecraft Java: латиница, цифры и подчёркивание, максимум 16 символов."}
-};
+
 let history = [];
 try {
- const stored = JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]");
- if(Array.isArray(stored)) history=stored.filter(x=>typeof x==="string").slice(-1000);
+  const stored = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+  if (Array.isArray(stored)) {
+    history = stored.filter(x => typeof x === "string").slice(-1000);
+  }
 } catch {}
-let latest=[];
-let audioCtx=null;
-let masterGain=null;
-let musicGain=null;
-let fxGain=null;
-let musicTimer=null;
-let musicStep=0;
-let muted=false;
-let audioReady=false;
-function randomInt(a,b){return Math.floor(Math.random()*(b-a+1))+a}
-function pick(a){return a[Math.floor(Math.random()*a.length)]}
-function shuffle(a){return a.map(v=>({v,r:Math.random()})).sort((x,y)=>x.r-y.r).map(x=>x.v)}
-function setStatus(msg,kind=""){
- $("status").textContent=msg;
- $("status").className="status "+kind;
+
+let latest = [];
+let generating = false;
+
+function randomInt(min,max){
+  return Math.floor(Math.random()*(max-min+1))+min;
 }
+function pick(array){
+  return array[Math.floor(Math.random()*array.length)];
+}
+function setStatus(message,kind=""){
+  $("status").textContent = message;
+  $("status").className = "status " + kind;
+}
+
 function applyTheme(){
- const t=themes[$("style").value]||themes.all;
- document.documentElement.style.setProperty("--accent",t[0]);
- document.documentElement.style.setProperty("--accent2",t[0]);
- document.documentElement.style.setProperty("--glow",t[0]+"24");
- $("styleHint").textContent="Акцент: "+t[1]+". Цвет интерфейса меняется вместе со стилем.";
+  const style = $("style").value;
+  const theme = themes[style] || themes.all;
+
+  document.documentElement.style.setProperty("--accent",theme[0]);
+  document.documentElement.style.setProperty("--accent2",theme[1]);
+
+  const hex = theme[0].replace("#","");
+  const r = parseInt(hex.slice(0,2),16);
+  const g = parseInt(hex.slice(2,4),16);
+  const b = parseInt(hex.slice(4,6),16);
+
+  document.documentElement.style.setProperty("--glow",`rgba(${r},${g},${b},.22)`);
+  document.body.className = document.body.className
+    .split(/\s+/)
+    .filter(c => !c.startsWith("theme-"))
+    .join(" ");
+  document.body.classList.add("theme-" + style);
+
+  $("styleHint").textContent =
+    "Выбран стиль «" + theme[2] + "»: цвета, кнопки, рамки и подсветка изменены.";
 }
-function saveAudioSettings(){
- try{
-  localStorage.setItem(settingsKey,JSON.stringify({
-   master:$("masterVolume").value,
-   music:$("musicVolume").value,
-   fx:$("fxVolume").value,
-   musicOn:$("musicOn").checked,
-   fxOn:$("fxOn").checked,
-   visualOn:$("visualOn").checked
-  }));
- }catch{}
-}
-function loadAudioSettings(){
- try{
-  const s=JSON.parse(localStorage.getItem(settingsKey)||"null");
-  if(!s)return;
-  if(s.master!==undefined)$("masterVolume").value=s.master;
-  if(s.music!==undefined)$("musicVolume").value=s.music;
-  if(s.fx!==undefined)$("fxVolume").value=s.fx;
-  $("musicOn").checked=!!s.musicOn;
-  $("fxOn").checked=s.fxOn!==false;
-  $("visualOn").checked=s.visualOn!==false;
- }catch{}
- updateVolumeLabels();
- updateVisuals();
-}
-function updateVolumeLabels(){
- $("masterLabel").textContent=$("masterVolume").value+"%";
- $("musicLabel").textContent=$("musicVolume").value+"%";
- $("fxLabel").textContent=$("fxVolume").value+"%";
- if(masterGain)masterGain.gain.value=muted?0:Number($("masterVolume").value)/100;
- if(musicGain)musicGain.gain.value=$("musicOn").checked?Number($("musicVolume").value)/100:0;
- if(fxGain)fxGain.gain.value=$("fxOn").checked?Number($("fxVolume").value)/100:0;
- $("muteAll").textContent=muted?"Звук: выкл.":"Звук: вкл.";
-}
-function updateVisuals(){
- document.body.classList.toggle("no-motion",!$("visualOn").checked);
- saveAudioSettings();
-}
-async function initAudio(){
- const AC=window.AudioContext||window.webkitAudioContext;
- if(!AC){setStatus("Этот браузер не поддерживает Web Audio API.");return false}
- try{
-  if(!audioCtx){
-   audioCtx=new AC();
-   masterGain=audioCtx.createGain();
-   musicGain=audioCtx.createGain();
-   fxGain=audioCtx.createGain();
-   musicGain.connect(masterGain);
-   fxGain.connect(masterGain);
-   masterGain.connect(audioCtx.destination);
-   audioReady=true;
-   updateVolumeLabels();
-  }
-  if(audioCtx.state==="suspended")await audioCtx.resume();
-  return true;
- }catch(e){return false}
-}
-function tone(freq,duration,type="sine",volume=.3,when=0){
- if(!audioCtx||!fxGain||!$("fxOn").checked||muted)return;
- const osc=audioCtx.createOscillator();
- const gain=audioCtx.createGain();
- const t=audioCtx.currentTime+when;
- osc.type=type;
- osc.frequency.setValueAtTime(freq,t);
- gain.gain.setValueAtTime(0.0001,t);
- gain.gain.exponentialRampToValueAtTime(Math.max(.001,volume),t+.015);
- gain.gain.exponentialRampToValueAtTime(.0001,t+duration);
- osc.connect(gain);gain.connect(fxGain);
- osc.start(t);osc.stop(t+duration+.03);
-}
-function playEffect(type){
- if(!audioCtx||!audioReady)return;
- if(type==="generate"){
-  tone(440,.11,"triangle",.22);
-  tone(660,.14,"triangle",.18,.09);
-  tone(880,.18,"sine",.14,.18);
- }else if(type==="copy"){
-  tone(760,.07,"sine",.17);
-  tone(1050,.09,"sine",.13,.07);
- }else{
-  tone(500,.045,"sine",.07);
- }
-}
-function musicNote(){
- if(!audioCtx||!musicGain||!$("musicOn").checked||muted)return;
- const scale=[0,3,7,10,12,10,7,3];
- const base=110;
- const note=base*Math.pow(2,scale[musicStep%scale.length]/12);
- const t=audioCtx.currentTime;
- const osc=audioCtx.createOscillator();
- const g=audioCtx.createGain();
- osc.type="triangle";
- osc.frequency.setValueAtTime(note,t);
- g.gain.setValueAtTime(.0001,t);
- g.gain.exponentialRampToValueAtTime(.055,t+.04);
- g.gain.exponentialRampToValueAtTime(.0001,t+.48);
- osc.connect(g);g.connect(musicGain);
- osc.start(t);osc.stop(t+.5);
- if(musicStep%4===0){
-  const pad=audioCtx.createOscillator();
-  const pg=audioCtx.createGain();
-  pad.type="sine";pad.frequency.value=note*2;
-  pg.gain.setValueAtTime(.0001,t);
-  pg.gain.exponentialRampToValueAtTime(.018,t+.1);
-  pg.gain.exponentialRampToValueAtTime(.0001,t+.8);
-  pad.connect(pg);pg.connect(musicGain);
-  pad.start(t);pad.stop(t+.82);
- }
- musicStep++;
-}
-function startMusic(){
- if(musicTimer)clearInterval(musicTimer);
- musicTimer=null;
- if(!$("musicOn").checked||muted)return;
- initAudio().then(ok=>{
-  if(!ok)return;
-  musicNote();
-  musicTimer=setInterval(musicNote,480);
- });
-}
-function stopMusic(){
- if(musicTimer)clearInterval(musicTimer);
- musicTimer=null;
-}
-async function audioInteraction(type){
- await initAudio();
- updateVolumeLabels();
- if($("musicOn").checked&&!muted)startMusic();
- if(type)playEffect(type);
-}
-function particles(){
- if(!$("visualOn").checked)return;
- const color=themes[$("style").value][0];
- for(let i=0;i<22;i++){
-  const p=document.createElement("span");
-  p.className="particle";
-  p.style.background=color;
-  p.style.boxShadow="0 0 10px "+color;
-  p.style.left=(20+Math.random()*60)+"vw";
-  p.style.top=(25+Math.random()*40)+"vh";
-  p.style.setProperty("--dx",(Math.random()*240-120)+"px");
-  p.style.setProperty("--dy",(Math.random()*-230-20)+"px");
-  document.body.append(p);
-  setTimeout(()=>p.remove(),900);
- }
- $("resultPanel").style.animation="flash .55s ease";
- setTimeout(()=>$("resultPanel").style.animation="",600);
-}
+
 function normalizeAlphabet(word,alphabet){
- let s=word;
- if(alphabet==="latin"){
-  const map={"а":"a","б":"b","в":"v","г":"g","д":"d","е":"e","ё":"yo","ж":"zh","з":"z","и":"i","й":"y","к":"k","л":"l","м":"m","н":"n","о":"o","п":"p","р":"r","с":"s","т":"t","у":"u","ф":"f","х":"h","ц":"ts","ч":"ch","ш":"sh","щ":"shch","ъ":"","ы":"y","ь":"","э":"e","ю":"yu","я":"ya"};
-  s=Array.from(s.toLowerCase()).map(c=>map[c]??c).join("");
- }else if(alphabet==="cyrillic"){
-  const map={a:"а",b:"б",c:"к",d:"д",e:"е",f:"ф",g:"г",h:"х",i:"и",j:"дж",k:"к",l:"л",m:"м",n:"н",o:"о",p:"п",q:"к",r:"р",s:"с",t:"т",u:"у",v:"в",w:"в",x:"кс",y:"й",z:"з"};
-  s=Array.from(s.toLowerCase()).map(c=>map[c]??c).join("");
- }
- return s.replace(/[^a-zA-Zа-яА-ЯёЁ0-9]/g,"");
+  let s = word;
+
+  if(alphabet === "latin"){
+    const map = {
+      "а":"a","б":"b","в":"v","г":"g","д":"d","е":"e","ё":"yo",
+      "ж":"zh","з":"z","и":"i","й":"y","к":"k","л":"l","м":"m",
+      "н":"n","о":"o","п":"p","р":"r","с":"s","т":"t","у":"u",
+      "ф":"f","х":"h","ц":"ts","ч":"ch","ш":"sh","щ":"shch",
+      "ъ":"","ы":"y","ь":"","э":"e","ю":"yu","я":"ya"
+    };
+    s = Array.from(s.toLowerCase()).map(c => map[c] ?? c).join("");
+  } else if(alphabet === "cyrillic"){
+    const map = {
+      a:"а",b:"б",c:"к",d:"д",e:"е",f:"ф",g:"г",h:"х",i:"и",
+      j:"дж",k:"к",l:"л",m:"м",n:"н",o:"о",p:"п",q:"к",r:"р",
+      s:"с",t:"т",u:"у",v:"в",w:"в",x:"кс",y:"й",z:"з"
+    };
+    s = Array.from(s.toLowerCase()).map(c => map[c] ?? c).join("");
+  }
+
+  if(alphabet === "latin") return s.replace(/[^a-zA-Z0-9]/g,"");
+  if(alphabet === "cyrillic") return s.replace(/[^а-яА-ЯёЁ0-9]/g,"");
+  return s.replace(/[^a-zA-Zа-яА-ЯёЁ0-9]/g,"");
 }
+
 function settings(){
- let min=Math.max(3,Math.min(20,parseInt($("min").value,10)||5));
- let max=Math.max(3,Math.min(20,parseInt($("max").value,10)||12));
- const platform=$("platform").value;
- if(platform==="minecraft")max=Math.min(max,16);
- if(min>max)min=max;
- $("min").value=min;$("max").value=max;
- let alphabet=$("alphabet").value;
- if(platform==="roblox"||platform==="minecraft")alphabet="latin";
- const own=normalizeAlphabet($("own").value,alphabet);
- return {
-  min,max,platform,alphabet,style:$("style").value,
-  digits:$("digits").value,symbols:$("symbols").value,
-  letterCase:$("case").value,
-  noRepeat:$("noRepeat").checked,unique:$("unique").checked,
-  smart:$("smart").checked,own,ownMode:$("ownMode").value,
-  blocked:$("blocked").value.toLowerCase().split(/[,;\n]+/).map(x=>normalizeAlphabet(x.trim(),alphabet).toLowerCase()).filter(Boolean),
-  quantity:Number($("quantity").value)
- };
+  let min = Math.max(3,Math.min(20,parseInt($("min").value,10)||5));
+  let max = Math.max(3,Math.min(20,parseInt($("max").value,10)||12));
+
+  if(min > max) min = max;
+  $("min").value = min;
+  $("max").value = max;
+
+  const alphabet = $("alphabet").value;
+  const own = normalizeAlphabet($("own").value.trim(),alphabet);
+
+  return {
+    min,max,alphabet,
+    style:$("style").value,
+    digits:$("digits").value,
+    symbols:$("symbols").value,
+    letterCase:$("case").value,
+    noRepeat:$("noRepeat").checked,
+    unique:$("unique").checked,
+    smart:$("smart").checked,
+    own,
+    ownMode:$("ownMode").value,
+    blocked:$("blocked").value
+      .toLowerCase()
+      .split(/[,;\n]+/)
+      .map(x => normalizeAlphabet(x.trim(),alphabet).toLowerCase())
+      .filter(Boolean),
+    quantity:Number($("quantity").value)
+  };
 }
+
 function randomAlphabet(s){
- if(s.alphabet==="mixed")return Math.random()<.5?"latin":"cyrillic";
- return s.alphabet;
+  if(s.alphabet === "mixed") return Math.random()<.5 ? "latin" : "cyrillic";
+  return s.alphabet;
 }
+
 function buildBase(s){
- const style=s.style==="all"?pick(Object.keys(dictionaries)):s.style;
- if(style==="letters"){
-  const a=randomAlphabet(s)==="cyrillic"?"абвгдежзийклмнопрстуфхцчшщэюя":"abcdefghijklmnopqrstuvwxyz";
-  return Array.from({length:randomInt(s.min,s.max)},()=>pick(Array.from(a))).join("");
- }
- let words=dictionaries[style]||dictionaries.game;
- let first=pick(words);
- let second=pick(dictionaries[style]||dictionaries.game);
- if(s.style==="all"&&Math.random()<.7)second=pick(dictionaries[pick(Object.keys(dictionaries))]);
- let name;
- if(s.smart){
-  name=pick([first+second,first+second,second+first,first.slice(0,Math.min(4,first.length))+second,first+second.slice(0,Math.min(4,second.length))]);
- }else name=pick([first+second,second+first,first,second,first.slice(0,4)+second.slice(0,4)]);
- if(s.alphabet==="latin")name=normalizeAlphabet(name,"latin");
- if(s.alphabet==="cyrillic")name=normalizeAlphabet(name,"cyrillic");
- if(s.alphabet==="mixed"&&Math.random()<.35){
-  name=normalizeAlphabet(name,"latin");
- }
- return name;
+  let style = s.style === "all" ? pick(Object.keys(dictionaries)) : s.style;
+  if(!dictionaries[style]) style = "game";
+
+  if(style === "letters"){
+    const alphabet = randomAlphabet(s) === "cyrillic"
+      ? "абвгдежзийклмнопрстуфхцчшщэюя"
+      : "abcdefghijklmnopqrstuvwxyz";
+    return Array.from({length:randomInt(s.min,s.max)},() => pick(Array.from(alphabet))).join("");
+  }
+
+  const words = dictionaries[style];
+  const first = pick(words);
+  const second = s.style === "all" && Math.random()<.65
+    ? pick(dictionaries[pick(Object.keys(dictionaries))])
+    : pick(words);
+
+  let name;
+  if(s.smart){
+    name = pick([
+      first+second,
+      first+second,
+      second+first,
+      first.slice(0,Math.min(4,first.length))+second,
+      first+second.slice(0,Math.min(4,second.length))
+    ]);
+  } else {
+    name = pick([
+      first+second,
+      second+first,
+      first,
+      second,
+      first.slice(0,4)+second.slice(0,4)
+    ]);
+  }
+
+  if(s.alphabet === "latin") name = normalizeAlphabet(name,"latin");
+  if(s.alphabet === "cyrillic") name = normalizeAlphabet(name,"cyrillic");
+  if(s.alphabet === "mixed" && Math.random()<.35) name = normalizeAlphabet(name,"latin");
+
+  return name;
 }
+
 function candidate(s){
- const mandatory=(s.digits==="yes"?1:0)+(s.symbols==="yes"?1:0);
- const cap=s.max-mandatory;
- if(cap<1)return "";
- let name=buildBase(s);
- const own=s.own;
- if(own){
-  if(s.ownMode==="prefix")name=own+name;
-  else if(s.ownMode==="suffix")name=name+own;
-  else name=Math.random()<.5?own+name:name+own;
- }
- if(name.length>cap){
-  if(own&&s.ownMode==="prefix")name=own+name.slice(own.length,cap);
-  else if(own&&s.ownMode==="suffix")name=name.slice(0,cap-own.length)+own;
-  else if(own){
-   name=name.startsWith(own)?own+name.slice(own.length,cap):name.slice(0,cap-own.length)+own;
-  }else name=name.slice(0,cap);
- }
- if(own&&!name.toLowerCase().includes(own.toLowerCase()))return "";
- const alphabet=randomAlphabet(s);
- const filler=alphabet==="cyrillic"?"абвгдежзийклмнопрстуфхцчшщэюя":"abcdefghijklmnopqrstuvwxyz";
- while(name.length<Math.min(s.min,cap))name+=pick(Array.from(filler));
- if(s.digits==="yes"||(s.digits==="optional"&&Math.random()<.25)){
-  if(name.length<s.max)name+=randomInt(0,9);
- }
- if(s.symbols==="yes"||(s.symbols==="optional"&&Math.random()<.15)){
-  if(name.length<s.max&&name.length>1){
-   const symbol=(s.platform==="roblox"||s.platform==="minecraft")?"_":pick(["_","-"]);
-   const pos=randomInt(1,name.length-1);
-   name=name.slice(0,pos)+symbol+name.slice(pos);
+  const mandatory = (s.digits === "yes" ? 1 : 0) + (s.symbols === "yes" ? 1 : 0);
+  const cap = s.max - mandatory;
+  if(cap < 1) return "";
+
+  let name = buildBase(s);
+  const own = s.own;
+
+  if(own){
+    if(s.ownMode === "prefix") name = own + name;
+    else if(s.ownMode === "suffix") name = name + own;
+    else name = Math.random()<.5 ? own+name : name+own;
   }
- }
- if(s.letterCase==="upper")name=name.charAt(0).toUpperCase()+name.slice(1);
- if(s.letterCase==="lower")name=name.charAt(0).toLowerCase()+name.slice(1);
- return name;
+
+  if(name.length > cap){
+    if(own && s.ownMode === "prefix"){
+      name = own + name.slice(own.length,cap);
+    } else if(own && s.ownMode === "suffix"){
+      name = name.slice(0,Math.max(0,cap-own.length)) + own;
+    } else if(own){
+      name = name.startsWith(own)
+        ? own + name.slice(own.length,cap)
+        : name.slice(0,Math.max(0,cap-own.length)) + own;
+    } else {
+      name = name.slice(0,cap);
+    }
+  }
+
+  if(own && !name.toLowerCase().includes(own.toLowerCase())) return "";
+
+  const fillerAlphabet = randomAlphabet(s) === "cyrillic"
+    ? "абвгдежзийклмнопрстуфхцчшщэюя"
+    : "abcdefghijklmnopqrstuvwxyz";
+
+  while(name.length < Math.min(s.min,cap)){
+    name += pick(Array.from(fillerAlphabet));
+  }
+
+  if(s.digits === "yes" || (s.digits === "optional" && Math.random()<.25)){
+    if(name.length < s.max) name += randomInt(0,9);
+  }
+
+  if(s.symbols === "yes" || (s.symbols === "optional" && Math.random()<.15)){
+    if(name.length < s.max && name.length > 1){
+      const symbol = pick(["_","-"]);
+      const position = randomInt(1,name.length-1);
+      name = name.slice(0,position) + symbol + name.slice(position);
+    }
+  }
+
+  if(s.letterCase === "upper") name = name.charAt(0).toUpperCase()+name.slice(1);
+  if(s.letterCase === "lower") name = name.charAt(0).toLowerCase()+name.slice(1);
+
+  return name;
 }
+
 function valid(name,s){
- if(!name||name.length<s.min||name.length>s.max)return false;
- if(!/^[A-Za-zА-Яа-яЁё0-9_-]+$/.test(name))return false;
- if(s.platform==="roblox"||s.platform==="minecraft"){
-  if(!/^[A-Za-z0-9_]+$/.test(name))return false;
- }
- if(s.platform==="roblox"&&(name.startsWith("_")||name.endsWith("_")||(name.match(/_/g)||[]).length>1))return false;
- if(s.alphabet==="latin"&&!/^[A-Za-z0-9_-]+$/.test(name))return false;
- if(s.alphabet==="cyrillic"&&!/^[А-Яа-яЁё0-9_-]+$/.test(name))return false;
- if(s.digits==="no"&&/\d/.test(name))return false;
- if(s.digits==="yes"&&!/\d/.test(name))return false;
- if(s.symbols==="no"&&/[_-]/.test(name))return false;
- if(s.symbols==="yes"&&!/[_-]/.test(name))return false;
- if(s.noRepeat&&/(.)\1/iu.test(name))return false;
- if(s.blocked.some(w=>w&&name.toLowerCase().includes(w)))return false;
- if(s.own&&!name.toLowerCase().includes(s.own.toLowerCase()))return false;
- if(s.letterCase==="upper"&&!/^[A-ZА-ЯЁ]/.test(name))return false;
- if(s.letterCase==="lower"&&!/^[a-zа-яё]/.test(name))return false;
- return true;
+  if(!name || name.length<s.min || name.length>s.max) return false;
+  if(!/^[A-Za-zА-Яа-яЁё0-9_-]+$/.test(name)) return false;
+  if(s.alphabet === "latin" && !/^[A-Za-z0-9_-]+$/.test(name)) return false;
+  if(s.alphabet === "cyrillic" && !/^[А-Яа-яЁё0-9_-]+$/.test(name)) return false;
+  if(s.digits === "no" && /\d/.test(name)) return false;
+  if(s.digits === "yes" && !/\d/.test(name)) return false;
+  if(s.symbols === "no" && /[_-]/.test(name)) return false;
+  if(s.symbols === "yes" && !/[_-]/.test(name)) return false;
+  if(s.noRepeat && /(.)\1/iu.test(name)) return false;
+  if(s.blocked.some(word => word && name.toLowerCase().includes(word))) return false;
+  if(s.own && !name.toLowerCase().includes(s.own.toLowerCase())) return false;
+  if(s.letterCase === "upper" && !/^[A-ZА-ЯЁ]/.test(name)) return false;
+  if(s.letterCase === "lower" && !/^[a-zа-яё]/.test(name)) return false;
+  return true;
 }
+
 function validate(s){
- const mandatory=(s.digits==="yes"?1:0)+(s.symbols==="yes"?1:0);
- if(s.own&&s.own.length>s.max)return "Своё слово длиннее максимальной длины.";
- if(s.max-mandatory<s.min)return "Не хватает места для обязательных цифр и символов.";
- if(s.own&&s.own.length+mandatory>s.max)return "Своё слово и обязательные элементы не помещаются в ник.";
- if(s.platform==="roblox"&&s.symbols==="yes")return "Для Roblox обязательный символ может конфликтовать с правилами имени. Выбери «Разрешены» или «Запрещены».";
- $("platformHint").textContent=profiles[s.platform].hint;
- return "";
-}
-function render(){
- $("count").textContent="· "+latest.length+" из "+$("quantity").value;
- const root=$("results");
- root.replaceChildren();
- if(!latest.length){
-  const empty=document.createElement("div");
-  empty.className="empty";
-  empty.textContent="Подходящие ники не найдены. Ослабь ограничения или очисти историю.";
-  root.append(empty);return;
- }
- latest.forEach((name,i)=>{
-  const card=document.createElement("div");card.className="nick";
-  card.style.animationDelay=Math.min(i*.035,.4)+"s";
-  const info=document.createElement("div");info.style.minWidth="0";
-  const title=document.createElement("div");title.className="nick-name";title.textContent=name;
-  const meta=document.createElement("div");meta.className="nick-info";meta.textContent=Array.from(name).length+" символов · "+(themes[$("style").value]||themes.all)[1];
-  info.append(title,meta);
-  const btn=document.createElement("button");btn.className="copy";btn.textContent="Копировать";btn.type="button";
-  btn.addEventListener("click",()=>copyText(name));
-  card.append(info,btn);root.append(card);
- });
-}
-async function copyText(value){
- try{
-  if(navigator.clipboard&&window.isSecureContext){
-   await navigator.clipboard.writeText(value);
-  }else{
-   const area=document.createElement("textarea");
-   area.value=value;area.style.position="fixed";area.style.opacity="0";
-   document.body.append(area);area.select();
-   const ok=document.execCommand("copy");area.remove();
-   if(!ok)throw new Error("copy failed");
+  const mandatory = (s.digits === "yes" ? 1 : 0) + (s.symbols === "yes" ? 1 : 0);
+
+  if(s.own && s.own.length>s.max) return "Своё слово длиннее максимальной длины.";
+  if(s.max-mandatory<s.min) return "Не хватает места для обязательных цифр и символов.";
+  if(s.own && s.own.length+mandatory>s.max) return "Своё слово и обязательные элементы не помещаются в ник.";
+  if(s.symbols === "yes" && s.max === s.min && s.max<4) {
+    return "Для ника с обязательным символом увеличь максимальную длину хотя бы до 4.";
   }
-  setStatus("Скопировано: "+value,"good");
-  audioInteraction("copy");
- }catch{
-  setStatus("Не удалось скопировать автоматически. Выдели ник и скопируй вручную.","bad");
- }
+  return "";
 }
-async function generate(){
- await audioInteraction("generate");
- const s=settings();
- const problem=validate(s);
- if(problem){latest=[];render();setStatus(problem,"bad");return}
- const found=[];
- const local=new Set();
- const seen=new Set(s.unique?history.map(x=>x.toLowerCase()):[]);
- let attempts=0;
- while(found.length<s.quantity&&attempts<25000){
-  attempts++;
-  const name=candidate(s);
-  const key=name.toLowerCase();
-  if(!valid(name,s)||local.has(key)||seen.has(key))continue;
-  local.add(key);found.push(name);
- }
- latest=found;
- if(s.unique){
-  history.push(...found.map(x=>x.toLowerCase()));
-  history=[...new Set(history)].slice(-1000);
-  try{localStorage.setItem(HISTORY_KEY,JSON.stringify(history))}catch{}
- }
- render();particles();
- if(found.length===s.quantity)setStatus("Готово! Создано "+found.length+" уникальных вариантов.","good");
- else setStatus("Создано "+found.length+" из "+s.quantity+". Измени ограничения или очисти историю.","bad");
+
+function render(){
+  $("count").textContent = "· " + latest.length + " из " + $("quantity").value;
+  const root = $("results");
+  root.replaceChildren();
+
+  if(!latest.length){
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = "Подходящие ники не найдены. Ослабь ограничения или очисти историю.";
+    root.append(empty);
+    return;
+  }
+
+  latest.forEach((name,index) => {
+    const card = document.createElement("div");
+    card.className = "nick";
+    card.style.animationDelay = Math.min(index*.035,.5) + "s";
+
+    const info = document.createElement("div");
+    info.style.minWidth = "0";
+
+    const title = document.createElement("div");
+    title.className = "nick-name";
+    title.textContent = name;
+
+    const meta = document.createElement("div");
+    meta.className = "nick-info";
+    meta.textContent = Array.from(name).length + " символов · " + themes[$("style").value][2];
+
+    info.append(title,meta);
+
+    const button = document.createElement("button");
+    button.className = "copy";
+    button.textContent = "Копировать";
+    button.type = "button";
+    button.addEventListener("click",() => copyText(name));
+
+    card.append(info,button);
+    root.append(card);
+  });
 }
-$("platform").addEventListener("change",()=>{
- const p=$("platform").value,profile=profiles[p];
- $("min").value=profile.min;$("max").value=profile.max;
- $("platformHint").textContent=profile.hint;
- if(p==="roblox"||p==="minecraft"){
-  $("alphabet").value="latin";
-  if($("symbols").value==="yes")$("symbols").value="optional";
- }
+
+async function copyText(value){
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(value);
+    } else {
+      const area = document.createElement("textarea");
+      area.value = value;
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.append(area);
+      area.select();
+      const success = document.execCommand("copy");
+      area.remove();
+      if(!success) throw new Error("copy failed");
+    }
+
+    setStatus(value.includes("\n") ? "Все ники скопированы." : "Скопировано: " + value,"good");
+    burst(window.innerWidth/2,window.innerHeight/2,9);
+  } catch {
+    setStatus("Не удалось скопировать автоматически. Выдели ник и скопируй вручную.","bad");
+  }
+}
+
+function burst(x,y,count=22){
+  const color = themes[$("style").value][0];
+
+  for(let i=0;i<count;i++){
+    const particle = document.createElement("span");
+    particle.className = "particle";
+    particle.style.background = color;
+    particle.style.boxShadow = "0 0 10px "+color;
+    particle.style.left = x+"px";
+    particle.style.top = y+"px";
+
+    const angle = Math.random()*Math.PI*2;
+    const distance = 35+Math.random()*125;
+    particle.style.setProperty("--dx",Math.cos(angle)*distance+"px");
+    particle.style.setProperty("--dy",Math.sin(angle)*distance+"px");
+    particle.style.width = (3+Math.random()*4)+"px";
+    particle.style.height = particle.style.width;
+
+    document.body.append(particle);
+    setTimeout(() => particle.remove(),900);
+  }
+}
+
+function ringEffect(x,y){
+  const ring = document.createElement("span");
+  ring.className = "ring";
+  ring.style.left = x+"px";
+  ring.style.top = y+"px";
+  ring.style.borderColor = themes[$("style").value][0];
+  document.body.append(ring);
+  setTimeout(() => ring.remove(),600);
+}
+
+function sparkEffect(x,y){
+  const color = themes[$("style").value][0];
+
+  for(let i=0;i<5;i++){
+    const spark = document.createElement("span");
+    spark.className = "spark";
+    spark.style.left = x+"px";
+    spark.style.top = y+"px";
+    spark.style.background = color;
+    spark.style.boxShadow = "0 0 10px "+color;
+    spark.style.setProperty("--dx",(Math.random()*90-45)+"px");
+    spark.style.setProperty("--dy",(Math.random()*-80-10)+"px");
+    spark.style.setProperty("--rot",(Math.random()*180-90)+"deg");
+    document.body.append(spark);
+    setTimeout(() => spark.remove(),700);
+  }
+}
+
+function generate(){
+  if(generating) return;
+  generating = true;
+
+  document.body.classList.add("generating");
+  const button = $("generate");
+  button.disabled = true;
+
+  try{
+    const s = settings();
+    const problem = validate(s);
+
+    if(problem){
+      latest = [];
+      render();
+      setStatus(problem,"bad");
+      return;
+    }
+
+    const found = [];
+    const local = new Set();
+    const seen = new Set(s.unique ? history.map(x => x.toLowerCase()) : []);
+    let attempts = 0;
+
+    while(found.length<s.quantity && attempts<30000){
+      attempts++;
+      const name = candidate(s);
+      const key = name.toLowerCase();
+
+      if(!valid(name,s) || local.has(key) || seen.has(key)) continue;
+
+      local.add(key);
+      found.push(name);
+    }
+
+    latest = found;
+
+    if(s.unique){
+      history.push(...found.map(x => x.toLowerCase()));
+      history = [...new Set(history)].slice(-1000);
+      try{localStorage.setItem(HISTORY_KEY,JSON.stringify(history))}catch{}
+    }
+
+    render();
+    burst(window.innerWidth*.72,Math.min(window.innerHeight*.45,420),30);
+    setStatus(
+      found.length===s.quantity
+        ? "Готово! Создано "+found.length+" уникальных вариантов."
+        : "Создано "+found.length+" из "+s.quantity+". Измени ограничения или очисти историю.",
+      found.length===s.quantity ? "good" : "bad"
+    );
+  } finally {
+    setTimeout(() => {
+      generating = false;
+      button.disabled = false;
+      document.body.classList.remove("generating");
+    },350);
+  }
+}
+
+/* Эффекты нажатий для кнопок сайта */
+document.addEventListener("click",event => {
+  const button = event.target.closest("button");
+  if(!button || button.disabled) return;
+
+  const rect = button.getBoundingClientRect();
+  const x = event.clientX || rect.left+rect.width/2;
+  const y = event.clientY || rect.top+rect.height/2;
+
+  const wave = document.createElement("span");
+  wave.className = "click-wave";
+  wave.style.left = (x-rect.left)+"px";
+  wave.style.top = (y-rect.top)+"px";
+  button.append(wave);
+  setTimeout(() => wave.remove(),600);
+
+  ringEffect(x,y);
+  sparkEffect(x,y);
 });
-$("style").addEventListener("change",()=>{applyTheme();audioInteraction("click")});
+
+$("style").addEventListener("change",() => {
+  applyTheme();
+  burst(window.innerWidth*.5,90,18);
+  setStatus("Стиль изменён: оформление интерфейса обновлено.","good");
+});
+
 $("generate").addEventListener("click",generate);
 $("again").addEventListener("click",generate);
-$("heroGenerate").addEventListener("click",()=>{
- generate();
- $("resultPanel").scrollIntoView({behavior:$("visualOn").checked?"smooth":"auto",block:"start"});
+
+$("heroGenerate").addEventListener("click",() => {
+  generate();
+  $("resultPanel").scrollIntoView({
+    behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    block:"start"
+  });
 });
-$("copyAll").addEventListener("click",()=>{
- if(latest.length)copyText(latest.join("\n"));
- else setStatus("Сначала сгенерируй ники.");
+
+$("copyAll").addEventListener("click",() => {
+  if(latest.length) copyText(latest.join("\n"));
+  else setStatus("Сначала сгенерируй ники.");
 });
-$("clearHistory").addEventListener("click",()=>{
- history=[];
- try{localStorage.removeItem(HISTORY_KEY)}catch{}
- setStatus("История очищена. Прежние ники снова могут появляться.","good");
- audioInteraction("click");
+
+$("clearHistory").addEventListener("click",() => {
+  history = [];
+  try{localStorage.removeItem(HISTORY_KEY)}catch{}
+  setStatus("История очищена. Прежние ники снова могут появляться.","good");
+  burst(window.innerWidth*.25,window.innerHeight*.6,14);
 });
-["masterVolume","musicVolume","fxVolume"].forEach(id=>{
- $(id).addEventListener("input",()=>{updateVolumeLabels();saveAudioSettings()});
+
+$("own").addEventListener("input",() => {
+  $("own").value = $("own").value.slice(0,20);
 });
-$("musicOn").addEventListener("change",()=>{
- saveAudioSettings();
- if($("musicOn").checked&&!muted)startMusic();else stopMusic();
- if($("musicOn").checked)audioInteraction("click");
-});
-$("fxOn").addEventListener("change",()=>{updateVolumeLabels();saveAudioSettings();if($("fxOn").checked)audioInteraction("click")});
-$("visualOn").addEventListener("change",updateVisuals);
-$("muteAll").addEventListener("click",async()=>{
- muted=!muted;
- updateVolumeLabels();
- if(muted)stopMusic();
- else if($("musicOn").checked)startMusic();
- else await audioInteraction("click");
- saveAudioSettings();
-});
-loadAudioSettings();
+
 applyTheme();
-updateVolumeLabels();
 render();
+
 })();
 </script>
 </body>
